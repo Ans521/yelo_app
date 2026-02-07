@@ -10,9 +10,9 @@ const Stack = createNativeStackNavigator();
 export default function AuthNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Splash" component={SplashScreen}/> */}
-      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-      {/* <Stack.Screen name="Otp" component={OtpScreen} /> */}
+      <Stack.Screen name="Splash" component={SplashScreen}/>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Otp" component={OtpScreen} />
       {/* Main app: bottom tabs (Home, Search, Profile) */}
       <Stack.Screen name="Home" component={TabNavigator} />
     </Stack.Navigator>

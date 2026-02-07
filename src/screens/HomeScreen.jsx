@@ -1,22 +1,39 @@
 // src/screens/HomeScreen.jsx
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Header from '../components/common/Header';
 import HomeContent from '../components/HomeContent';
+import HorizontalCategories from '../components/HorizontalCategories';
+import RecentServices from '../components/RecentServices';
+
 export default function HomeScreen() {
   return (
-    <View className="flex-1 bg-white">
-  
-      {/* Header */}
+    <View style={styles.screen}>
       <Header />
-
-      {/* Screen Content */}
-      <View className="flex-1">
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <HomeContent />
-      </View>
-
+        <HorizontalCategories />
+        <RecentServices />
+      </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 100,
+  },
+});
 
 
