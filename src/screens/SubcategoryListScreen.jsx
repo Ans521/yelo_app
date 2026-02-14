@@ -1,21 +1,10 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Linking,
-} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import BackLogoHeader from '../components/common/BackLogoHeader';
+import ListingCard from '../components/ListingCard';
 
 const TEXT_DARK = '#111827';
-const TEXT_LIGHT = '#6B7280';
-const BORDER = '#E5E7EB';
 
 // Same image pattern as HorizontalCategories: new, new1, homescreen, background_img in rotation
 const LIST_IMAGE_0 = require('../assets/images/new.png');
@@ -85,51 +74,6 @@ function buildDummyList(size = 20) {
 
 const SUBCATEGORY_LIST = buildDummyList(20);
 
-function ListingCard({ item, onPress }) {
-  const handleCall = (e) => {
-    e?.stopPropagation?.();
-    Linking.openURL('tel:+911234567890');
-  };
-  const handleWhatsApp = (e) => {
-    e?.stopPropagation?.();
-    Linking.openURL('https://wa.me/911234567890');
-  };
-  const handleShare = (e) => {
-    e?.stopPropagation?.();
-  };
-
-  return (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => onPress(item)}
-      activeOpacity={0.7}
-    >
-      <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
-      <View style={styles.cardBody}>
-        <Text style={styles.cardTitle} numberOfLines={2}>
-          {item.name}
-        </Text>
-        <Text style={styles.cardSubtitle} numberOfLines={1}>
-          {item.location}
-        </Text>
-        <View style={styles.iconRow}>
-          <TouchableOpacity onPress={handleCall} style={styles.iconBtn} activeOpacity={0.7}>
-            <MaterialIcons name="call" size={20} color={TEXT_LIGHT} />
-          </TouchableOpacity>
-          <View style={styles.iconDivider} />
-          <TouchableOpacity onPress={handleWhatsApp} style={styles.iconBtn} activeOpacity={0.7}>
-            <MaterialCommunityIcons name="whatsapp" size={20} color={TEXT_LIGHT} />
-          </TouchableOpacity>
-          <View style={styles.iconDivider} />
-          <TouchableOpacity onPress={handleShare} style={styles.iconBtn} activeOpacity={0.7}>
-            <MaterialIcons name="share" size={20} color={TEXT_LIGHT} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-}
-
 export default function SubcategoryListScreen() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -154,7 +98,15 @@ export default function SubcategoryListScreen() {
         </Text>
 
         {SUBCATEGORY_LIST.map((item) => (
-          <ListingCard key={item.id} item={item} onPress={handleCardPress} />
+          <ListingCard
+            key={item.id}
+            item={{
+              image: item.image,
+              title: item.name,
+              subtitle: item.location,
+            }}
+            onPress={handleCardPress}
+          />
         ))}
       </ScrollView>
     </View>
@@ -172,56 +124,12 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 100,
+    paddingBottom: 56,
   },
   categoryName: {
     fontSize: 18,
     fontWeight: '700',
     color: TEXT_DARK,
     marginBottom: 16,
-  },
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: BORDER,
-  },
-  cardImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 12,
-    backgroundColor: '#f2f2f2',
-  },
-  cardBody: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  cardTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: TEXT_DARK,
-  },
-  cardSubtitle: {
-    fontSize: 13,
-    color: TEXT_LIGHT,
-    marginTop: 4,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  iconBtn: {
-    padding: 4,
-  },
-  iconDivider: {
-    width: 1,
-    height: 18,
-    backgroundColor: BORDER,
-    marginHorizontal: 8,
   },
 });

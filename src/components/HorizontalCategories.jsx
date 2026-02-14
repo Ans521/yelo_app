@@ -59,9 +59,10 @@ function ServiceCard({ item }) {
   const handleShare = () => {};
 
   return (
-    <View style={styles.card}>
-      <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
-      <View style={styles.cardContent}>
+    <View style={styles.cardWrapper}>
+      <View style={styles.card}>
+        <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
+        <View style={styles.cardContent}>
         <Text style={styles.cardTitle} numberOfLines={2}>
           {item.title}
         </Text>
@@ -94,6 +95,7 @@ function ServiceCard({ item }) {
           </TouchableOpacity>
         </View>
       </View>
+    </View>
     </View>
   );
 }
@@ -145,7 +147,7 @@ const SECTION_GAP = 24;
 const styles = StyleSheet.create({
   container: {
     marginTop: SECTION_GAP,
-    marginBottom: SECTION_GAP,
+    marginBottom: 8,
     paddingHorizontal: 16,
   },
   header: {
@@ -173,25 +175,32 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   listContent: {
+    paddingLeft: 12,
     paddingRight: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
   },
-  card: {
+  cardWrapper: {
     width: CARD_WIDTH,
     marginRight: CARD_MARGIN,
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    overflow: 'hidden',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
+        shadowOpacity: 0.15,
+        shadowRadius: 12,
       },
       android: {
-        elevation: 4,
+        elevation: 8,
       },
     }),
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   cardImage: {
     width: '100%',

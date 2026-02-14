@@ -1,20 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-  Dimensions,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const MAX_ITEMS = 5;
-const CARD_IMAGE_SIZE = (SCREEN_WIDTH - 32 - 24) * 0.32; // ~1/3 of card width (padding + gap)
+import ListingCard from './ListingCard';
 
 // Same image pattern as HorizontalCategories: new, new1, homescreen, background_img in rotation
 const DUMMY_DATA = [
@@ -25,45 +12,17 @@ const DUMMY_DATA = [
   { id: '5', title: 'Green Valley Resort', subtitle: 'Morni Hills', image: require('../assets/images/new.png') },
 ];
 
+const MAX_ITEMS = 5;
 const data = DUMMY_DATA.slice(0, MAX_ITEMS);
-
-function RecentServiceCard({ item }) {
-  const handleCall = () => {};
-  const handleWhatsApp = () => {};
-  const handleShare = () => {};
-
-  return (
-    <View style={styles.card}>
-      <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
-      <View style={styles.cardRight}>
-        <Text style={styles.cardTitle} numberOfLines={2}>
-          {item.title}
-        </Text>
-        <Text style={styles.cardSubtitle} numberOfLines={1}>
-          {item.subtitle}
-        </Text>
-        <View style={styles.actionRow}>
-          <TouchableOpacity onPress={handleCall} style={styles.actionBtn} activeOpacity={0.7}>
-            <MaterialIcons name="call" size={20} color="#6B7280" />
-          </TouchableOpacity>
-          <View style={styles.actionDivider} />
-          <TouchableOpacity onPress={handleWhatsApp} style={styles.actionBtn} activeOpacity={0.7}>
-            <MaterialCommunityIcons name="whatsapp" size={20} color="#6B7280" />
-          </TouchableOpacity>
-          <View style={styles.actionDivider} />
-          <TouchableOpacity onPress={handleShare} style={styles.actionBtn} activeOpacity={0.7}>
-            <MaterialIcons name="share" size={20} color="#6B7280" />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-}
 
 export default function RecentServices() {
   const handleViewAll = () => {};
 
-  const renderItem = ({ item }) => <RecentServiceCard item={item} />;
+  const renderItem = ({ item }) => (
+    <ListingCard
+      item={{ image: item.image, title: item.title, subtitle: item.subtitle }}
+    />
+  );
   const keyExtractor = (item) => item.id;
 
   return (
@@ -80,7 +39,6 @@ export default function RecentServices() {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         scrollEnabled={false}
-        ItemSeparatorComponent={() => <View style={styles.cardGap} />}
         listKey="recent-services"
       />
     </View>
@@ -91,8 +49,8 @@ const SECTION_GAP = 24;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: SECTION_GAP,
-    marginBottom: SECTION_GAP,
+    marginTop: 8,
+    marginBottom: -45,
     paddingHorizontal: 16,
   },
   header: {
@@ -118,62 +76,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E7EB',
     marginTop: 12,
     marginBottom: 16,
-  },
-  card: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    overflow: 'hidden',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
-  },
-  cardImage: {
-    width: CARD_IMAGE_SIZE,
-    height: CARD_IMAGE_SIZE,
-    backgroundColor: '#F3F4F6',
-    borderTopLeftRadius: 12,
-    borderBottomLeftRadius: 12,
-  },
-  cardRight: {
-    flex: 1,
-    padding: 12,
-    justifyContent: 'space-between',
-  },
-  cardTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  cardSubtitle: {
-    fontSize: 13,
-    color: '#6B7280',
-    marginBottom: 8,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  actionBtn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionDivider: {
-    width: 1,
-    height: 20,
-    backgroundColor: '#E5E7EB',
-  },
-  cardGap: {
-    height: 12,
   },
 });

@@ -6,38 +6,46 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { getOtp } from '../../services/authApi';
 
+const isValidEmail = (value) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || '').trim());
 
 export default function LoginScreen() {
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  const isValidPhone = value => /^[6-9]\d{9}$/.test(value);
-
-  // ✅ Submit handler
-  const handleSubmit = () => {
-    if (!phone.trim()) {
-      setError('Phone number is required');
+  // Get OTP via API (backend sends OTP to this email), then navigate to OTP screen
+  const handleSubmit = async () => {
+    if (!email.trim()) {
+      setError('Email is required');
       return;
     }
 
-    if (!isValidPhone(phone)) {
-      setError('Enter a valid 10-digit mobile number');
+    if (!isValidEmail(email)) {
+      setError('Enter a valid email address');
       return;
     }
 
     setError('');
-        navigation.navigate('Otp', {
-      phone: phone,
-    });
-    // 👉 Firebase OTP / navigation here
+    setLoading(true);
+    const result = await getOtp(email.trim());
+    setLoading(false);
+    console.log('result', result)
+    if (result.success) {
+      navigation.navigate('Otp', { email: email.trim() });
+    } else {
+      setError(result.message || 'Failed to send OTP. Please try again.');
+    }
   };
 
   return (
@@ -89,18 +97,19 @@ export default function LoginScreen() {
           className={`flex-row items-center border rounded-sm px-3 h-[50px] bg-[#FAFAFA]
           ${error ? 'border-red-500' : 'border-[#E0E0E0]'}`}
         >
-          <MaterialIcons name="phone-android" color="#777777" size={18} />
+          <MaterialIcons name="email" color="#777777" size={18} />
           <TextInput
             className="flex-1 text-sm text-black ml-2"
-            placeholder="Enter Your Email / Phone Number "
+            placeholder="Enter your email"
             placeholderTextColor="#999"
-            value={phone}
-            onChangeText={text => {
-              setPhone(text.replace(/[^0-9]/g, '')); 
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
               if (error) setError('');
             }}
-            keyboardType="phone-pad"
-            maxLength={10}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
           />
         </View>
 
@@ -113,7 +122,9 @@ export default function LoginScreen() {
 
         {/* Submit Button */}
         <TouchableOpacity
-          className="rounded-md mb-4 overflow-hidden "onPress={handleSubmit}
+          className="rounded-md mb-4 overflow-hidden"
+          onPress={handleSubmit}
+          disabled={loading}
         >
           <LinearGradient
             colors={['#FF9800', '#ef4444']}
@@ -121,9 +132,13 @@ export default function LoginScreen() {
             end={{ x: 0, y: 1 }}
             className="py-[15px] items-center"
           >
-            <Text className="text-white text-base font-bold tracking-wide" >
-              SUBMIT
-            </Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <Text className="text-white text-base font-bold tracking-wide">
+                SUBMIT
+              </Text>
+            )}
           </LinearGradient>
         </TouchableOpacity>
 

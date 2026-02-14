@@ -12,6 +12,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackLogoHeader from '../components/common/BackLogoHeader';
+import ListingCard from '../components/ListingCard';
 
 const ORANGE = '#F08E14';
 const TEXT_DARK = '#111827';
@@ -123,28 +124,14 @@ export default function ListingDetailScreen() {
             </TouchableOpacity>
           </View>
           {SIMILAR_RESULTS.map((item) => (
-            <View key={item.id} style={styles.similarCard}>
-              <Image source={item.image} style={styles.similarThumb} resizeMode="cover" />
-              <View style={styles.similarCardBody}>
-                <Text style={styles.similarCardName} numberOfLines={2}>
-                  {item.name}
-                </Text>
-                <Text style={styles.similarCardLocation} numberOfLines={1}>
-                  {item.location}
-                </Text>
-                <View style={styles.similarCardActions}>
-                  <TouchableOpacity style={styles.similarIconBtn} activeOpacity={0.7}>
-                    <MaterialIcons name="call" size={18} color={TEXT_LIGHT} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.similarIconBtn} activeOpacity={0.7}>
-                    <MaterialCommunityIcons name="whatsapp" size={18} color={TEXT_LIGHT} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.similarIconBtn} activeOpacity={0.7}>
-                    <MaterialIcons name="share" size={18} color={TEXT_LIGHT} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+            <ListingCard
+              key={item.id}
+              item={{
+                image: item.image,
+                title: item.name,
+                subtitle: item.location,
+              }}
+            />
           ))}
         </View>
       </ScrollView>
@@ -161,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: 56,
   },
   heroImage: {
     width: SCREEN_WIDTH,
@@ -218,11 +205,15 @@ const styles = StyleSheet.create({
   tabRow: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingTop: 20,
-    gap: 8,
+    paddingTop: 12,
+    paddingBottom: -70,
   },
   tab: {
-    paddingBottom: 8,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 6,
   },
   tabText: {
     fontSize: 15,
@@ -247,7 +238,7 @@ const styles = StyleSheet.create({
     color: TEXT_LIGHT,
     lineHeight: 22,
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 8,
   },
   similarSection: {
     paddingHorizontal: 16,
@@ -274,48 +265,5 @@ const styles = StyleSheet.create({
     backgroundColor: ORANGE,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  similarCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: BORDER,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  similarThumb: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#f2f2f2',
-  },
-  similarCardBody: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  similarCardName: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: TEXT_DARK,
-  },
-  similarCardLocation: {
-    fontSize: 13,
-    color: TEXT_LIGHT,
-    marginTop: 2,
-  },
-  similarCardActions: {
-    flexDirection: 'row',
-    marginTop: 8,
-    gap: 12,
-  },
-  similarIconBtn: {
-    padding: 4,
   },
 });

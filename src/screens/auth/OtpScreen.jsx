@@ -1,34 +1,88 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useRoute } from '@react-navigation/native';
+import { getOtp, verifyOtp } from '../../services/authApi';
+
+const RESEND_COOLDOWN_SEC = 45;
 
 export default function OtpScreen({ navigation }) {
+  const route = useRoute();
+  const email = route.params?.email || '';
   const [otp, setOtp] = useState(['', '', '', '']);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
   const inputRefs = useRef([]);
+
+  // Start resend cooldown when screen mounts (OTP was just sent from Login)
+  useEffect(() => {
+    setResendTimer(RESEND_COOLDOWN_SEC);
+  }, []);
+
+  // Resend countdown timer
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+    const t = setInterval(() => setResendTimer((s) => (s <= 0 ? 0 : s - 1)), 1000);
+    return () => clearInterval(t);
+  }, [resendTimer]);
 
   const handleOtpChange = (value, index) => {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
-    // Auto-focus next input
+    if (error) setError('');
     if (value && index < 3) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyPress = (e, index) => {
-    // Handle backspace
     if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const otpString = otp.join('');
+
+  const handleVerify = async () => {
+    if (otpString.length !== 4) {
+      setError('Please enter the 4-digit OTP');
+      return;
+    }
+    setError('');
+    setLoading(true); 
+    const result = await verifyOtp(email, otpString);
+    console.log('result', result);
+    setLoading(false);
+    if (result.success) {
+      navigation?.replace('Home');
+    } else {
+      setError(result.message || 'Please provide the correct OTP');
+    }
+  };
+
+  const handleResend = async () => {
+    if (resendTimer > 0 || !email) return;
+    setError('');
+    setLoading(true);
+    const result = await getOtp(email);
+    setLoading(false);
+    if (result.success) {
+      setResendTimer(RESEND_COOLDOWN_SEC);
+      setOtp(['', '', '', '']);
+      inputRefs.current[0]?.focus();
+    } else {
+      setError(result.message || 'Failed to resend OTP.');
     }
   };
 
@@ -92,9 +146,14 @@ export default function OtpScreen({ navigation }) {
           VERIFICATION
         </Text>
 
-        <Text className="text-sm text-[#666] mb-8 text-center">
-          A verification code has been sent to{'\n'}john@example.com
+        <Text className="text-sm text-[#666] mb-2 text-center">
+          A verification code has been sent to{'\n'}
+          {email || 'your email'}
         </Text>
+
+        {error ? (
+          <Text className="text-red-500 text-xs text-center mb-2">{error}</Text>
+        ) : null}
 
         {/* OTP Input Boxes */}
         <View className="flex-row justify-center mb-6 gap-3">
@@ -115,7 +174,8 @@ export default function OtpScreen({ navigation }) {
         {/* Verify Button */}
         <TouchableOpacity
           className="rounded-md mb-4 overflow-hidden"
-          onPress={() => navigation?.replace('Home')}
+          onPress={handleVerify}
+          disabled={loading}
         >
           <LinearGradient
             colors={['#FF9800', '#FF5722']}
@@ -123,27 +183,38 @@ export default function OtpScreen({ navigation }) {
             end={{ x: 0, y: 1 }}
             className="py-4 items-center"
           >
-            <Text className="text-white text-base font-semibold tracking-wide">
-              VERIFY & CONTINUE
-            </Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <Text className="text-white text-base font-semibold tracking-wide">
+                VERIFY & CONTINUE
+              </Text>
+            )}
           </LinearGradient>
         </TouchableOpacity>
 
         {/* Didn't receive code & Resend links */}
-        <View className="flex-row justify-center items-center mb-6">
+        <View className="flex-row justify-center items-center mb-2">
           <Text className="text-[#999] text-sm">
             Didn't receive code?{' '}
           </Text>
-          <TouchableOpacity>
-            <Text className="text-[#FF5722] text-sm font-semibold">
-              Resend
+          <TouchableOpacity
+            onPress={handleResend}
+            disabled={resendTimer > 0 || loading}
+          >
+            <Text
+              className={`text-sm font-semibold ${resendTimer > 0 ? 'text-[#999]' : 'text-[#FF5722]'}`}
+            >
+              {resendTimer > 0 ? `Resend in 00:${String(resendTimer).padStart(2, '0')}` : 'Resend'}
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Resend OTP Timer */}
         <Text className="text-center text-[#999] pb-8 text-sm">
-          Resend OTP in 00:45
+          {resendTimer > 0
+            ? `Resend OTP in 00:${String(resendTimer).padStart(2, '0')}`
+            : 'You can request a new code above'}
         </Text>
       </View>
     </SafeAreaView>
