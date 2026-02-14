@@ -14,6 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { getOtp } from '../../services/authApi';
+import { API_BASE_URL } from '../../config/api';
 
 const isValidEmail = (value) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || '').trim());
@@ -166,6 +167,11 @@ export default function LoginScreen() {
             Terms and Conditions
           </Text>
         </TouchableOpacity>
+
+        {/* Show which API the app is using (visible on built app) */}
+        <Text className="text-[10px] text-[#999] text-center pb-2" numberOfLines={1}>
+          API: {API_BASE_URL}
+        </Text>
       </View>
     </SafeAreaView>
   );

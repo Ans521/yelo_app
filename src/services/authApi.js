@@ -10,18 +10,28 @@ const api = axios.create({
   },
 });
 
+// Build full URL for logging (baseURL + path)
+const getFullUrl = (config) => {
+  const base = config.baseURL || '';
+  const path = config.url || '';
+  return base && path ? `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : '/' + path}` : base || path;
+};
+
 // Log every request/response in DevTools Console (press j in Metro to open DevTools)
 api.interceptors.request.use((config) => {
-  console.log('[API REQUEST]', config.method?.toUpperCase(), config.url || config.baseURL + config.url, config.data);
+  const fullUrl = getFullUrl(config);
+  console.log('[API REQUEST]', config.method?.toUpperCase(), fullUrl, config.data);
   return config;
 });
 api.interceptors.response.use(
   (response) => {
-    console.log('[API RESPONSE]', response.status, response.config.url, response.data);
+    const fullUrl = getFullUrl(response.config);
+    console.log('[API RESPONSE]', response.status, fullUrl, response.data);
     return response;
   },
   (err) => {
-    console.warn('[API ERROR]', err.message, err.code, err.config?.url, err.response?.status, err.response?.data);
+    const fullUrl = err.config ? getFullUrl(err.config) : '(no config)';
+    console.warn('[API ERROR]', err.message, err.code, fullUrl, err.response?.status, err.response?.data);
     return Promise.reject(err);
   }
 );
