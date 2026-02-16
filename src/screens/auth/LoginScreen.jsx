@@ -7,6 +7,10 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -50,129 +54,181 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1" edges={['top', 'left', 'right', 'bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
       {/* Background Container */}
-      <View className="absolute top-0 left-0 right-0 bottom-0">
+      <View style={StyleSheet.absoluteFill}>
         <ImageBackground
           source={require('../../assets/images/background_img.png')}
-          className="flex-1"
+          style={styles.bgImage}
           resizeMode="cover"
         >
-          <View className="items-center pt-[60px]">
+          <View style={styles.logoWrap}>
             <Image
               source={require('../../assets/images/logo.png')}
-              className="w-60 h-60"
+              style={styles.logo}
               resizeMode="contain"
             />
           </View>
         </ImageBackground>
-
-        <View className="flex-1 bg-white" />
+        <View style={styles.bgWhite} />
       </View>
 
       <LinearGradient
         colors={['#FFF9E6', '#FFEDED']}
-        className="w-[240px] h-[280px] rounded-tl-[380px] absolute bottom-0 right-0 z-10"
+        style={styles.gradient}
       />
 
-      <View
-        className="absolute top-[32%] left-5 right-5 bg-white rounded-2xl p-6 z-20"
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 12,
-          elevation: 10,
-        }}
+      <KeyboardAvoidingView
+        style={styles.keyboard}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
       >
-        <Text className="text-2xl font-extrabold pt-4 text-black mb-2 text-center tracking-wider">
-          WELCOME BACK
-        </Text>
-
-        <Text className="text-sm text-[#666] mb-6 text-center">
-          Sign in to your account
-        </Text>
-
-        {/* Email Input */}
-        <View
-          className={`flex-row items-center border rounded-sm px-3 h-[50px] bg-[#FAFAFA]
-          ${error ? 'border-red-500' : 'border-[#E0E0E0]'}`}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
-          <MaterialIcons name="email" color="#777777" size={18} />
-          <TextInput
-            className="flex-1 text-sm text-black ml-2"
-            placeholder="Enter your email"
-            placeholderTextColor="#999"
-            value={email}
-            onChangeText={(text) => {
-              setEmail(text);
-              if (error) setError('');
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-        </View>
+          <View style={styles.card}>
+            <Text style={styles.title}>WELCOME BACK</Text>
+            <Text style={styles.subtitle}>Sign in to your account</Text>
 
-        {/* Error Message */}
-        {error ? (
-          <Text className="text-red-500 text-xs mt-1 mb-4">{error}</Text>
-        ) : (
-          <View className="mb-5" />
-        )}
+            {/* Email Input */}
+            <View style={[styles.inputRow, error && styles.inputRowError]}>
+              <MaterialIcons name="email" color="#777777" size={18} />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                placeholderTextColor="#999"
+                value={email}
+                onChangeText={(text) => {
+                  setEmail(text);
+                  if (error) setError('');
+                }}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
 
-        {/* Submit Button */}
-        <TouchableOpacity
-          className="rounded-md mb-4 overflow-hidden"
-          onPress={handleSubmit}
-          disabled={loading}
-        >
-          <LinearGradient
-            colors={['#FF9800', '#ef4444']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="py-[15px] items-center"
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" size="small" />
+            {error ? (
+              <Text style={styles.errorText}>{error}</Text>
             ) : (
-              <Text className="text-white text-base font-bold tracking-wide">
-                SUBMIT
-              </Text>
+              <View style={styles.spacer} />
             )}
-          </LinearGradient>
-        </TouchableOpacity>
 
-        {/* Divider */}
-        <View className="flex-row items-center my-4">
-          <View className="flex-1 h-[1px] bg-[#E0E0E0]" />
-          <Text className="mx-3 text-[#999] text-xs">OR</Text>
-          <View className="flex-1 h-[1px] bg-[#E0E0E0]" />
-        </View>
+            <TouchableOpacity
+              style={styles.submitBtn}
+              onPress={handleSubmit}
+              disabled={loading}
+              activeOpacity={0.9}
+            >
+              <LinearGradient
+                colors={['#FF9800', '#ef4444']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.submitGradient}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#fff" size="small" />
+                ) : (
+                  <Text style={styles.submitText}>SUBMIT</Text>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
 
-        {/* Google Login */}
-        <TouchableOpacity className="flex-row items-center justify-center border border-[#E0E0E0] rounded-md py-3 mb-3 bg-white">
-          <FontAwesome name="google" color="blue" size={18} />
-          <Text className="text-sm text-[#333] ml-2">Continue with Google</Text>
-        </TouchableOpacity>
+            <View style={styles.dividerRow}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>OR</Text>
+              <View style={styles.dividerLine} />
+            </View>
 
-        {/* Guest Login */}
-        <TouchableOpacity className="flex-row items-center justify-center border border-[#E0E0E0] rounded-md py-3 mb-4 bg-white">
-          <FontAwesome name="user" color="#000" size={18} />
-          <Text className="text-sm text-[#333] ml-2">Explore as a guest</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.socialBtn}>
+              <FontAwesome name="google" color="blue" size={18} />
+              <Text style={styles.socialText}>Continue with Google</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text className="text-xs text-[#666] text-center py-6">
-            Terms and Conditions
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.socialBtn}>
+              <FontAwesome name="user" color="#000" size={18} />
+              <Text style={styles.socialText}>Explore as a guest</Text>
+            </TouchableOpacity>
 
-        {/* Show which API the app is using (visible on built app) */}
-        <Text className="text-[10px] text-[#999] text-center pb-2" numberOfLines={1}>
-          API: {API_BASE_URL}
-        </Text>
-      </View>
+            <TouchableOpacity>
+              <Text style={styles.terms}>Terms and Conditions</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.apiUrl} numberOfLines={1}>
+              API: {API_BASE_URL}
+            </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safe: { flex: 1 },
+  bgImage: { flex: 1 },
+  bgWhite: { flex: 1, backgroundColor: '#fff' },
+  logoWrap: { alignItems: 'center', paddingTop: 60 },
+  logo: { width: 240, height: 240 },
+  gradient: {
+    position: 'absolute',
+    width: 240,
+    height: 280,
+    borderTopLeftRadius: 380,
+    bottom: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  keyboard: { flex: 1 },
+  scroll: { flex: 1 },
+  scrollContent: { paddingHorizontal: 20, paddingTop: 120, paddingBottom: 80 },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  title: { fontSize: 22, fontWeight: '800', color: '#000', marginBottom: 8, textAlign: 'center', letterSpacing: 1 },
+  subtitle: { fontSize: 14, color: '#666', marginBottom: 24, textAlign: 'center' },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 50,
+    backgroundColor: '#FAFAFA',
+  },
+  inputRowError: { borderColor: '#ef4444' },
+  input: { flex: 1, fontSize: 14, color: '#000', marginLeft: 8, paddingVertical: 12 },
+  errorText: { color: '#ef4444', fontSize: 12, marginTop: 4, marginBottom: 16 },
+  spacer: { height: 20 },
+  submitBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
+  submitGradient: { paddingVertical: 15, alignItems: 'center' },
+  submitText: { color: '#fff', fontSize: 16, fontWeight: '700', letterSpacing: 1 },
+  dividerRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 16 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: '#E0E0E0' },
+  dividerText: { marginHorizontal: 12, color: '#999', fontSize: 12 },
+  socialBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+    paddingVertical: 12,
+    marginBottom: 12,
+    backgroundColor: '#fff',
+  },
+  socialText: { fontSize: 14, color: '#333', marginLeft: 8 },
+  terms: { fontSize: 12, color: '#666', textAlign: 'center', paddingVertical: 24 },
+  apiUrl: { fontSize: 10, color: '#999', textAlign: 'center', paddingBottom: 8 },
+});

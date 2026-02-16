@@ -155,9 +155,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    flexGrow: 1,
     paddingHorizontal: 16,
-    paddingBottom: 40,
+    paddingTop: 8,
+    paddingBottom: 120,
   },
   titleRow: {
     flexDirection: 'row',
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: Platform.OS === 'ios' ? 12 : 8,
+    minHeight: 48,
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
@@ -196,6 +197,8 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     color: TEXT_DARK,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 6,
+    minHeight: 24,
   },
   rightIcon: {
     marginLeft: 8,

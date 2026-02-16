@@ -63,8 +63,8 @@ const renderItem = ({ item, drag, isActive }) => {
 };
 
   return (
-    <GestureHandlerRootView>
-      <View className="">
+    <GestureHandlerRootView style={{ height: 88 }}>
+      <View style={{ height: 88, justifyContent: 'center' }}>
         <DraggableFlatList
           data={categories}
           horizontal
@@ -72,7 +72,7 @@ const renderItem = ({ item, drag, isActive }) => {
           keyExtractor={(item) => item.id}
           onDragEnd={({ data }) => setCategories(data)}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 10 }}
+          contentContainerStyle={{ paddingHorizontal: 10, alignItems: 'center' }}
         />
       </View>
     </GestureHandlerRootView>

@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -87,136 +91,166 @@ export default function OtpScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1" edges={['top', 'left', 'right', 'bottom']}>
-      {/* Background Container */}
-      <View className="absolute top-0 left-0 right-0 bottom-0">
-        {/* Top background image */}
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
+      <View style={StyleSheet.absoluteFill}>
         <ImageBackground
           source={require('../../assets/images/background_img.png')}
-          className="flex-1"
+          style={styles.bgImage}
           resizeMode="cover"
         >
-          <View className="ml-[20px] pt-[60px]">
-            <TouchableOpacity
-              className="mb-4"
-              onPress={() => navigation?.goBack()}
-            >
-              <View className="w-8 h-8 rounded-full bg-white items-center justify-center">
-                <Ionicons
-                  name="chevron-back-outline"
-                  color="#000"
-                  size={18}
-                />
+          <View style={styles.topSection}>
+            <TouchableOpacity style={styles.backBtn} onPress={() => navigation?.goBack()}>
+              <View style={styles.backCircle}>
+                <Ionicons name="chevron-back-outline" color="#000" size={18} />
               </View>
             </TouchableOpacity>
-
-            <Text className="text-white text-3xl font-bold mb-2 pt-[30px]">
-              ENTER OTP CODE
-            </Text>
-
-            <Text className="text-white text-sm opacity-90">
-              Enter the 4-digit OTP
-            </Text>
+            <Text style={styles.otpTitle}>ENTER OTP CODE</Text>
+            <Text style={styles.otpSubtitle}>Enter the 4-digit OTP</Text>
           </View>
         </ImageBackground>
-
-        {/* Bottom white section */}
-        <View className="flex-1 bg-white" />
+        <View style={styles.bgWhite} />
       </View>
 
-      {/* Curved gradient shape */}
       <LinearGradient
         colors={['#FFF9E6', '#FFEDED']}
-        className="w-[240px] h-[280px] rounded-tl-[380px] absolute bottom-0 right-0 z-10"
+        style={styles.gradient}
       />
 
-      {/* Floating OTP Card */}
-      <View
-        className="absolute top-[36%] left-5 right-5 bg-white rounded-2xl p-6 z-20"
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 12,
-          elevation: 10,
-        }}
+      <KeyboardAvoidingView
+        style={styles.keyboard}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
       >
-        {/* Header */}
-        <Text className="text-2xl  font-extrabold mt-8  text-black mb-2 text-center tracking-wider">
-          VERIFICATION
-        </Text>
-
-        <Text className="text-sm text-[#666] mb-2 text-center">
-          A verification code has been sent to{'\n'}
-          {email || 'your email'}
-        </Text>
-
-        {error ? (
-          <Text className="text-red-500 text-xs text-center mb-2">{error}</Text>
-        ) : null}
-
-        {/* OTP Input Boxes */}
-        <View className="flex-row justify-center mb-6 gap-3">
-          {[0, 1, 2, 3].map((index) => (
-            <TextInput
-              key={index}
-              ref={(ref) => (inputRefs.current[index] = ref)}
-              className="w-14 h-14 border-2 border-[#E0E0E0] rounded-lg text-center text-2xl font-bold text-black bg-white"
-              maxLength={1}
-              keyboardType="number-pad"
-              value={otp[index]}
-              onChangeText={(value) => handleOtpChange(value, index)}
-              onKeyPress={(e) => handleKeyPress(e, index)}
-            />
-          ))}
-        </View>
-
-        {/* Verify Button */}
-        <TouchableOpacity
-          className="rounded-md mb-4 overflow-hidden"
-          onPress={handleVerify}
-          disabled={loading}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
-          <LinearGradient
-            colors={['#FF9800', '#FF5722']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            className="py-4 items-center"
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" size="small" />
-            ) : (
-              <Text className="text-white text-base font-semibold tracking-wide">
-                VERIFY & CONTINUE
-              </Text>
-            )}
-          </LinearGradient>
-        </TouchableOpacity>
-
-        {/* Didn't receive code & Resend links */}
-        <View className="flex-row justify-center items-center mb-2">
-          <Text className="text-[#999] text-sm">
-            Didn't receive code?{' '}
-          </Text>
-          <TouchableOpacity
-            onPress={handleResend}
-            disabled={resendTimer > 0 || loading}
-          >
-            <Text
-              className={`text-sm font-semibold ${resendTimer > 0 ? 'text-[#999]' : 'text-[#FF5722]'}`}
-            >
-              {resendTimer > 0 ? `Resend in 00:${String(resendTimer).padStart(2, '0')}` : 'Resend'}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>VERIFICATION</Text>
+            <Text style={styles.cardSubtitle}>
+              A verification code has been sent to{'\n'}
+              {email || 'your email'}
             </Text>
-          </TouchableOpacity>
-        </View>
 
-        {/* Resend OTP Timer */}
-        <Text className="text-center text-[#999] pb-8 text-sm">
-          {resendTimer > 0
-            ? `Resend OTP in 00:${String(resendTimer).padStart(2, '0')}`
-            : 'You can request a new code above'}
-        </Text>
-      </View>
+            {error ? (
+              <Text style={styles.errorText}>{error}</Text>
+            ) : null}
+
+            <View style={styles.otpRow}>
+              {[0, 1, 2, 3].map((index) => (
+                <TextInput
+                  key={index}
+                  ref={(ref) => (inputRefs.current[index] = ref)}
+                  style={styles.otpInput}
+                  maxLength={1}
+                  keyboardType="number-pad"
+                  value={otp[index]}
+                  onChangeText={(value) => handleOtpChange(value, index)}
+                  onKeyPress={(e) => handleKeyPress(e, index)}
+                />
+              ))}
+            </View>
+
+            <TouchableOpacity
+              style={styles.verifyBtn}
+              onPress={handleVerify}
+              disabled={loading}
+              activeOpacity={0.9}
+            >
+              <LinearGradient
+                colors={['#FF9800', '#FF5722']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.verifyGradient}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#fff" size="small" />
+                ) : (
+                  <Text style={styles.verifyText}>VERIFY & CONTINUE</Text>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <View style={styles.resendRow}>
+              <Text style={styles.resendLabel}>Didn't receive code? </Text>
+              <TouchableOpacity
+                onPress={handleResend}
+                disabled={resendTimer > 0 || loading}
+              >
+                <Text style={[styles.resendLink, resendTimer > 0 && styles.resendDisabled]}>
+                  {resendTimer > 0 ? `Resend in 00:${String(resendTimer).padStart(2, '0')}` : 'Resend'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.resendHint}>
+              {resendTimer > 0
+                ? `Resend OTP in 00:${String(resendTimer).padStart(2, '0')}`
+                : 'You can request a new code above'}
+            </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safe: { flex: 1 },
+  bgImage: { flex: 1 },
+  bgWhite: { flex: 1, backgroundColor: '#fff' },
+  topSection: { marginLeft: 20, paddingTop: 60 },
+  backBtn: { marginBottom: 16 },
+  backCircle: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' },
+  otpTitle: { color: '#fff', fontSize: 28, fontWeight: '700', marginBottom: 8, paddingTop: 30 },
+  otpSubtitle: { color: '#fff', fontSize: 14, opacity: 0.9 },
+  gradient: {
+    position: 'absolute',
+    width: 240,
+    height: 280,
+    borderTopLeftRadius: 380,
+    bottom: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  keyboard: { flex: 1 },
+  scroll: { flex: 1 },
+  scrollContent: { paddingHorizontal: 20, paddingTop: 80, paddingBottom: 80 },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  cardTitle: { fontSize: 22, fontWeight: '800', color: '#000', marginTop: 16, marginBottom: 8, textAlign: 'center', letterSpacing: 1 },
+  cardSubtitle: { fontSize: 14, color: '#666', marginBottom: 8, textAlign: 'center' },
+  errorText: { color: '#ef4444', fontSize: 12, textAlign: 'center', marginBottom: 8 },
+  otpRow: { flexDirection: 'row', justifyContent: 'center', marginBottom: 24 },
+  otpInput: {
+    width: 56,
+    height: 56,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#000',
+    backgroundColor: '#fff',
+    marginHorizontal: 6,
+  },
+  verifyBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
+  verifyGradient: { paddingVertical: 16, alignItems: 'center' },
+  verifyText: { color: '#fff', fontSize: 16, fontWeight: '600', letterSpacing: 0.5 },
+  resendRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
+  resendLabel: { color: '#999', fontSize: 14 },
+  resendLink: { fontSize: 14, fontWeight: '600', color: '#FF5722' },
+  resendDisabled: { color: '#999' },
+  resendHint: { textAlign: 'center', color: '#999', paddingBottom: 32, fontSize: 14 },
+});
