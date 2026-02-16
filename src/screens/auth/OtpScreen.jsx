@@ -87,7 +87,7 @@ export default function OtpScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1" edges={['top', 'left', 'right', 'bottom']}>
       {/* Background Container */}
       <View className="absolute top-0 left-0 right-0 bottom-0">
         {/* Top background image */}

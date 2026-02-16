@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import BackLogoHeader from '../components/common/BackLogoHeader';
@@ -57,7 +58,7 @@ export default function GalleryScreen() {
   }
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <BackLogoHeader />
 
       <ScrollView
@@ -78,7 +79,7 @@ export default function GalleryScreen() {
           <Text style={styles.submitButtonText}>SUBMIT</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

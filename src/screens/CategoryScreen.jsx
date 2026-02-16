@@ -10,6 +10,7 @@ import {
   Platform,
   UIManager,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import CategoryHeader from '../components/common/CategoryHeader';
@@ -137,7 +138,7 @@ export default function CategoryScreen() {
   };
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <CategoryHeader />
       <ScrollView
         style={styles.scrollView}
@@ -154,7 +155,7 @@ export default function CategoryScreen() {
           />
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

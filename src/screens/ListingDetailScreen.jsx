@@ -9,6 +9,7 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackLogoHeader from '../components/common/BackLogoHeader';
@@ -41,7 +42,7 @@ export default function ListingDetailScreen() {
   const handleWhatsApp = () => Linking.openURL('https://wa.me/911234567890');
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <BackLogoHeader />
 
       <ScrollView
@@ -135,7 +136,7 @@ export default function ListingDetailScreen() {
           ))}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

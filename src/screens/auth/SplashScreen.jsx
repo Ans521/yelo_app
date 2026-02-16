@@ -1,6 +1,7 @@
 import { View, Image } from 'react-native';
 import { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SplashScreen({ navigation }) {
   useEffect(() => {
@@ -12,15 +13,17 @@ export default function SplashScreen({ navigation }) {
   }, []);
 
   return (
-    <LinearGradient
-      colors={['#FF9800', '#ef4444']} 
-      className="flex-1 items-center justify-center"
-    >
-      <Image
-        source={require('../../assets/images/logo.png')}
-        className="w-50 h-50"
-        resizeMode="contain"
-      />
-    </LinearGradient>
+    <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right', 'bottom']}>
+      <LinearGradient
+        colors={['#FF9800', '#ef4444']}
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Image
+          source={require('../../assets/images/logo.png')}
+          className="w-50 h-50"
+          resizeMode="contain"
+        />
+      </LinearGradient>
+    </SafeAreaView>
   );
 }

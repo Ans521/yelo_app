@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import LogoHeader from '../components/common/LogoHeader';
@@ -42,7 +43,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <LogoHeader />
 
       <ScrollView
@@ -55,7 +56,7 @@ export default function ProfileScreen() {
           <ProfileRow key={item.id} item={item} onPress={handlePress} />
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
