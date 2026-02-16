@@ -4,12 +4,9 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  ScrollView,
   StyleSheet,
 } from 'react-native';
-import DraggableFlatList, {
-  ScaleDecorator,
-} from 'react-native-draggable-flatlist';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const initialCategories = [
   { id: '1', icon: require('../assets/icons/restaurant.png'), label: 'RESTAURANT' },
@@ -27,54 +24,44 @@ const initialCategories = [
 
 const CategoriesList = () => {
   const [selectedCategory, setSelectedCategory] = useState('1');
-  const [categories, setCategories] = useState(initialCategories);
-
-  const renderItem = ({ item, drag, isActive }) => {
-    const isSelected = selectedCategory === item.id;
-
-    return (
-      <ScaleDecorator>
-        <View style={styles.itemWrap}>
-          <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={() => setSelectedCategory(item.id)}
-            onLongPress={drag}
-            disabled={isActive}
-            style={[
-              styles.iconBtn,
-              isSelected && styles.iconBtnSelected,
-              isActive && styles.iconBtnActive,
-            ]}
-          >
-            <Image
-              source={item.icon}
-              style={styles.icon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text style={styles.label} numberOfLines={1}>
-            {item.label}
-          </Text>
-        </View>
-      </ScaleDecorator>
-    );
-  };
 
   return (
-    <GestureHandlerRootView style={styles.root}>
-      <View style={styles.container}>
-        <DraggableFlatList
-          data={categories}
-          horizontal
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          onDragEnd={({ data }) => setCategories(data)}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.listContent}
-          style={styles.list}
-        />
-      </View>
-    </GestureHandlerRootView>
+    <View style={styles.root}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
+        style={styles.scroll}
+      >
+        {initialCategories.map((item) => {
+          const isSelected = selectedCategory === item.id;
+          return (
+            <TouchableOpacity
+              key={item.id}
+              activeOpacity={0.9}
+              onPress={() => setSelectedCategory(item.id)}
+              style={styles.itemWrap}
+            >
+              <View
+                style={[
+                  styles.iconBtn,
+                  isSelected && styles.iconBtnSelected,
+                ]}
+              >
+                <Image
+                  source={item.icon}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+              </View>
+              <Text style={styles.label} numberOfLines={1}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -83,12 +70,7 @@ const styles = StyleSheet.create({
     height: 88,
     width: '100%',
   },
-  container: {
-    height: 88,
-    width: '100%',
-    justifyContent: 'center',
-  },
-  list: {
+  scroll: {
     flex: 1,
   },
   listContent: {
@@ -112,9 +94,6 @@ const styles = StyleSheet.create({
   },
   iconBtnSelected: {
     backgroundColor: '#FDBA74',
-  },
-  iconBtnActive: {
-    opacity: 0.7,
   },
   icon: {
     width: 28,
