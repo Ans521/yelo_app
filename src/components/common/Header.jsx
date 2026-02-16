@@ -5,11 +5,14 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  StyleSheet,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import CategoriesList from '../CategoriesList';
+
+const HEADER_HEIGHT = 280;
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,17 +22,17 @@ const Header = () => {
   };
 
   return (
-    <View className="h-80 rounded-b-2xl overflow-hidden"> 
+    <View style={styles.header}>
       {/* Orange Gradient Background */}
       <ImageBackground
         source={require('../../assets/images/orange.png')}
         resizeMode="cover"
-        className="flex-1"
+        style={styles.background}
       >
         {/* Black Mask Pattern Overlay */}
         <Image
           source={require('../../assets/images/mask.png')}
-          className="absolute w-full h-full opacity-90"
+          style={styles.mask}
           resizeMode="cover"
         />
 
@@ -72,5 +75,23 @@ const Header = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    height: HEADER_HEIGHT,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    overflow: 'hidden',
+  },
+  background: {
+    flex: 1,
+  },
+  mask: {
+    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
+    opacity: 0.9,
+  },
+});
 
 export default Header;

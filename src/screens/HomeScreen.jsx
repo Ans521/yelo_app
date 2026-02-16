@@ -11,15 +11,19 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
       <Header />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <HomeContent />
-        <HorizontalCategories />
-        <RecentServices />
-      </ScrollView>
+      <View style={styles.scrollWrapper}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          bounces={true}
+          alwaysBounceVertical={true}
+        >
+          <HomeContent />
+          <HorizontalCategories />
+          <RecentServices />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -29,10 +33,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
+  scrollWrapper: {
+    flex: 1,
+    minHeight: 0,
+  },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingBottom: 100,
   },
 });

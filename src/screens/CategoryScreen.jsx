@@ -140,21 +140,25 @@ export default function CategoryScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <CategoryHeader />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {CATEGORIES_DATA.map((category) => (
-          <CategoryAccordion
-            key={category.id}
-            category={category}
-            isExpanded={expandedIds.includes(category.id)}
-            onToggle={() => toggleCategory(category.id)}
-            onSubcategoryPress={handleSubcategoryPress}
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.scrollWrapper}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          bounces={true}
+          alwaysBounceVertical={true}
+        >
+          {CATEGORIES_DATA.map((category) => (
+            <CategoryAccordion
+              key={category.id}
+              category={category}
+              isExpanded={expandedIds.includes(category.id)}
+              onToggle={() => toggleCategory(category.id)}
+              onSubcategoryPress={handleSubcategoryPress}
+            />
+          ))}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -164,10 +168,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
+  scrollWrapper: {
+    flex: 1,
+    minHeight: 0,
+  },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingBottom: 100,
     paddingTop: 16,
   },

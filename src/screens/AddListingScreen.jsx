@@ -42,18 +42,21 @@ export default function AddListingScreen() {
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
       <LogoHeader />
-      <KeyboardAvoidingView
-        style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-      >
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
+      <View style={styles.contentWrapper}>
+        <KeyboardAvoidingView
+          style={styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
         >
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            bounces={true}
+            alwaysBounceVertical={true}
+          >
         <View style={styles.titleRow}>
           <AntDesign name="plus" size={18} color={TEXT_DARK} />
           <Text style={styles.titleText}>Add Business Listing</Text>
@@ -111,8 +114,9 @@ export default function AddListingScreen() {
           </TouchableOpacity>
 
         </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -140,6 +144,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
+  contentWrapper: {
+    flex: 1,
+    minHeight: 0,
+  },
   keyboardView: {
     flex: 1,
   },
@@ -147,8 +155,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: 16,
-    paddingBottom: 24,
+    paddingBottom: 40,
   },
   titleRow: {
     flexDirection: 'row',

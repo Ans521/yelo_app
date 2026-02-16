@@ -19,7 +19,7 @@ const CategoryHeader = () => {
   };
 
   return (
-    <View className="rounded-b-2xl overflow-hidden">
+    <View style={styles.header}>
       <ImageBackground
         source={require('../../assets/images/orange.png')}
         resizeMode="cover"
@@ -68,8 +68,17 @@ const CategoryHeader = () => {
   );
 };
 
+const HEADER_HEIGHT = 220;
+
 const styles = StyleSheet.create({
+  header: {
+    height: HEADER_HEIGHT,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    overflow: 'hidden',
+  },
   background: {
+    flex: 1,
     paddingBottom: 0,
   },
 });
