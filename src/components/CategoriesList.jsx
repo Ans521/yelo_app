@@ -71,6 +71,7 @@ const CategoriesList = () => {
           onDragEnd={({ data }) => setCategories(data)}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
+          style={styles.list}
         />
       </View>
     </GestureHandlerRootView>
@@ -78,11 +79,22 @@ const CategoriesList = () => {
 };
 
 const styles = StyleSheet.create({
-  root: { height: 88 },
-  container: { height: 88, justifyContent: 'center' },
+  root: {
+    height: 88,
+    width: '100%',
+  },
+  container: {
+    height: 88,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  list: {
+    flex: 1,
+  },
   listContent: {
     paddingHorizontal: 12,
     alignItems: 'center',
+    paddingRight: 12,
   },
   itemWrap: {
     alignItems: 'center',

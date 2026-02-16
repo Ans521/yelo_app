@@ -76,6 +76,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   header: {
+    width: '100%',
     height: HEADER_HEIGHT,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+    width: '100%',
   },
   mask: {
     ...StyleSheet.absoluteFillObject,
