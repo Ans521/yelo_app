@@ -10,7 +10,7 @@ import {
   Platform,
   UIManager,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import CategoryHeader from '../components/common/CategoryHeader';
@@ -115,6 +115,7 @@ function CategoryAccordion({ category, isExpanded, onToggle, onSubcategoryPress 
 }
 
 export default function CategoryScreen() {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   // First category is open by default
   const [expandedIds, setExpandedIds] = useState(['1']);
@@ -143,7 +144,7 @@ export default function CategoryScreen() {
       <View style={styles.scrollWrapper}>
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { paddingBottom: 100 + insets.bottom }]}
           showsVerticalScrollIndicator={false}
           bounces={true}
           alwaysBounceVertical={true}

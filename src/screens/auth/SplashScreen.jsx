@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,17 +13,23 @@ export default function SplashScreen({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right', 'bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
       <LinearGradient
         colors={['#FF9800', '#ef4444']}
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        style={styles.gradient}
       >
         <Image
           source={require('../../assets/images/logo.png')}
-          className="w-50 h-50"
+          style={styles.logo}
           resizeMode="contain"
         />
       </LinearGradient>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safe: { flex: 1 },
+  gradient: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  logo: { width: 200, height: 200 },
+});

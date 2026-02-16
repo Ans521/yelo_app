@@ -11,7 +11,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
@@ -20,6 +20,7 @@ import { getOtp, verifyOtp } from '../../services/authApi';
 const RESEND_COOLDOWN_SEC = 45;
 
 export default function OtpScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
   const route = useRoute();
   const email = route.params?.email || '';
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -98,7 +99,7 @@ export default function OtpScreen({ navigation }) {
           style={styles.bgImage}
           resizeMode="cover"
         >
-          <View style={styles.topSection}>
+          <View style={[styles.topSection, { paddingTop: 40 + insets.top }]}>
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation?.goBack()}>
               <View style={styles.backCircle}>
                 <Ionicons name="chevron-back-outline" color="#000" size={18} />
@@ -123,7 +124,10 @@ export default function OtpScreen({ navigation }) {
       >
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingBottom: 40 + insets.bottom },
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -159,18 +163,19 @@ export default function OtpScreen({ navigation }) {
               disabled={loading}
               activeOpacity={0.9}
             >
-              <LinearGradient
-                colors={['#FF9800', '#FF5722']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                style={styles.verifyGradient}
-              >
+              <View style={styles.verifyGradientWrap}>
+                <LinearGradient
+                  colors={['#FF9800', '#FF5722']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={StyleSheet.absoluteFill}
+                />
                 {loading ? (
                   <ActivityIndicator color="#fff" size="small" />
                 ) : (
                   <Text style={styles.verifyText}>VERIFY & CONTINUE</Text>
                 )}
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
 
             <View style={styles.resendRow}>
@@ -201,7 +206,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   bgImage: { flex: 1 },
   bgWhite: { flex: 1, backgroundColor: '#fff' },
-  topSection: { marginLeft: 20, paddingTop: 60 },
+  topSection: { marginLeft: 20 },
   backBtn: { marginBottom: 16 },
   backCircle: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' },
   otpTitle: { color: '#fff', fontSize: 28, fontWeight: '700', marginBottom: 8, paddingTop: 30 },
@@ -217,11 +222,12 @@ const styles = StyleSheet.create({
   },
   keyboard: { flex: 1 },
   scroll: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingTop: 80, paddingBottom: 80 },
+  scrollContent: { paddingHorizontal: 20, paddingTop: 80 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 24,
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -245,8 +251,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginHorizontal: 6,
   },
-  verifyBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
-  verifyGradient: { paddingVertical: 16, alignItems: 'center' },
+  verifyBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden', height: 52 },
+  verifyGradientWrap: {
+    flex: 1,
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 8,
+  },
   verifyText: { color: '#fff', fontSize: 16, fontWeight: '600', letterSpacing: 0.5 },
   resendRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
   resendLabel: { color: '#999', fontSize: 14 },

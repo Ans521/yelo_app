@@ -12,7 +12,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +24,7 @@ const isValidEmail = (value) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || '').trim());
 
 export default function LoginScreen() {
+  const insets = useSafeAreaInsets();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,14 +56,14 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
-      {/* Background Container */}
+      {/* Background - behind safe area */}
       <View style={StyleSheet.absoluteFill}>
         <ImageBackground
           source={require('../../assets/images/background_img.png')}
           style={styles.bgImage}
           resizeMode="cover"
         >
-          <View style={styles.logoWrap}>
+          <View style={[styles.logoWrap, { paddingTop: 40 + insets.top }]}>
             <Image
               source={require('../../assets/images/logo.png')}
               style={styles.logo}
@@ -85,7 +86,10 @@ export default function LoginScreen() {
       >
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingBottom: 40 + insets.bottom },
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -93,7 +97,7 @@ export default function LoginScreen() {
             <Text style={styles.title}>WELCOME BACK</Text>
             <Text style={styles.subtitle}>Sign in to your account</Text>
 
-            {/* Email Input */}
+            {/* Email Input - explicit zIndex so it never sits under gradient on iOS */}
             <View style={[styles.inputRow, error && styles.inputRowError]}>
               <MaterialIcons name="email" color="#777777" size={18} />
               <TextInput
@@ -123,18 +127,19 @@ export default function LoginScreen() {
               disabled={loading}
               activeOpacity={0.9}
             >
-              <LinearGradient
-                colors={['#FF9800', '#ef4444']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                style={styles.submitGradient}
-              >
+              <View style={styles.submitGradientWrap}>
+                <LinearGradient
+                  colors={['#FF9800', '#ef4444']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={StyleSheet.absoluteFill}
+                />
                 {loading ? (
                   <ActivityIndicator color="#fff" size="small" />
                 ) : (
                   <Text style={styles.submitText}>SUBMIT</Text>
                 )}
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
 
             <View style={styles.dividerRow}>
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   bgImage: { flex: 1 },
   bgWhite: { flex: 1, backgroundColor: '#fff' },
-  logoWrap: { alignItems: 'center', paddingTop: 60 },
+  logoWrap: { alignItems: 'center' },
   logo: { width: 240, height: 240 },
   gradient: {
     position: 'absolute',
@@ -184,11 +189,12 @@ const styles = StyleSheet.create({
   },
   keyboard: { flex: 1 },
   scroll: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingTop: 120, paddingBottom: 80 },
+  scrollContent: { paddingHorizontal: 20, paddingTop: 100 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 24,
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -206,13 +212,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     height: 50,
     backgroundColor: '#FAFAFA',
+    zIndex: 1,
   },
   inputRowError: { borderColor: '#ef4444' },
   input: { flex: 1, fontSize: 14, color: '#000', marginLeft: 8, paddingVertical: 12 },
   errorText: { color: '#ef4444', fontSize: 12, marginTop: 4, marginBottom: 16 },
   spacer: { height: 20 },
-  submitBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden' },
-  submitGradient: { paddingVertical: 15, alignItems: 'center' },
+  submitBtn: { borderRadius: 8, marginBottom: 16, overflow: 'hidden', height: 50 },
+  submitGradientWrap: {
+    flex: 1,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 8,
+  },
   submitText: { color: '#fff', fontSize: 16, fontWeight: '700', letterSpacing: 1 },
   dividerRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 16 },
   dividerLine: { flex: 1, height: 1, backgroundColor: '#E0E0E0' },
