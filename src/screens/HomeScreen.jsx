@@ -1,6 +1,6 @@
 // src/screens/HomeScreen.jsx
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/common/Header';
 import HomeContent from '../components/HomeContent';
@@ -9,22 +9,23 @@ import RecentServices from '../components/RecentServices';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const bottomPadding = 100 + insets.bottom;
+
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
-      <Header />
-      <View style={styles.scrollWrapper}>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={[styles.scrollContent, { paddingBottom: 100 + insets.bottom }]}
-          showsVerticalScrollIndicator={false}
-          bounces={true}
-          alwaysBounceVertical={true}
-        >
-          <HomeContent />
-          <HorizontalCategories />
-          <RecentServices />
-        </ScrollView>
-      </View>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottomPadding }]}
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        alwaysBounceVertical={true}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Header />
+        <HomeContent />
+        <HorizontalCategories />
+        <RecentServices />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -33,10 +34,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#ffffff',
-  },
-  scrollWrapper: {
-    flex: 1,
-    minHeight: 0,
   },
   scrollView: {
     flex: 1,

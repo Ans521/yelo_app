@@ -37,34 +37,32 @@ const Header = () => {
         />
 
         {/* Logo */}
-        <View className="items-center pt-12">
+        <View style={styles.logoWrap}>
           <Image
             source={require('../../assets/images/logo.png')}
-            className="w-40 h-30"
+            style={styles.logo}
             resizeMode="contain"
           />
         </View>
 
         {/* Search + Actions */}
-        <View className="flex-row items-center px-4 mt-4 mb-6">
-          <View className="flex-1 bg-white rounded-full flex-row items-center px-4 py-1 mr-2">
+        <View style={styles.searchRow}>
+          <View style={styles.searchInputWrap}>
             <FontAwesome name="search" color="gray" size={15} />
             <TextInput
               placeholder="Search product, restaurant"
               placeholderTextColor="#9CA3AF"
-              className="flex-1 text-gray-700 ml-2"
+              style={styles.searchInput}
               value={searchQuery}
               onChangeText={setSearchQuery}
               onSubmitEditing={handleSearch}
               returnKeyType="search"
             />
           </View>
-
-          <TouchableOpacity className="bg-white w-12 h-12 rounded-full items-center justify-center mr-2">
+          <TouchableOpacity style={styles.iconBtn}>
             <MaterialIcons name="notifications-none" color="gray" size={24} />
           </TouchableOpacity>
-
-          <TouchableOpacity className="bg-white w-12 h-12 rounded-full items-center justify-center">
+          <TouchableOpacity style={styles.iconBtn}>
             <Feather name="filter" color="gray" size={20} />
           </TouchableOpacity>
         </View>
@@ -91,6 +89,47 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     opacity: 0.9,
+  },
+  logoWrap: {
+    alignItems: 'center',
+    paddingTop: 24,
+  },
+  logo: {
+    width: 160,
+    height: 60,
+  },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  searchInputWrap: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 9999,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: '#374151',
+    marginLeft: 8,
+    paddingVertical: 4,
+  },
+  iconBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
   },
 });
 
