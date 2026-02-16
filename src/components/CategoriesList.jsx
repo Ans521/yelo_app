@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import DraggableFlatList, {
   ScaleDecorator,
@@ -28,43 +29,40 @@ const CategoriesList = () => {
   const [selectedCategory, setSelectedCategory] = useState('1');
   const [categories, setCategories] = useState(initialCategories);
 
-const renderItem = ({ item, drag, isActive }) => {
-  const isSelected = selectedCategory === item.id;
+  const renderItem = ({ item, drag, isActive }) => {
+    const isSelected = selectedCategory === item.id;
+
+    return (
+      <ScaleDecorator>
+        <View style={styles.itemWrap}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => setSelectedCategory(item.id)}
+            onLongPress={drag}
+            disabled={isActive}
+            style={[
+              styles.iconBtn,
+              isSelected && styles.iconBtnSelected,
+              isActive && styles.iconBtnActive,
+            ]}
+          >
+            <Image
+              source={item.icon}
+              style={styles.icon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <Text style={styles.label} numberOfLines={1}>
+            {item.label}
+          </Text>
+        </View>
+      </ScaleDecorator>
+    );
+  };
 
   return (
-    <ScaleDecorator>
-      <View className="items-center mx-1.5">
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => setSelectedCategory(item.id)}
-          onLongPress={drag}
-          disabled={isActive} // true while that row is being dragged .
-          className={`w-16 h-16 rounded-md items-center justify-center border-2 border-white ${
-            isSelected ? 'bg-orange-300' : 'bg-white'
-          } ${isActive ? 'opacity-70' : ''}`}
-        >
-          <Image
-            source={item.icon}
-            className="w-9 h-9"
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        
-        <Text
-          className={`text-[10px] text-center mt-1.5 ${
-            isSelected ? 'text-white font-bold' : 'text-white'
-          }`}
-        >
-          {item.label}
-        </Text>
-      </View>
-    </ScaleDecorator>
-  );
-};
-
-  return (
-    <GestureHandlerRootView style={{ height: 88 }}>
-      <View style={{ height: 88, justifyContent: 'center' }}>
+    <GestureHandlerRootView style={styles.root}>
+      <View style={styles.container}>
         <DraggableFlatList
           data={categories}
           horizontal
@@ -72,11 +70,51 @@ const renderItem = ({ item, drag, isActive }) => {
           keyExtractor={(item) => item.id}
           onDragEnd={({ data }) => setCategories(data)}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 10, alignItems: 'center' }}
+          contentContainerStyle={styles.listContent}
         />
       </View>
     </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  root: { height: 88 },
+  container: { height: 88, justifyContent: 'center' },
+  listContent: {
+    paddingHorizontal: 12,
+    alignItems: 'center',
+  },
+  itemWrap: {
+    alignItems: 'center',
+    marginRight: 6,
+  },
+  iconBtn: {
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#fff',
+    backgroundColor: '#fff',
+  },
+  iconBtnSelected: {
+    backgroundColor: '#FDBA74',
+  },
+  iconBtnActive: {
+    opacity: 0.7,
+  },
+  icon: {
+    width: 28,
+    height: 28,
+  },
+  label: {
+    fontSize: 10,
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 4,
+    fontWeight: '500',
+  },
+});
 
 export default CategoriesList;
