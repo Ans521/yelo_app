@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -11,14 +11,20 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Alert,
+  PermissionsAndroid,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useQueryClient } from '@tanstack/react-query';
+import Geolocation from 'react-native-geolocation-service';
 import { getOtp } from '../../services/authApi';
 import { API_BASE_URL } from '../../config/api';
+import { useAuth } from '../../context/AuthContext';
+import { HOME_FEED_QUERY_KEY } from '../../hooks/useHomeFeed';
 
 const isValidEmail = (value) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || '').trim());
@@ -29,8 +35,65 @@ export default function LoginScreen() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const { setTokens, setAuthenticated, loginAsGuest, location, setLocation, fcmToken } = useAuth();
 
-  // Get OTP via API (backend sends OTP to this email), then navigate to OTP screen
+  const requestLocationPermissionAndFetch = async () => {
+    let coords = { latitude: null, longitude: null };
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location permission',
+            message: 'We use your location to improve security and service experience.',
+            buttonPositive: 'OK',
+            buttonNegative: 'Cancel',
+          },
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('[Location] Permission denied, using null coords');
+          setLocation(coords);
+          return coords;
+        }
+      }
+      // React Native: use react-native-geolocation-service (navigator.geolocation is undefined)
+      await new Promise((resolve) => {
+        Geolocation.getCurrentPosition(
+          (pos) => {
+            coords = {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+            };
+            console.log('[Location] Got position in LoginScreen', coords);
+            setLocation(coords);
+            resolve();
+          },
+          (err) => {
+            console.warn('Location error:', err?.message);
+            coords = { latitude: null, longitude: null };
+            console.log('[Location] Error, setting null coords');
+            setLocation(coords);
+            resolve();
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+        );
+      });
+    } catch (e) {
+      console.warn('Location permission error:', e?.message);
+      coords = { latitude: null, longitude: null };
+      console.log('[Location] Exception, setting null coords');
+      setLocation(coords);
+    }
+    return coords;
+  };
+
+  // Ask for location once when the login screen (app entry) mounts
+  useEffect(() => {
+    requestLocationPermissionAndFetch();
+  }, []);
+
+  // Get OTP – ensure we try to fetch location first, but don't block if it fails.
   const handleSubmit = async () => {
     if (!email.trim()) {
       setError('Email is required');
@@ -43,15 +106,28 @@ export default function LoginScreen() {
     }
 
     setError('');
+
+    // Try to get location before calling get-otp (non-blocking for errors)
+    const coords = await requestLocationPermissionAndFetch();
+    console.log('[Location] Using coords for getOtp', coords);
     setLoading(true);
-    const result = await getOtp(email.trim());
+    const result = await getOtp(email.trim(), coords, fcmToken);
     setLoading(false);
-    console.log('result', result)
+    console.log('result from login screen', result)
     if (result.success) {
       navigation.navigate('Otp', { email: email.trim() });
+      if(result.data) {
+        await setTokens(result.data.accessToken, result.data.refreshToken || null);
+      }
     } else {
       setError(result.message || 'Failed to send OTP. Please try again.');
     }
+  };
+
+  const handleExploreAsGuest = () => {
+    // Invalidate home feed so when Home mounts it will fetch (not use stale cache)
+    queryClient.invalidateQueries({ queryKey: HOME_FEED_QUERY_KEY });
+    loginAsGuest();
   };
 
   return (
@@ -142,18 +218,11 @@ export default function LoginScreen() {
               </View>
             </TouchableOpacity>
 
-            <View style={styles.dividerRow}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>OR</Text>
-              <View style={styles.dividerLine} />
-            </View>
-
-            <TouchableOpacity style={styles.socialBtn}>
-              <FontAwesome name="google" color="blue" size={18} />
-              <Text style={styles.socialText}>Continue with Google</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.socialBtn}>
+            <TouchableOpacity
+              style={styles.socialBtn}
+              onPress={handleExploreAsGuest}
+              activeOpacity={0.8}
+            >
               <FontAwesome name="user" color="#000" size={18} />
               <Text style={styles.socialText}>Explore as a guest</Text>
             </TouchableOpacity>
@@ -162,10 +231,10 @@ export default function LoginScreen() {
               <Text style={styles.terms}>Terms and Conditions</Text>
             </TouchableOpacity>
 
-            <Text style={styles.apiUrl} numberOfLines={1}>
+            {/* <Text style={styles.apiUrl} numberOfLines={1}>
               API: {API_BASE_URL}
-            </Text>
-          </View>
+            </Text> */}
+          </View> 
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -185,15 +254,17 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 380,
     bottom: 0,
     right: 0,
-    zIndex: 10,
   },
   keyboard: { flex: 1 },
   scroll: { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingTop: 100 },
+  // Extra top padding so the card sits a bit lower on the screen
+  scrollContent: { paddingHorizontal: 20, paddingTop: 230, paddingBottom: 40 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 16,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    minHeight: 380,
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -243,6 +314,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   socialText: { fontSize: 14, color: '#333', marginLeft: 8 },
-  terms: { fontSize: 12, color: '#666', textAlign: 'center', paddingVertical: 24 },
+  terms: {
+    fontSize: 13,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 40,
+    paddingBottom: 8,
+  },
   apiUrl: { fontSize: 10, color: '#999', textAlign: 'center', paddingBottom: 8 },
 });

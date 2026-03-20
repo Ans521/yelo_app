@@ -35,8 +35,8 @@ export default function LogoHeader({ height = DEFAULT_HEIGHT }) {
 const styles = StyleSheet.create({
   header: {
     overflow: 'hidden',
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 17,
+    borderBottomRightRadius: 17,
   },
   headerBg: {
     flex: 1,

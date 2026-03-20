@@ -1,26 +1,75 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ListingCard from './ListingCard';
 
-// Same image pattern as HorizontalCategories: new, new1, homescreen, background_img in rotation
-const DUMMY_DATA = [
+const GUEST_SIGN_IN_TITLE = 'Please sign in';
+const GUEST_SIGN_IN_MESSAGE = 'Sign in to view business details, call or share.';
+
+const FALLBACK_IMAGE = require('../assets/images/new.png');
+
+function normalizeBusiness(b, index) {
+  const id = String(b.id ?? b.business_id ?? index);
+  const title = b.title ?? b.business_name ?? b.name ?? 'Business';
+  const subtitle = b.subtitle ?? b.address ?? b.location ?? '';
+  const phone_no = b.phone_no ?? '';
+  const image = b.image_url
+    ? { uri: b.image_url }
+    : (Array.isArray(b.gallery) && b.gallery.length > 0)
+      ? (b.gallery.find((g) => g.isMain) ?? b.gallery[0])?.url
+        ? { uri: (b.gallery.find((g) => g.isMain) ?? b.gallery[0]).url }
+        : FALLBACK_IMAGE
+      : FALLBACK_IMAGE;
+  return { id, title, subtitle, image, phone_no };
+}
+
+const DEFAULT_DATA = [
   { id: '1', title: 'Spice Garden Restaurant', subtitle: 'Sector 22, Chandigarh', image: require('../assets/images/new.png') },
   { id: '2', title: 'Hotel Royal Stay', subtitle: 'Zirakpur, Punjab', image: require('../assets/images/new1.png') },
   { id: '3', title: 'Urban Tandoor', subtitle: 'Phase 302, Mohali', image: require('../assets/images/homescreen.png') },
-  { id: '4', title: 'Cafe Morning Brew', subtitle: 'Sector 35, Chandigarh', image: require('../assets/images/background_img.png') },
-  { id: '5', title: 'Green Valley Resort', subtitle: 'Morni Hills', image: require('../assets/images/new.png') },
 ];
 
 const MAX_ITEMS = 5;
-const data = DUMMY_DATA.slice(0, MAX_ITEMS);
 
-export default function RecentServices() {
-  const handleViewAll = () => {};
+export default function RecentServices({ businesses = [], isGuest, onSignInRequested }) {
+  const navigation = useNavigation();
+  const handleViewAll = () => {
+    navigation.navigate('Category', {
+      screen: 'SubcategoryList',
+      params: { mode: 'recent', title: 'Recent Services' },
+    });
+  };
+  const data = businesses.length > 0
+    ? businesses.map(normalizeBusiness).slice(0, MAX_ITEMS)
+    : DEFAULT_DATA.slice(0, MAX_ITEMS);
 
+  const handleCardPress = (item) => {
+    if (isGuest) {
+      Alert.alert(GUEST_SIGN_IN_TITLE, GUEST_SIGN_IN_MESSAGE, [
+        { text: 'OK' },
+        { text: 'Sign in', onPress: () => onSignInRequested?.() },
+      ]);
+      return;
+    }
+    const businessId = item.id ?? item.business_id;
+    navigation.navigate('AddListing', {
+      screen: 'ListingDetail',
+      params: { businessId },
+    });
+  };
   const renderItem = ({ item }) => (
     <ListingCard
-      item={{ image: item.image, title: item.title, subtitle: item.subtitle }}
+      item={{
+        image: item.image,
+        title: item.title,
+        subtitle: item.subtitle,
+        phone_no: item.phone_no,
+        shareUrl: item.shareUrl,
+      }}
+      onPress={() => handleCardPress(item)}
+      requireSignIn={isGuest}
+      onSignInRequested={onSignInRequested}
     />
   );
   const keyExtractor = (item) => item.id;

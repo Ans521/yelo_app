@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,14 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import BackLogoHeader from '../components/common/BackLogoHeader';
+import { getUserInfo, updateUserInfo } from '../services/authApi';
 
 const ORANGE = '#F08E14';
 const BORDER = '#E5E7EB';
@@ -24,11 +27,62 @@ export default function PersonalInformationScreen() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const handleSave = () => {
-    console.log('Save', { fullName, email, phone });
-    navigation.goBack();
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const res = await getUserInfo();
+      if (cancelled) return;
+      console.log("res", res)
+      setLoading(false);
+      if (res.success && res.data) {
+        setFullName(res.data.name ?? '');
+        setEmail(res.data.email ?? '');
+        setPhone(res.data.phone_no != null ? String(res.data.phone_no) : '');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleSave = async () => {
+    if (!fullName.trim() || !email.trim() || !phone.trim()) {
+      Alert.alert('Missing information', 'Name, email and phone number cannot be empty.');
+      return;
+    }
+    const digitsOnly = phone.replace(/\D/g, '');
+    if (digitsOnly.length !== 10) {
+      Alert.alert(
+        'Invalid phone number',
+        'Phone number must be exactly 10 digits.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+    const res = await updateUserInfo({
+      name: fullName.trim(),
+      email: email.trim(),
+      phone_no: digitsOnly,
+    });
+    if (res.success) {
+      Alert.alert('Saved', 'Your information has been updated.', [
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ]);
+    } else {
+      Alert.alert('Error', res.message || 'Failed to update information.');
+    }
   };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+        <BackLogoHeader />
+        <View style={styles.loadingWrap}>
+          <ActivityIndicator size="large" color={ORANGE} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
@@ -89,6 +143,7 @@ export default function PersonalInformationScreen() {
                 value={phone}
                 onChangeText={setPhone}
                 keyboardType="phone-pad"
+                inputMode="tel"
               />
             </View>
           </View>
@@ -171,5 +226,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: '700',
     fontSize: 15,
+  },
+  loadingWrap: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

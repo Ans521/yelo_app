@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Dimensions,
   Linking,
+  Share,
+  Alert,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,24 +21,53 @@ const TEXT_DARK = '#111827';
 const TEXT_LIGHT = '#6B7280';
 const BORDER = '#E5E7EB';
 
+const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.yelo";
+
+const GUEST_ACTION_TITLE = 'Please sign in';
+const GUEST_ACTION_MESSAGE = 'Sign in to call, message or share.';
+
 /**
  * Shared listing card: image left (~1/3), title, subtitle, separator, call / WhatsApp / share.
- * item: { image, title, subtitle }
+ * item: { image, title, subtitle, phone_no }
  * onPress: optional; if provided, whole card is pressable.
+ * requireSignIn: when true, call/WhatsApp/share show "Please sign in first" and onSignInRequested is used for Sign in button.
+ * onSignInRequested: callback when guest taps Sign in in the alert (e.g. logout to go to login screen).
  */
-export default function ListingCard({ item, onPress, wrapperStyle }) {
+export default function ListingCard({ item, onPress, wrapperStyle, requireSignIn, onSignInRequested }) {
+  const showGuestAlert = () => {
+    Alert.alert(GUEST_ACTION_TITLE, GUEST_ACTION_MESSAGE, [
+      { text: 'OK' },
+      { text: 'Sign in', onPress: () => onSignInRequested?.() },
+    ]);
+  };
+
   const handleCall = (e) => {
     e?.stopPropagation?.();
-    Linking.openURL('tel:+911234567890');
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    if (!item.phone_no) return;
+    Linking.openURL(`tel:${item.phone_no}`);
   };
   const handleWhatsApp = (e) => {
     e?.stopPropagation?.();
-    Linking.openURL('https://wa.me/911234567890');
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    if (!item.phone_no) return;
+    Linking.openURL(`https://wa.me/${item.phone_no}`);
   };
   const handleShare = (e) => {
     e?.stopPropagation?.();
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    const message = `Check out this business on Yelo:\n${item.title} - ${item.subtitle}\n${PLAYSTORE_URL}`;
+    Share.share({ message }).catch(() => {});
   };
-
   const cardContent = (
     <Shadow
       distance={3}
