@@ -113,7 +113,6 @@ export default function LoginScreen() {
     setLoading(true);
     const result = await getOtp(email.trim(), coords, fcmToken);
     setLoading(false);
-    console.log('result from login screen', result)
     if (result.success) {
       navigation.navigate('Otp', { email: email.trim() });
       if(result.data) {
