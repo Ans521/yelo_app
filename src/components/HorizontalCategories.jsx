@@ -8,9 +8,16 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  Linking,
+  Share,
+  Alert,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const GUEST_ACTION_TITLE = 'Please sign in';
+const GUEST_ACTION_MESSAGE = 'Sign in to call, message or share.';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const MAX_ITEMS = 5;
@@ -18,48 +25,64 @@ const CARD_WIDTH = SCREEN_WIDTH * 0.7;
 const CARD_MARGIN = 12;
 const IMAGE_SIZE = CARD_WIDTH * 0.5;
 
-const DUMMY_DATA = [
-  {
-    id: '1',
-    title: 'Spice Garden Restaurant',
-    subtitle: 'Sector 22, Chandigarh',
-    image: require('../assets/images/new.png'),
-  },
-  {
-    id: '2',
-    title: 'Hotel Royal Stay',
-    subtitle: 'Zirakpur, Punjab',
-    image: require('../assets/images/new1.png'),
-  },
-  {
-    id: '3',
-    title: 'Cafe Morning Brew',
-    subtitle: 'Sector 35, Chandigarh',
-    image: require('../assets/images/homescreen.png'),
-  },
-  {
-    id: '4',
-    title: 'Green Valley Resort',
-    subtitle: 'Morni Hills',
-    image: require('../assets/images/background_img.png'),
-  },
-  {
-    id: '5',
-    title: 'City Spa & Salon',
-    subtitle: 'Sector 17, Chandigarh',
-    image: require('../assets/images/new.png'),
-  },
-];
+const FALLBACK_IMAGE = require('../assets/images/new.png');
 
-const data = DUMMY_DATA.slice(0, MAX_ITEMS);
+function normalizeBusiness(b, index) {
+  const id = String(b.business_id ?? b.id ?? index);
+  const title = b.business_name ?? b.title ?? '';
+  const subtitle = b.address ?? b.subtitle ?? '';
+  const phone_no = b.phone_no ?? '';
+  let image = FALLBACK_IMAGE;
+  if (Array.isArray(b.gallery) && b.gallery.length > 0) {
+    const main = b.gallery.find((g) => g.isMain) ?? b.gallery[0];
+    if (main?.url) {
+      image = { uri: main.url };
+    }
+  }
 
-function ServiceCard({ item }) {
-  const handleCall = () => {};
-  const handleWhatsApp = () => {};
-  const handleShare = () => {};
+  return { id, title, subtitle, image, phone_no };
+}
+
+function ServiceCard({ item, onPress, requireSignIn, onSignInRequested }) {
+  const showGuestAlert = () => {
+    Alert.alert(GUEST_ACTION_TITLE, GUEST_ACTION_MESSAGE, [
+      { text: 'OK' },
+      { text: 'Sign in', onPress: () => onSignInRequested?.() },
+    ]);
+  };
+
+  const handleCall = (e) => {
+    e?.stopPropagation?.();
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    if (!item.phone_no) return;
+    Linking.openURL(`tel:${item.phone_no}`);
+  };
+  const handleWhatsApp = (e) => {
+    e?.stopPropagation?.();
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    if (!item.phone_no) return;
+    Linking.openURL(`https://wa.me/${item.phone_no}`);
+  };
+
+  const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.yelo";
+  const handleShare = (e) => {
+    e?.stopPropagation?.();
+    if (requireSignIn) {
+      showGuestAlert();
+      return;
+    }
+    const message = `Check out this business on Yelo:\n${item.title} - ${item.subtitle}\n${PLAYSTORE_URL}`;
+    Share.share({ message }).catch(() => {});
+  };
 
   return (
-    <View style={styles.cardWrapper}>
+    <TouchableOpacity style={styles.cardWrapper} onPress={() => onPress?.(item)} activeOpacity={0.9}>
       <View style={styles.card}>
         <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
         <View style={styles.cardContent}>
@@ -69,6 +92,7 @@ function ServiceCard({ item }) {
         <Text style={styles.cardSubtitle} numberOfLines={1}>
           {item.subtitle}
         </Text>
+
         <View style={styles.actionRow}>
           <TouchableOpacity
             onPress={handleCall}
@@ -96,14 +120,41 @@ function ServiceCard({ item }) {
         </View>
       </View>
     </View>
-    </View>
+    </TouchableOpacity>
   );
 }
+export default function HorizontalCategories({ businesses = [], isGuest, onSignInRequested }) {
+  const navigation = useNavigation();
+  const handleViewAll = () => {
+    navigation.navigate('Category', {
+      screen: 'SubcategoryList',
+      params: { mode: 'popular', title: 'Popular Services' },
+    });
+  };
+  const data = businesses.slice(0, MAX_ITEMS).map(normalizeBusiness);
 
-export default function HorizontalCategories() {
-  const handleViewAll = () => {};
-
-  const renderItem = ({ item }) => <ServiceCard item={item} />;
+  const handleCardPress = (item) => {
+    if (isGuest) {
+      Alert.alert(GUEST_ACTION_TITLE, GUEST_ACTION_MESSAGE, [
+        { text: 'OK' },
+        { text: 'Sign in', onPress: () => onSignInRequested?.() },
+      ]);
+      return;
+    }
+    const businessId = item.business_id ?? item.id;
+    navigation.navigate('AddListing', {
+      screen: 'ListingDetail',
+      params: { businessId },
+    });
+  };
+  const renderItem = ({ item }) => (
+    <ServiceCard
+      item={item}
+      onPress={handleCardPress}
+      requireSignIn={isGuest}
+      onSignInRequested={onSignInRequested}
+    />
+  );
 
   const keyExtractor = (item) => item.id;
 

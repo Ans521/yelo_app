@@ -7,23 +7,47 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const initialCategories = [
-  { id: '1', icon: require('../assets/icons/restaurant.png'), label: 'RESTAURANT' },
-  { id: '2', icon: require('../assets/icons/hotel.png'), label: 'HOTEL' },
-  { id: '3', icon: require('../assets/icons/healtcare.png'), label: 'MEDICAL' },
-  { id: '4', icon: require('../assets/icons/bibimbap.png'), label: 'FOOD' },
-  { id: '5', icon: require('../assets/icons/mechanic.png'), label: 'REPAIR' },
-  { id: '6', icon: require('../assets/icons/bibimbap.png'), label: 'MOBILE' },
-  { id: '7', icon: require('../assets/icons/bibimbap.png'), label: 'SHOP' },
-  { id: '8', icon: require('../assets/icons/bibimbap.png'), label: 'AUTO' },
-  { id: '9', icon: require('../assets/icons/hotel.png'), label: 'BEAUTY' },
-  { id: '10', icon: require('../assets/icons/bibimbap.png'), label: 'GROCERY' },
-  { id: '11', icon: require('../assets/icons/bibimbap.png'), label: 'ELECTRONICS' }
-];
+const FALLBACK_CATEGORIES = [];
+const FALLBACK_ICON = require('../assets/icons/bibimbap.png');
 
-const CategoriesList = () => {
-  const [selectedCategory, setSelectedCategory] = useState('1');
+function normalizeCategories(apiCategories) {
+  if (!Array.isArray(apiCategories) || apiCategories.length === 0) return FALLBACK_CATEGORIES;
+
+  return apiCategories.map((c, i) => {
+    let label = c.subcategory_name ?? c.name ?? 'Category';
+    if (label.length > 10) {
+      const spaceIndex = label.indexOf(' ', 10);
+      if (spaceIndex !== -1) {
+        label = label.slice(0, spaceIndex) + '\n' + label.slice(spaceIndex + 1);
+      }
+    }
+
+    return {
+      id: String(c.subcategory_id ?? c.id ?? i),
+      label: label,
+      icon: c.image_url ? { uri: c.image_url } : FALLBACK_ICON,
+    };
+  });
+}
+
+const CategoriesList = ({ subcategories = [] }) => {
+  const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const list = normalizeCategories(subcategories);
+
+  const handlePress = (item) => {
+    setSelectedCategory(item.id);
+    navigation.navigate('Category', {
+      screen: 'SubcategoryList',
+      params: {
+        subcategoryId: item.id,
+        subcategoryName: item.label,
+        title: item.label,
+      },
+    });
+  };
 
   return (
     <View style={styles.root}>
@@ -31,15 +55,14 @@ const CategoriesList = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.listContent}
-        style={styles.scroll}
       >
-        {initialCategories.map((item) => {
+        {list.map((item) => {
           const isSelected = selectedCategory === item.id;
           return (
             <TouchableOpacity
               key={item.id}
               activeOpacity={0.9}
-              onPress={() => setSelectedCategory(item.id)}
+              onPress={() => handlePress(item)}
               style={styles.itemWrap}
             >
               <View
@@ -51,10 +74,11 @@ const CategoriesList = () => {
                 <Image
                   source={item.icon}
                   style={styles.icon}
-                  resizeMode="contain"
+                  resizeMode="cover"
                 />
               </View>
-              <Text style={styles.label} numberOfLines={1}>
+              {/* REMOVED numberOfLines={1} to allow wrapping */}
+              <Text style={styles.label}>
                 {item.label}
               </Text>
             </TouchableOpacity>
@@ -67,37 +91,38 @@ const CategoriesList = () => {
 
 const styles = StyleSheet.create({
   root: {
-    height: 88,
+    // Increased height slightly to accommodate the second line of text
+    height: 100, 
     width: '100%',
-  },
-  scroll: {
-    flex: 1,
   },
   listContent: {
     paddingHorizontal: 12,
-    alignItems: 'center',
-    paddingRight: 12,
+    alignItems: 'flex-start', // Changed to flex-start so items align to top
+    paddingTop: 8,
   },
   itemWrap: {
     alignItems: 'center',
-    marginRight: 6,
+    // marginRight: 4,
+    width: 68, // Fixed width helps the text engine know when to wrap
   },
   iconBtn: {
-    width: 56,
+    width: 57,
     height: 56,
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#fff',
     backgroundColor: '#fff',
+    alignItems: 'center'
   },
   iconBtnSelected: {
     backgroundColor: '#FDBA74',
+    borderColor: '#FDBA74',
   },
   icon: {
-    width: 28,
-    height: 28,
+    width: 42,
+    height: 42,
   },
   label: {
     fontSize: 10,
@@ -105,6 +130,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 4,
     fontWeight: '500',
+    // Wrapping logic:
+    // flexWrap: 'wrap',
+    width: '100%', 
   },
 });
 

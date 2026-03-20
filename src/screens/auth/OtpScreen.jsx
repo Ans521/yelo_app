@@ -16,12 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { getOtp, verifyOtp } from '../../services/authApi';
+import { useAuth } from '../../context/AuthContext';
 
 const RESEND_COOLDOWN_SEC = 45;
 
 export default function OtpScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const route = useRoute();
+  const { setTokens, setAuthenticated } = useAuth();
   const email = route.params?.email || '';
   const [otp, setOtp] = useState(['', '', '', '']);
   const [loading, setLoading] = useState(false);
@@ -67,9 +69,9 @@ export default function OtpScreen({ navigation }) {
     setError('');
     setLoading(true); 
     const result = await verifyOtp(email, otpString);
-    console.log('result', result);
     setLoading(false);
     if (result.success) {
+      setAuthenticated(true);
       navigation?.replace('Home');
     } else {
       setError(result.message || 'Please provide the correct OTP');

@@ -1,39 +1,67 @@
-import React from 'react';
-import { View, Text, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ImageBackground, TouchableOpacity, StyleSheet, ActivityIndicator, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getAllBanners } from '../services/authApi';
+
+const DEFAULT_IMAGE = require('../assets/images/homescreen.png');
 
 export default function HomeContent() {
     const navigation = useNavigation();
+    const [banner, setBanner] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let cancelled = false;
+        (async () => {
+            const res = await getAllBanners();
+            if (cancelled) return;
+            setLoading(false);
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                const mainBanner = res.data.find((b) => b.is_main == 1);
+                if (mainBanner) {
+                    console.log("mainBanner", mainBanner);
+                    setBanner({
+                        link: mainBanner.link || null,
+                        image_url: mainBanner.image_url || null,
+                    });
+                }
+            }
+        })();
+        return () => { cancelled = true; };
+    }, []);
+
+    const imageSource = banner?.image_url
+        ? { uri: banner.image_url }
+        : DEFAULT_IMAGE;
+
+
     return (
         <View style={styles.container}>
-            {/* Promotional card */}
             <View style={styles.card}>
-                <ImageBackground
-                    source={require('../assets/images/homescreen.png')}
-                    resizeMode="cover"
-                    style={styles.cardImage}
-                >
-                    {/* Dark overlay for text readability */}
-                    <View style={styles.overlay}>
-                        <View>
-                            <Text style={styles.title}>
-                                EXCITING COUPLE{'\n'}TOUR FOR NEXT{'\n'}VACATION
-                            </Text>
-                            <View style={styles.line} />
-                                <Text style={styles.description}>
-                                    It is a long established fact that a reader will be distracted by the
-                                    readable content of a page when looking at its layout.
-                                </Text>
-                            </View>
-                        <TouchableOpacity
-                            activeOpacity={0.80}
-                            style={styles.button}
-                            onPress={() => navigation.navigate('Profile')}
-                        >
-                            <Text style={styles.buttonText}>BOOK NOW</Text>
-                        </TouchableOpacity>
+                {loading ? (
+                    <View style={[styles.cardImage, styles.loadingWrap]}>
+                        <ActivityIndicator size="large" color="#FF9800" />
                     </View>
-                </ImageBackground>
+                ) : (
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        style={styles.touch}
+                        disabled={!banner?.link}
+                        onPress={() => {
+                            if (banner?.link) {
+                                Linking.openURL(banner.link).catch(() => {});
+                            }
+                        }}
+                    >
+                        <ImageBackground
+                            source={imageSource}
+                            resizeMode="cover"
+                            style={styles.cardImage}
+                        >
+                            <View style={styles.overlay} />
+                        </ImageBackground>
+                    </TouchableOpacity>
+                )}
             </View>
         </View>
     );
@@ -53,6 +81,11 @@ const styles = StyleSheet.create({
     cardImage: {
         width: '100%',
         height: '100%',
+    },
+    loadingWrap: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f2f2f2',
     },
     overlay: {
         flex: 1,

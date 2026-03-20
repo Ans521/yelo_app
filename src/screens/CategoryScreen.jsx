@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,13 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import CategoryHeader from '../components/common/CategoryHeader';
+import { getCategories } from '../services/authApi';
 
 const ORANGE = '#F08E14';
 
@@ -22,58 +24,19 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-// Dummy data with categories and subcategories
-const CATEGORIES_DATA = [
-  {
-    id: '1',
-    title: 'Dummy Category Name',
-    subcategories: [
-      { id: '1-1', name: 'RESTAURANT', icon: require('../assets/icons/restaurant.png') },
-      { id: '1-2', name: 'FOOD', icon: require('../assets/icons/bibimbap.png') },
-      { id: '1-3', name: 'REPAIR', icon: require('../assets/icons/mechanic.png') },
-      { id: '1-4', name: 'HOTEL', icon: require('../assets/icons/hotel.png') },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Dummy Category Name',
-    subcategories: [
-      { id: '2-1', name: 'MEDICAL', icon: require('../assets/icons/healtcare.png') },
-      { id: '2-2', name: 'RESTAURANT', icon: require('../assets/icons/restaurant.png') },
-      { id: '2-3', name: 'FOOD', icon: require('../assets/icons/bibimbap.png') },
-      { id: '2-4', name: 'HOTEL', icon: require('../assets/icons/hotel.png') },
-    ],
-  },
-  {
-    id: '3',
-    title: 'Dummy Category Name',
-    subcategories: [
-      { id: '3-1', name: 'REPAIR', icon: require('../assets/icons/mechanic.png') },
-      { id: '3-2', name: 'MEDICAL', icon: require('../assets/icons/healtcare.png') },
-      { id: '3-3', name: 'FOOD', icon: require('../assets/icons/bibimbap.png') },
-      { id: '3-4', name: 'RESTAURANT', icon: require('../assets/icons/restaurant.png') },
-    ],
-  },
-  {
-    id: '4',
-    title: 'Dummy Category Name',
-    subcategories: [
-      { id: '4-1', name: 'HOTEL', icon: require('../assets/icons/hotel.png') },
-      { id: '4-2', name: 'REPAIR', icon: require('../assets/icons/mechanic.png') },
-      { id: '4-3', name: 'MEDICAL', icon: require('../assets/icons/healtcare.png') },
-      { id: '4-4', name: 'FOOD', icon: require('../assets/icons/bibimbap.png') },
-    ],
-  },
-];
-
 function SubcategoryItem({ item, onPress }) {
+  const hasImage = item.image_url && String(item.image_url).trim().length > 0;
   return (
     <TouchableOpacity style={styles.subcategoryItem} onPress={() => onPress(item)} activeOpacity={0.7}>
       <View style={styles.subcategoryIconBox}>
-        <Image source={item.icon} style={styles.subcategoryIcon} resizeMode="contain" />
+        {hasImage ? (
+          <Image source={{ uri: item.image_url }} style={styles.subcategoryIcon} resizeMode="cover" />
+        ) : (
+          <MaterialIcons name="label" size={28} color={ORANGE} />
+        )}
       </View>
       <Text style={styles.subcategoryName} numberOfLines={1}>
-        {item.name}
+        {item.subcategory_name}
       </Text>
     </TouchableOpacity>
   );
@@ -84,6 +47,8 @@ function CategoryAccordion({ category, isExpanded, onToggle, onSubcategoryPress 
     onSubcategoryPress?.(category, subcategory);
   };
 
+  const subcategories = category.subcategories || [];
+
   return (
     <View style={styles.accordionContainer}>
       <TouchableOpacity
@@ -91,7 +56,7 @@ function CategoryAccordion({ category, isExpanded, onToggle, onSubcategoryPress 
         onPress={onToggle}
         activeOpacity={0.7}
       >
-        <Text style={styles.accordionTitle}>{category.title}</Text>
+        <Text style={styles.accordionTitle}>{category.category_name}</Text>
         <View style={[styles.accordionButton, isExpanded && styles.accordionButtonExpanded]}>
           <MaterialIcons
             name={isExpanded ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
@@ -104,8 +69,8 @@ function CategoryAccordion({ category, isExpanded, onToggle, onSubcategoryPress 
       {isExpanded && (
         <View style={styles.subcategoriesContainer}>
           <View style={styles.subcategoriesGrid}>
-            {category.subcategories.map((sub) => (
-              <SubcategoryItem key={sub.id} item={sub} onPress={handleSubcategoryPress} />
+            {subcategories.map((sub) => (
+              <SubcategoryItem key={sub.subcategory_id} item={sub} onPress={handleSubcategoryPress} />
             ))}
           </View>
         </View>
@@ -117,13 +82,32 @@ function CategoryAccordion({ category, isExpanded, onToggle, onSubcategoryPress 
 export default function CategoryScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  // First category is open by default
-  const [expandedIds, setExpandedIds] = useState(['1']);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expandedIds, setExpandedIds] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      const res = await getCategories();
+      if (!cancelled && res.success && Array.isArray(res.data)) {
+        setCategories(res.data);
+        if (res.data.length > 0) {
+          setExpandedIds([res.data[0].category_id]);
+        }
+      }
+      if (!cancelled) setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const handleSubcategoryPress = (category, subcategory) => {
     navigation.navigate('SubcategoryList', {
-      categoryName: category.title,
-      subcategoryName: subcategory.name,
+      categoryName: category.category_name,
+      subcategoryName: subcategory.subcategory_name,
+      categoryId: category.category_id,
+      subcategoryId: subcategory.subcategory_id,
     });
   };
 
@@ -138,9 +122,20 @@ export default function CategoryScreen() {
     });
   };
 
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+        <CategoryHeader />
+        <View style={styles.loadingWrap}>
+          <ActivityIndicator size="large" color={ORANGE} />
+          <Text style={styles.loadingText}>Loading categories…</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <CategoryHeader />
+    <SafeAreaView style={styles.screen} edges={['top']}>
       <View style={styles.scrollWrapper}>
         <ScrollView
           style={styles.scrollView}
@@ -149,15 +144,22 @@ export default function CategoryScreen() {
           bounces={true}
           alwaysBounceVertical={true}
         >
-          {CATEGORIES_DATA.map((category) => (
-            <CategoryAccordion
-              key={category.id}
-              category={category}
-              isExpanded={expandedIds.includes(category.id)}
-              onToggle={() => toggleCategory(category.id)}
-              onSubcategoryPress={handleSubcategoryPress}
-            />
-          ))}
+          <CategoryHeader />
+          {categories.length === 0 ? (
+            <View style={styles.emptyWrap}>
+              <Text style={styles.emptyText}>No categories yet</Text>
+            </View>
+          ) : (
+            categories.map((category) => (
+              <CategoryAccordion
+                key={category.category_id}
+                category={category}
+                isExpanded={expandedIds.includes(category.category_id)}
+                onToggle={() => toggleCategory(category.category_id)}
+                onSubcategoryPress={handleSubcategoryPress}
+              />
+            ))
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -167,18 +169,38 @@ export default function CategoryScreen() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#D26100',
+  },
+  loadingWrap: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 14,
+    color: '#6B7280',
+  },
+  emptyWrap: {
+    padding: 24,
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 15,
+    color: '#6B7280',
   },
   scrollWrapper: {
     flex: 1,
     minHeight: 0,
+    backgroundColor: '#ffffff',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     paddingBottom: 100,
-    paddingTop: 16,
+    // paddingTop: 16,
   },
   accordionContainer: {
     marginHorizontal: 16,
@@ -223,7 +245,6 @@ const styles = StyleSheet.create({
   subcategoryIconBox: {
     width: 64,
     height: 64,
-    borderRadius: 12,
     borderWidth: 1,
     borderColor: '#E5E7EB',
     alignItems: 'center',
@@ -231,8 +252,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   subcategoryIcon: {
-    width: 36,
-    height: 36,
+    width: 50,
+    height: 50,
   },
   subcategoryName: {
     fontSize: 10,

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1036928005927",
+    "project_id": "yeloapp-14a28",
+    "storage_bucket": "yeloapp-14a28.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036928005927:android:86caaf2f7c56a1c6381b02",
+        "android_client_info": {
+          "package_name": "com.yeloapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHV7QcUmbTbr-33Q6DXRKnng4jp1n5sw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

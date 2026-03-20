@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useAuth } from '../context/AuthContext';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -9,11 +10,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import HomeScreen from '../screens/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import SubcategoryListScreen from '../screens/SubcategoryListScreen';
+import SearchResultsScreen from '../screens/SearchResultsScreen';
 import AddListingScreen from '../screens/AddListingScreen';
 import GalleryScreen from '../screens/GalleryScreen';
 import ListingDetailScreen from '../screens/ListingDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PersonalInformationScreen from '../screens/PersonalInformationScreen';
+import MyBusinessesScreen from '../screens/MyBusinessesScreen';
 
 const Tab = createBottomTabNavigator();
 const AddStack = createNativeStackNavigator();
@@ -48,6 +51,8 @@ const styles = StyleSheet.create({
 });
 
 export default function TabNavigator() {
+  const { isGuest } = useAuth();
+
   const AddListingStack = () => (
     <AddStack.Navigator screenOptions={{ headerShown: false }}>
       <AddStack.Screen name="AddListingForm" component={AddListingScreen} />
@@ -60,6 +65,7 @@ export default function TabNavigator() {
     <CategoryStack.Navigator screenOptions={{ headerShown: false }}>
       <CategoryStack.Screen name="CategoryMain" component={CategoryScreen} />
       <CategoryStack.Screen name="SubcategoryList" component={SubcategoryListScreen} />
+      <CategoryStack.Screen name="SearchResults" component={SearchResultsScreen} />
     </CategoryStack.Navigator>
   );
 
@@ -67,6 +73,7 @@ export default function TabNavigator() {
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name="ProfileMain" component={ProfileScreen} />
       <ProfileStack.Screen name="PersonalInformation" component={PersonalInformationScreen} />
+      <ProfileStack.Screen name="MyBusinesses" component={MyBusinessesScreen} />
     </ProfileStack.Navigator>
   );
 
@@ -104,7 +111,15 @@ export default function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="grid-view" color={color} size={size} />
           ),
+          unmountOnBlur: true,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            navigation.navigate('Category', {
+              screen: 'CategoryMain',
+            });
+          },
+        })}
       />
       <Tab.Screen
         name="AddListing"
@@ -114,7 +129,15 @@ export default function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <Feather name="plus-circle" color={color} size={size} />
           ),
+          unmountOnBlur: true,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            navigation.navigate('AddListing', {
+              screen: 'AddListingForm',
+            });
+          },
+        })}
       />
       <Tab.Screen
         name="Profile"
@@ -124,7 +147,15 @@ export default function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="person" color={color} size={size} />
           ),
+          unmountOnBlur: true,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            navigation.navigate('Profile', {
+              screen: 'ProfileMain',
+            });
+          },
+        })}
       />
     </Tab.Navigator>
   );
