@@ -114,15 +114,6 @@ export async function getOtp(email, location, fcmToken) {
     if (response.status === 200 || response.status === 201) {
       return { success: true, data: response.data };
     }
-    if (response.status === 200 || response.status === 201) {
-      return {
-        success: true,
-        data: {
-          accessToken: data.accessToken ?? data.access_token,
-          refreshToken: data.refreshToken ?? data.refresh_token,
-        },
-      };
-    }
   } catch (err) {
     // Log full error so you can see why the request failed (in DevTools: press j in Metro terminal)
     console.warn('getOtp error:', {

@@ -38,15 +38,20 @@ export async function requestUserPermission() {
 }
 
 export async function getFcmToken() {
-  const hasPermission = await requestUserPermission();
+  try {
+    const hasPermission = await requestUserPermission();
 
-  if (!hasPermission) {
-    return;
+    if (!hasPermission) {
+      return 'simulator-no-token';
+    }
+
+    const token = await messaging().getToken();
+    console.log('FCM TOKEN:', token);
+    return token || 'simulator-no-token';
+  } catch (error) {
+    console.warn('getFcmToken error:', error?.message);
+    return 'simulator-no-token';
   }
-
-  const token = await messaging().getToken();
-  console.log('FCM TOKEN:', token);
-  return token
 }
 
 
