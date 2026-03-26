@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Myproject</string>
+	<string>My नारायणगढ़</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -77,6 +77,8 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses your location to show nearby restaurants and services in your area.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app uses your location to show nearby restaurants and services in your area.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to take photos for your business listing.</string>

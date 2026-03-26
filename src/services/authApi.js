@@ -101,11 +101,16 @@ export async function refreshTokens(refreshToken) {
  */
 export async function getOtp(email, location, fcmToken) {
   try {
+    // If fcmToken is not yet available, try fetching it now
+    let token = fcmToken;
+    if (!token) {
+      token = await getFcmToken();
+    }
     const body = {
       email,
       latitude: location?.latitude ?? null,
       longitude: location?.longitude ?? null,
-      device_token: fcmToken
+      device_token: token || 'no-token',
     };
     
     console.log('[Location] getOtp body', body);

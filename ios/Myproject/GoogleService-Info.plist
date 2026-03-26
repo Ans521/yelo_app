@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1036928005927-rpikl3bfr4969qou395ca3mollielbqo.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1036928005927-rpikl3bfr4969qou395ca3mollielbqo</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1036928005927-postk74f6v2qkbbg9v861gjarn0fcuog.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA4Bc-1Zt11x-CP-C82UOgY6oXATrEsdzI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1036928005927</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.yeloapp</string>
+	<key>PROJECT_ID</key>
+	<string>yeloapp-14a28</string>
+	<key>STORAGE_BUCKET</key>
+	<string>yeloapp-14a28.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1036928005927:ios:25939c91899f289c381b02</string>
+</dict>
+</plist>
