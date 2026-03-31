@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1036928005927:android:86caaf2f7c56a1c6381b02",
+        "mobilesdk_app_id": "1:1036928005927:android:45cf0d2b9d539ec3381b02",
         "android_client_info": {
-          "package_name": "com.yeloapp"
+          "package_name": "com.katoo.yeloo"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "1036928005927-postk74f6v2qkbbg9v861gjarn0fcuog.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.yeloapp",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
         {
           "client_id": "1036928005927-mbscq9q00on7t045h6ogsemec03ttkj2.apps.googleusercontent.com",
           "client_type": 3
@@ -37,6 +29,13 @@
             {
               "client_id": "1036928005927-mbscq9q00on7t045h6ogsemec03ttkj2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1036928005927-rpikl3bfr4969qou395ca3mollielbqo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yeloapp"
+              }
             }
           ]
         }

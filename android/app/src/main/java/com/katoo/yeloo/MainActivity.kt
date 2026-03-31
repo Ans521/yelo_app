@@ -1,4 +1,4 @@
-package com.yeloapp
+package com.katoo.yeloo
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
