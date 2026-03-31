@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CommonActions } from '@react-navigation/native';
 import { useAuth } from '../context/AuthContext';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -114,9 +115,19 @@ export default function TabNavigator() {
           unmountOnBlur: true,
         }}
         listeners={({ navigation }) => ({
-          tabPress: () => {
-            navigation.navigate('Category', {
-              screen: 'CategoryMain',
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.dispatch(state => {
+              const categoryIndex = state.routes.findIndex(r => r.name === 'Category');
+              return CommonActions.reset({
+                ...state,
+                routes: state.routes.map(route =>
+                  route.name === 'Category'
+                    ? { ...route, state: undefined }
+                    : route
+                ),
+                index: categoryIndex,
+              });
             });
           },
         })}
@@ -132,9 +143,19 @@ export default function TabNavigator() {
           unmountOnBlur: true,
         }}
         listeners={({ navigation }) => ({
-          tabPress: () => {
-            navigation.navigate('AddListing', {
-              screen: 'AddListingForm',
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.dispatch(state => {
+              const idx = state.routes.findIndex(r => r.name === 'AddListing');
+              return CommonActions.reset({
+                ...state,
+                routes: state.routes.map(route =>
+                  route.name === 'AddListing'
+                    ? { ...route, state: undefined }
+                    : route
+                ),
+                index: idx,
+              });
             });
           },
         })}
@@ -150,9 +171,19 @@ export default function TabNavigator() {
           unmountOnBlur: true,
         }}
         listeners={({ navigation }) => ({
-          tabPress: () => {
-            navigation.navigate('Profile', {
-              screen: 'ProfileMain',
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.dispatch(state => {
+              const idx = state.routes.findIndex(r => r.name === 'Profile');
+              return CommonActions.reset({
+                ...state,
+                routes: state.routes.map(route =>
+                  route.name === 'Profile'
+                    ? { ...route, state: undefined }
+                    : route
+                ),
+                index: idx,
+              });
             });
           },
         })}
