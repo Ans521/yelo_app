@@ -110,7 +110,7 @@ export default function SubcategoryListScreen() {
         showsVerticalScrollIndicator={false}
       >
         <LogoHeader />
-        <Text style={styles.categoryName}>{screenTitle}</Text>
+        <Text style={styles.categoryName} numberOfLines={1}>{screenTitle}</Text>
         <View style={styles.rowStyle}>
           {list.length === 0 ? (
             <Text style={styles.emptyText}>No businesses found.</Text>

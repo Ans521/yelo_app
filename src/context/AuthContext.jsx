@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { getRefreshToken, setRefreshToken, clearRefreshToken } from '../services/tokenService';
+import { getRefreshToken, setRefreshToken, clearRefreshToken, getSavedLocation, saveLocation } from '../services/tokenService';
 import { setupApiInterceptors, refreshTokens } from '../services/authApi';
 import { getFcmToken } from '../../App';
 const AuthContext = createContext(null);
@@ -10,8 +10,26 @@ export function AuthProvider({ children }) {
   const [isGuest, setIsGuest] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [location, setLocation] = useState({ latitude: null, longitude: null });
+  const [location, setLocationState] = useState({ latitude: null, longitude: null });
   const [fcmToken, setFcmToken] = useState(null);
+
+  const setLocation = useCallback((coords) => {
+    setLocationState(coords);
+    if (coords?.latitude != null && coords?.longitude != null) {
+      saveLocation(coords);
+    }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const saved = await getSavedLocation();
+      if (!cancelled && saved?.latitude != null && saved?.longitude != null) {
+        setLocationState(saved);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
