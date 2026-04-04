@@ -68,10 +68,13 @@ export default function ListingDetailScreen() {
   const [lightboxImage, setLightboxImage] = useState(null);
 
   const phoneNo = business?.phone_no ?? '';
+  console.log('[DEBUG] business phone_no:', business?.phone_no, '| phoneNo:', phoneNo);
   const handleCall = () => {
+    console.log('[DEBUG] handleCall pressed, phoneNo:', phoneNo);
     if (phoneNo) Linking.openURL(`tel:${phoneNo}`);
   };
   const handleWhatsApp = () => {
+    console.log('[DEBUG] handleWhatsApp pressed, phoneNo:', phoneNo);
     if (!phoneNo) return;
     const cleaned = phoneNo.replace(/\D/g, '');
     const waNumber = cleaned.length === 10 ? `91${cleaned}` : cleaned;

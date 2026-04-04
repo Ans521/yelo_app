@@ -43,6 +43,7 @@ export default function ListingCard({ item, onPress, wrapperStyle, requireSignIn
 
   const handleCall = (e) => {
     e?.stopPropagation?.();
+    console.log('[DEBUG] ListingCard handleCall, phone_no:', item.phone_no);
     if (requireSignIn) {
       showGuestAlert();
       return;
