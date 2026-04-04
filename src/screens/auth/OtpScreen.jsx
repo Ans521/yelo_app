@@ -192,11 +192,6 @@ export default function OtpScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.resendHint}>
-              {resendTimer > 0
-                ? `Resend OTP in 00:${String(resendTimer).padStart(2, '0')}`
-                : 'You can request a new code above'}
-            </Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
