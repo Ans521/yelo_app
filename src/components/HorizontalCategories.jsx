@@ -67,7 +67,9 @@ function ServiceCard({ item, onPress, requireSignIn, onSignInRequested }) {
       return;
     }
     if (!item.phone_no) return;
-    Linking.openURL(`https://wa.me/${item.phone_no}`);
+    const cleaned = item.phone_no.replace(/\D/g, '');
+    const waNumber = cleaned.length === 10 ? `91${cleaned}` : cleaned;
+    Linking.openURL(`https://wa.me/${waNumber}`);
   };
 
   const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.yelo";

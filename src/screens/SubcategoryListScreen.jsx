@@ -44,7 +44,7 @@ export default function SubcategoryListScreen() {
     route.params?.title ??
     route.params?.subcategoryName ??
     route.params?.categoryName ??
-    (mode === 'popular' ? 'Popular Services' : mode === 'recent' ? 'Recent Services' : 'Businesses');
+    (mode === 'popular' ? 'Popular Services' : mode === 'recent' ? 'Newly Added' : 'Businesses');
 
   const {
     data: businesses = [],

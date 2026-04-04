@@ -23,7 +23,7 @@ const RESEND_COOLDOWN_SEC = 45;
 export default function OtpScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const route = useRoute();
-  const { setTokens, setAuthenticated } = useAuth();
+  const { setTokens, setAuthenticated, location, fcmToken } = useAuth();
   const email = route.params?.email || '';
   const [otp, setOtp] = useState(['', '', '', '']);
   const [loading, setLoading] = useState(false);
@@ -82,7 +82,7 @@ export default function OtpScreen({ navigation }) {
     if (resendTimer > 0 || !email) return;
     setError('');
     setLoading(true);
-    const result = await getOtp(email);
+    const result = await getOtp(email, location, fcmToken);
     setLoading(false);
     if (result.success) {
       setResendTimer(RESEND_COOLDOWN_SEC);

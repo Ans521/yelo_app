@@ -57,7 +57,9 @@ export default function ListingCard({ item, onPress, wrapperStyle, requireSignIn
       return;
     }
     if (!item.phone_no) return;
-    Linking.openURL(`https://wa.me/${item.phone_no}`);
+    const cleaned = item.phone_no.replace(/\D/g, '');
+    const waNumber = cleaned.length === 10 ? `91${cleaned}` : cleaned;
+    Linking.openURL(`https://wa.me/${waNumber}`);
   };
   const handleShare = (e) => {
     e?.stopPropagation?.();

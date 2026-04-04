@@ -46,15 +46,21 @@ export default function ProfileScreen() {
       <SafeAreaView style={styles.screen} edges={['top']}>
         <LogoHeader />
         <View style={styles.guestWrap}>
-          <Text style={styles.guestTitle}>{GUEST_SIGN_IN_TITLE}</Text>
-          <Text style={styles.guestMessage}>{GUEST_SIGN_IN_MESSAGE}</Text>
-          <TouchableOpacity
-            style={styles.guestButton}
-            onPress={() => logout()}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.guestButtonText}>Sign in</Text>
-          </TouchableOpacity>
+          <View style={styles.guestCard}>
+            <View style={styles.guestIconCircle}>
+              <MaterialIcons name="person-outline" size={40} color={ORANGE} />
+            </View>
+            <Text style={styles.guestTitle}>{GUEST_SIGN_IN_TITLE}</Text>
+            <Text style={styles.guestMessage}>{GUEST_SIGN_IN_MESSAGE}</Text>
+            <TouchableOpacity
+              style={styles.guestButton}
+              onPress={() => logout()}
+              activeOpacity={0.8}
+            >
+              <MaterialIcons name="login" size={18} color="#ffffff" style={{marginRight: 8}} />
+              <Text style={styles.guestButtonText}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -170,31 +176,65 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 32,
+    paddingHorizontal: 24,
+    backgroundColor: '#ffffff',
+  },
+  guestCard: {
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    paddingVertical: 40,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  guestIconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#FFF5EB',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   guestTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
     color: TEXT_DARK,
-    marginBottom: 12,
+    marginBottom: 10,
     textAlign: 'center',
   },
   guestMessage: {
-    fontSize: 15,
+    fontSize: 14,
     color: TEXT_LIGHT,
     textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 22,
+    marginBottom: 28,
+    lineHeight: 21,
+    paddingHorizontal: 8,
   },
   guestButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: ORANGE,
     paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 12,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    shadowColor: ORANGE,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
   },
   guestButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#ffffff',
   },
 });

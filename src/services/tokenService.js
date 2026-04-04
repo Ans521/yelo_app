@@ -2,6 +2,7 @@ import * as Keychain from 'react-native-keychain';
 
 const REFRESH_TOKEN_KEY = 'refresh_token';
 const LOCATION_KEY = 'user_location';
+const FCM_TOKEN_KEY = 'fcm_token';
 
 export async function getRefreshToken() {
   try {
@@ -46,6 +47,24 @@ export async function getSavedLocation() {
 export async function saveLocation(location) {
   try {
     await Keychain.setGenericPassword('location', JSON.stringify(location), { service: LOCATION_KEY });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function getSavedFcmToken() {
+  try {
+    const creds = await Keychain.getGenericPassword({ service: FCM_TOKEN_KEY });
+    return creds ? creds.password : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveFcmToken(token) {
+  try {
+    await Keychain.setGenericPassword('fcm', token, { service: FCM_TOKEN_KEY });
     return true;
   } catch {
     return false;

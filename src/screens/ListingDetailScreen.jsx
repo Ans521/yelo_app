@@ -72,7 +72,10 @@ export default function ListingDetailScreen() {
     if (phoneNo) Linking.openURL(`tel:${phoneNo}`);
   };
   const handleWhatsApp = () => {
-    if (phoneNo) Linking.openURL(`https://wa.me/${phoneNo}`);
+    if (!phoneNo) return;
+    const cleaned = phoneNo.replace(/\D/g, '');
+    const waNumber = cleaned.length === 10 ? `91${cleaned}` : cleaned;
+    Linking.openURL(`https://wa.me/${waNumber}`);
   };
   const handleShare = () => { 
     const title = business?.business_name ?? '';

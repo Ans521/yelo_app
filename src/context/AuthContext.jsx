@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { getRefreshToken, setRefreshToken, clearRefreshToken, getSavedLocation, saveLocation } from '../services/tokenService';
+import { getRefreshToken, setRefreshToken, clearRefreshToken, getSavedLocation, saveLocation, getSavedFcmToken, saveFcmToken } from '../services/tokenService';
 import { setupApiInterceptors, refreshTokens } from '../services/authApi';
 import { getFcmToken } from '../../App';
+import messaging from '@react-native-firebase/messaging';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -34,13 +35,29 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      // Try saved token first for instant availability
+      const saved = await getSavedFcmToken();
+      if (!cancelled && saved) {
+        setFcmToken(saved);
+      }
+      // Then fetch fresh token
       const token = await getFcmToken();
       if (cancelled) return;
-      if (token) {
+      if (token && token !== 'simulator-no-token') {
         setFcmToken(token);
+        saveFcmToken(token);
       }
     })();
-    return () => { cancelled = true; };
+
+    // Listen for token refresh
+    const unsubscribe = messaging().onTokenRefresh((newToken) => {
+      if (newToken) {
+        setFcmToken(newToken);
+        saveFcmToken(newToken);
+      }
+    });
+
+    return () => { cancelled = true; unsubscribe(); };
   }, []);
 
   const setTokens = useCallback(async (newAccessToken, newRefreshToken, userData) => {

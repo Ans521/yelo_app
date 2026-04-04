@@ -37,7 +37,7 @@ export default function RecentServices({ businesses = [], isGuest, onSignInReque
   const handleViewAll = () => {
     navigation.navigate('Category', {
       screen: 'SubcategoryList',
-      params: { mode: 'recent', title: 'Recent Services' },
+      params: { mode: 'recent', title: 'Newly Added' },
     });
   };
   const data = businesses.length > 0
@@ -77,7 +77,7 @@ export default function RecentServices({ businesses = [], isGuest, onSignInReque
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Recent Services</Text>
+        <Text style={styles.headerTitle}>Newly Added</Text>
         <TouchableOpacity onPress={handleViewAll} style={styles.arrowButton} activeOpacity={0.8}>
           <MaterialIcons name="arrow-forward" size={22} color="#ffffff" />
         </TouchableOpacity>
