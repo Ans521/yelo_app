@@ -86,7 +86,7 @@ export default function SearchResultsScreen() {
     const businessId = item.business_id ?? item.id;
     navigation.navigate('AddListing', {
       screen: 'ListingDetail',
-      params: { businessId },
+      params: { businessId, sourceTab: 'Category' },
     });
   };
 

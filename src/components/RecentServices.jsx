@@ -55,7 +55,7 @@ export default function RecentServices({ businesses = [], isGuest, onSignInReque
     const businessId = item.id ?? item.business_id;
     navigation.navigate('AddListing', {
       screen: 'ListingDetail',
-      params: { businessId },
+      params: { businessId, sourceTab: 'Home' },
     });
   };
   const renderItem = ({ item }) => (

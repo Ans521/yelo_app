@@ -60,12 +60,21 @@ export default function ListingDetailScreen() {
   const navigation = useNavigation();
   const { isGuest, logout } = useAuth();
   const businessId = route.params?.businessId ?? undefined;
+  const sourceTab = route.params?.sourceTab;
   const { data, isLoading, isError, error, refetch } = useBusinessById(businessId);
   const business = data?.data;
   const similarBusinesses = data?.similar_businesses ?? [];
   const [activeTab, setActiveTab] = useState('About Us');
   const [lightboxVisible, setLightboxVisible] = useState(false);
   const [lightboxImage, setLightboxImage] = useState(null);
+
+  const handleBack = () => {
+    if (sourceTab) {
+      navigation.navigate(sourceTab);
+    } else {
+      navigation.goBack();
+    }
+  };
 
   const phoneNo = business?.phone_no ?? '';
   console.log('[DEBUG] business phone_no:', business?.phone_no, '| phoneNo:', phoneNo);
@@ -90,7 +99,7 @@ export default function ListingDetailScreen() {
   if (!businessId) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <BackLogoHeader />
+        <BackLogoHeader onBackPress={handleBack} />
         <View style={styles.centered}>
           <Text style={styles.errorText}>No business selected.</Text>
         </View>
@@ -101,7 +110,7 @@ export default function ListingDetailScreen() {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <BackLogoHeader />
+        <BackLogoHeader onBackPress={handleBack} />
         <View style={styles.centered}>
           <ActivityIndicator size="large" color={ORANGE} />
           <Text style={styles.loadingText}>Loading...</Text>
@@ -113,7 +122,7 @@ export default function ListingDetailScreen() {
   if (isError || !business) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-        <BackLogoHeader />
+        <BackLogoHeader onBackPress={handleBack} />
         <View style={styles.centered}>
           <Text style={styles.errorText}>{error?.message ?? 'Failed to load business.'}</Text>
           <TouchableOpacity style={styles.retryButton} onPress={() => refetch()} activeOpacity={0.8}>
@@ -148,12 +157,12 @@ export default function ListingDetailScreen() {
       return;
     }
     const id = item.business_id ?? item.id;
-    navigation.navigate('ListingDetail', { businessId: id });
+    navigation.navigate('ListingDetail', { businessId: id, sourceTab });
   };
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
-      <BackLogoHeader />
+      <BackLogoHeader onBackPress={handleBack} />
 
       <ScrollView
         style={styles.scroll}

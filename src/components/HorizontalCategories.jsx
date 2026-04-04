@@ -146,7 +146,7 @@ export default function HorizontalCategories({ businesses = [], isGuest, onSignI
     const businessId = item.business_id ?? item.id;
     navigation.navigate('AddListing', {
       screen: 'ListingDetail',
-      params: { businessId },
+      params: { businessId, sourceTab: 'Home' },
     });
   };
   const renderItem = ({ item }) => (

@@ -70,7 +70,7 @@ export default function SubcategoryListScreen() {
     const businessId = item.business_id ?? item.id;
     navigation.navigate('AddListing', {
       screen: 'ListingDetail',
-      params: { businessId },
+      params: { businessId, sourceTab: 'Category' },
     });
   };
 
