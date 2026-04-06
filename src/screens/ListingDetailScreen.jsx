@@ -92,8 +92,8 @@ export default function ListingDetailScreen() {
   const handleShare = () => { 
     const title = business?.business_name ?? '';
     const address = business?.address ?? '';
-    const msg = `Check out ${title} on Yelo: ${address}`.trim();
-    Share.share({ message: msg || 'Check out this business on Yelo.' }).catch(() => {});
+    const msg = `Check out ${title} on My नारायणगढ़: ${address}\nhttps://play.google.com/store/apps/details?id=com.katoo.yeloo`.trim();
+    Share.share({ message: msg || 'Check out this business on My नारायणगढ़.' }).catch(() => {});
   };
 
   if (!businessId) {

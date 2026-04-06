@@ -21,7 +21,7 @@ const TEXT_DARK = '#111827';
 const TEXT_LIGHT = '#6B7280';
 const BORDER = '#E5E7EB';
 
-const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.yelo";
+const PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.katoo.yeloo";
 
 const GUEST_ACTION_TITLE = 'Please sign in';
 const GUEST_ACTION_MESSAGE = 'Sign in to call, message or share.';
@@ -68,7 +68,7 @@ export default function ListingCard({ item, onPress, wrapperStyle, requireSignIn
       showGuestAlert();
       return;
     }
-    const message = `Check out this business on Yelo:\n${item.title} - ${item.subtitle}\n${PLAYSTORE_URL}`;
+    const message = `Check out this business on My नारायणगढ़:\n${item.title} - ${item.subtitle}\n${PLAYSTORE_URL}`;
     Share.share({ message }).catch(() => {});
   };
   const cardContent = (

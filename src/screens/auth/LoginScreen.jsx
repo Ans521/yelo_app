@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Alert,
   PermissionsAndroid,
+  Linking,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -226,8 +227,8 @@ export default function LoginScreen() {
               <Text style={styles.socialText}>Explore as a guest</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-              <Text style={styles.terms}>Terms and Conditions</Text>
+            <TouchableOpacity onPress={() => Linking.openURL('https://mherpsol.com/privacy-policy/')}>
+              <Text style={styles.terms}>Terms and Conditions Apply</Text>
             </TouchableOpacity>
 
             {/* <Text style={styles.apiUrl} numberOfLines={1}>
