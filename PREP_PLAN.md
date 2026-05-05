@@ -50,18 +50,18 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 | Month | Calendar | LC Rating Target | LC Cumulative |
 |-------|----------|------------------|----------------|
 | 0 | May 5, 2026 | Unrated | 158 |
-| 1 | Jun 2026 | 1300 | 203 |
-| 2 | Jul 2026 | 1400 | 253 |
-| 3 | Aug 2026 | 1500 | 303 |
-| 4 | Sept 2026 | 1600 | 353 |
-| 5 | Oct 2026 | 1650 | 403 |
-| 6 | Nov 2026 | 1700 | 458 |
-| 7 | Dec 2026 | 1750 | 513 |
-| 8 | Jan 2027 | 1800 | 563 |
-| 9 | Feb 2027 | **1850** (apply-ready) | 598 |
-| 10 | Mar 2027 | 1850+ maintain | 628 |
-| 11 | Apr 2027 | 1850+ maintain | 650 |
-| 12 | May 2027 | 1850+ maintain | 670 |
+| 1 | Jun 2026 | 1350 | 203 |
+| 2 | Jul 2026 | 1450 | 253 |
+| 3 | Aug 2026 | 1550 | 303 |
+| 4 | Sept 2026 | 1650 | 353 |
+| 5 | Oct 2026 | 1700 | 403 |
+| 6 | Nov 2026 | 1750 | 458 |
+| 7 | Dec 2026 | 1800 | 513 |
+| 8 | Jan 2027 | 1850 | 563 |
+| 9 | Feb 2027 | **1900** (apply-ready, floor 1850+) | 598 |
+| 10 | Mar 2027 | 1900+ maintain | 628 |
+| 11 | Apr 2027 | 1900+ maintain | 650 |
+| 12 | May 2027 | 1900+ maintain | 670 |
 
 **Rating bands:**
 - 1500 = Pupil — Tier C ready (Razorpay, Swiggy)
@@ -77,7 +77,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - Problems: 45 | Cumulative: 158 → 203
 - Graphs: BFS, DFS, Topo sort, Cycle detection, Dijkstra, Bellman-Ford, Floyd-Warshall, MST (Kruskal, Prim)
 - DP intro: Climbing stairs, House robber, 1D basics
-- Contests: 2 weekly | **Rating goal: 1300**
+- Contests: 2 weekly | **Rating goal: 1350**
 
 ### CS Fundamentals — OS Part 1
 - Process vs Thread, Process states, Context switching
@@ -112,7 +112,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - 1D DP, 2D DP (grid, paths)
 - DP on subsequences (subset sum, partition, target sum)
 - Knapsack: 0/1, Unbounded, Coin change, Rod cutting
-- Contests: 4 (weekly + biweekly) | **Rating goal: 1400**
+- Contests: 4 (weekly + biweekly) | **Rating goal: 1450**
 
 ### CS Fundamentals
 - OS Part 2: Memory mgmt, Paging, Virtual memory, Page replacement (FIFO, LRU, Optimal), File systems
@@ -136,7 +136,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - Problems: 50 | Cumulative: 253 → 303
 - DP: LIS variants, MCM, Partition DP, DP on strings (LCS, Edit distance)
 - Tries: Insert/search, Word dictionary, Auto-complete, Max XOR
-- Contests: 4 | **Rating goal: 1500**
+- Contests: 4 | **Rating goal: 1550**
 
 ### CS Fundamentals
 - DBMS deep: Indexing (B-tree, B+tree, Hash), Query optimization
@@ -164,7 +164,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - Stack: Monotonic stack, Next greater, Largest rectangle, Stock span
 - Queue: Sliding window max, LRU implementation
 - Strings: KMP, Rabin-Karp, Z-algorithm
-- Contests: 5 (don't skip) | **Rating goal: 1600**
+- Contests: 5 (don't skip) | **Rating goal: 1650**
 
 ### CS Fundamentals — Computer Networks
 - OSI vs TCP/IP, encapsulation
@@ -180,7 +180,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 1. W1: "TCP 3-way handshake explained with a real-world analogy"
 2. W2: "I built a Rate Limiter from scratch — 3 algorithms compared"
 3. W3: "Monotonic stack: trick behind 80% of stack interview problems"
-4. W4: "4 months in: 350 problems, rating 1600. What's working" (transparency)
+4. W4: "4 months in: 350 problems, rating 1650. What's working" (transparency)
 
 ---
 
@@ -191,7 +191,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - Bits: XOR tricks, Single number variants, Counting bits, Subset generation
 - Math: GCD/LCM, Modular arithmetic, Prime sieve, Fast exponentiation
 - **Major revision:** Re-solve 30 hardest problems from past 4 months WITHOUT solutions
-- Contests: 5 | **Rating goal: 1650**
+- Contests: 5 | **Rating goal: 1700**
 
 ### CS Fundamentals — OOP + SOLID + Design Patterns
 - 4 pillars with Java code
@@ -217,7 +217,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - DSU / Union-Find (Path compression, Union by rank)
 - Sliding Window mastery (top 30 LC SW problems)
 - LC Top 100 Liked Questions
-- Contests: 5 | **Rating goal: 1700**
+- Contests: 5 | **Rating goal: 1750**
 
 ### CS Fundamentals — System Design Basics (HLD intro)
 - Caching: Redis basics, cache patterns (cache-aside, write-through, write-back)
@@ -231,7 +231,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 
 ### LinkedIn Posts
 1. W1: "Caching strategies: cache-aside vs write-through with code"
-2. W2: "6 months in — rating 1700, 458 problems. The honest truth."
+2. W2: "6 months in — rating 1750, 458 problems. The honest truth."
 3. W3: "Kafka in 5 minutes for backend devs"
 4. W4: A debugging story from work
 
@@ -243,7 +243,7 @@ Push to 4 hrs weekday if possible — pull weekend back to 6 hrs for sustainabil
 - Problems: 55 | Cumulative: 458 → 513
 - LC company tag (last 6 months) for: Visa, PayPal, JPMC, Razorpay, CRED, PhonePe, Goldman, Morgan Stanley
 - 8–10 problems per company tag
-- Contests: 5 | **Rating goal: 1750**
+- Contests: 5 | **Rating goal: 1800**
 
 ### CS Fundamentals — HLD Deep
 - URL Shortener (full HLD)
@@ -278,7 +278,7 @@ Draft 10–12 STAR stories from real experience:
 - LC Virtual past contests: 2/week (timed)
 - Continue company-tagged
 - Heavy revision of weak areas
-- Contests: 5 | **Rating goal: 1800**
+- Contests: 5 | **Rating goal: 1850**
 
 ### Mock Interviews — START
 - Pramp: 2 sessions/week
@@ -293,7 +293,7 @@ Draft 10–12 STAR stories from real experience:
 ### LinkedIn Posts
 1. W1: "5 things I learned from 8 mock interviews"
 2. W2: Subtle technical post (system design or LLD)
-3. W3: "LC contest rating 1800: 8-month journey"
+3. W3: "LC contest rating 1850: 8-month journey"
 4. W4: Open referral request — "Targeting senior dev roles at [list 5]. Open to chat."
 
 ---
@@ -314,7 +314,7 @@ Draft 10–12 STAR stories from real experience:
 
 ### DSA Maintenance
 - Problems: 35 | Cumulative: 563 → 598
-- Contests: 4 | **Rating goal: 1850 — APPLY-READY**
+- Contests: 4 | **Rating goal: 1900 — APPLY-READY (floor 1850+)**
 
 ### Mock Interviews
 - Increase to 3/week. Mix of DSA + LLD + behavioral.
@@ -339,7 +339,7 @@ Draft 10–12 STAR stories from real experience:
 ### DSA Maintenance
 - Problems: 30 | Focus on company-specific OA patterns
 - Read recent OA experiences on LeetCode discuss
-- Contests: 4 | **Rating: maintain 1850+**
+- Contests: 4 | **Rating: maintain 1900+ (floor 1850)**
 
 ### LinkedIn Posts
 - 1/week, technical only
@@ -411,10 +411,11 @@ Draft 10–12 STAR stories from real experience:
 
 ## REVIEW CHECKPOINTS
 
-- **End of Month 1 (Jun 2026):** 200+ LC, 1300 rating? If far behind, audit time use.
-- **End of Month 3 (Aug 2026):** 300 LC, 1500 rating, OS+DBMS done. If 30%+ behind, extend by 1 month.
-- **End of Month 6 (Nov 2026):** 460 LC, 1700 rating, fundamentals 7/10. **Half-time honest review.**
-- **End of Month 8 (Jan 2027):** 560 LC, 1800 rating. **Ready-to-apply check.** If not at 1750+, delay applications by 1 month.
+- **End of Month 1 (Jun 2026):** 200+ LC, 1350 rating? If far behind, audit time use.
+- **End of Month 3 (Aug 2026):** 300 LC, 1550 rating, OS+DBMS done. If 30%+ behind, extend by 1 month.
+- **End of Month 6 (Nov 2026):** 460 LC, 1750 rating, fundamentals 7/10. **Half-time honest review.**
+- **End of Month 8 (Jan 2027):** 560 LC, 1850 rating. **Ready-to-apply check.** If not at 1800+, delay applications by 1 month.
+- **End of Month 9 (Feb 2027):** Apply-ready at 1900 (floor 1850).
 - **End of Month 12 (May 2027):** Offer in hand or strong pipeline.
 
 ---
