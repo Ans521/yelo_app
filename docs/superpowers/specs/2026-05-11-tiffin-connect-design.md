@@ -4,20 +4,6 @@
 **Status:** Brainstorm / Pitch Document
 **Audience:** Founding team + 2 collaborating developers
 
----
-
-## 1. The Problem
-
-- Tiffin sector in India is **completely unorganized** — no central platform.
-- Customers struggle to **discover** good providers nearby.
-- Zomato / Swiggy = oily, expensive, unhealthy, and 30%+ commission kills small providers.
-- Providers have **no tech tools** — they manage 150–200 customers daily via WhatsApp + notebook.
-- No way for customers to **pause / skip / customize** subscriptions easily.
-
----
-
-## 2. The Solution
-
 A 3-sided platform — *Tiffin Connect* — that becomes the **operating system for the tiffin industry in India**.
 
 - **Customer App** (React Native / Flutter)
@@ -155,12 +141,6 @@ Problem: past 200 customers, **delivery becomes the bottleneck**.
 - Provider pays per delivery (way cheaper than full-time staff).
 - We take ₹2–₹5 cut per delivery as platform fee.
 
-**Why this is genius:**
-1. Solves the **scaling problem** for providers (no full-time hiring).
-2. Provides **side income** for existing gig workers in idle hours.
-3. Becomes a **3rd revenue stream** for us.
-4. Long-term: competes with Dunzo / Borzo in hyperlocal — but **food-focused only**.
-
 **Tech for the agent app:**
 - Real-time location matching (Uber-style nearest-driver algorithm).
 - In-app earnings wallet + weekly payouts.
@@ -188,78 +168,11 @@ Problem: past 200 customers, **delivery becomes the bottleneck**.
 - In-app ads for providers.
 - Bulk operations and exports in provider panel.
 
-### Phase 3 (Months 7–12)
-- **Agent Delivery App** launch.
-- Premium subscriptions (provider + customer).
-- Expand to 2nd city.
+### Later Phases:  Pending
 
-### Phase 4 (Year 2)
-- B2B (offices, gyms, hostels).
-- Tiffin marketplace at scale.
 
+##
 ---
 
-## 8. Tech Stack
-
-| Layer | Choice | Why |
-|---|---|---|
-| Mobile app | **React Native** | One codebase, both Android + iOS — faster for 2 devs |
-| Backend | **Node.js + Express + PostgreSQL** | Standard, well-supported, easy hiring |
-| Admin Panel | **React + Tailwind** | Fast UI, same language as mobile |
-| Auth | **Firebase Auth** | OTP login out-of-the-box |
-| Payments | **Razorpay** | India-first, easy KYC |
-| Push notifications | **Firebase Cloud Messaging** | Free, reliable |
-| Live tracking | **Google Maps API + Firebase Realtime DB** | 10-sec location updates |
-| Hosting | **Vercel + Render** (free tier to start) → AWS later | Zero cost early |
-| Storage (food images) | **Cloudinary** free tier | 25GB free |
-
-**Total monthly infra cost in early stage: ₹0 – ₹500.**
-
----
-
-## 9. Why This Will Work
-
-1. **Real unmet need** — validated through direct conversations with actual providers.
-2. **No competition** — Zomato ignores this segment; dedicated tiffin apps are weak.
-3. **Low burn** — providers handle delivery; we just build the platform.
-4. **Network effect** — once 30+ providers in one area, customers come naturally.
-5. **Multiple revenue streams** — not dependent on commission alone.
-6. **Massive TAM** — 60M+ working professionals + students eat tiffin daily in India.
-
----
-
-## 10. Team Roles
-
-- **Dev 1** — Mobile app (React Native — customer + provider screens).
-- **Dev 2** — Backend + Admin panel (Node.js APIs + React admin).
-- **You (Founder)** — Product, design, provider onboarding, business strategy.
-
-**Cadence:** Weekly sync. 3-month MVP timeline. Free for devs in exchange for portfolio + equity conversation when revenue starts. (You guide for free too.)
-
----
-
-## 11. Anticipated Q&A
-
-**Q: "How will we get providers?"**
-You've already spoken to some — start with those. Door-to-door in one locality. Free for 6 months.
-
-**Q: "How will we get customers?"**
-Each provider already has 100–200 customers on WhatsApp. They'll bring them to the app for better experience (pause/skip features).
-
-**Q: "What if it fails?"**
-Worst case = portfolio project + real product experience + full-stack mobile skills. No financial risk — no money is being spent.
-
-**Q: "Why should we work for free?"**
-Equity discussion when revenue starts. A launched product > 10 finished tutorials. Founder guides for free as well.
-
----
-
-## 12. The Pitch Hook
-
-> We're not just building an app. We're building **3 connected apps + 3 admin panels** that together become the **operating system for the entire tiffin industry in India**.
->
-> **Year 1:** organize providers.
-> **Year 2:** solve delivery.
-> **Year 3:** own the category.
-
-Massive vision — but executed in **small, doable phases**.
+1. **Network effect** — once 30+ providers in one area, customers come naturally.
+2. **Massive TAM** — 60M+ working professionals + students eat tiffin daily.
