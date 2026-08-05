@@ -1,459 +1,467 @@
-# 13-Month Prep Plan — v2 (Rewritten Aug 5, 2026)
+# 8-Month Prep Plan — v3 (Compressed, Aug 5, 2026)
 
-> **v1 was written May 5, 2026 and assumed a May start at 31 hrs/week.**
-> That start didn't happen. This is a rebuild from the actual state on Aug 5, 2026,
-> at the actual hour budget of 22 hrs/week. Nothing here is aspirational.
+> **v1** (May 2026): never started, assumed 31 hrs/week.
+> **v2** (Aug 2026): 13-month runway, applications June 2027.
+> **v3** (this doc): compressed to **8 months**. Applications open **Jan 2027**, offers **Mar–Apr 2027**.
+>
+> Built for an **average learner** — which means checkpoints every 15 days, an explicit
+> buffer day, and a named scope cut instead of a hope that it all fits.
 
 ---
 
-## Snapshot — Aug 5, 2026
+## The Core Idea
+
+**Applying in January and being ready in January are different things. You only need the first.**
+
+Application → offer takes 4–8 weeks per company. January applications produce February–March offers, and by then you'll have had two more months of prep. So:
+
+- **Jan 2027** — apply to the **calibration tier**: companies you'd accept, but not your top 5. Real pressure, real feedback, no cooldown cost if you fail.
+- **Feb–Mar 2027** — **top targets**, hit when you're actually at peak.
+
+You get the January start. Your best companies still meet the better version of you.
+
+---
+
+## Snapshot
 
 | | |
 |---|---|
 | **Plan start** | Aug 5, 2026 |
-| **Applications open** | Jun 1, 2027 |
-| **Offer target** | Aug – Sept 2027 |
-| **Join target** | Oct – Nov 2027 |
-| Current job started | Sept 1, 2025 (job month 12) |
-| Total professional experience | ~2.5–3 yrs today → **~4 yrs at join** |
+| **Prep window** | Aug 5 – Dec 31, 2026 (**21 weeks**) |
+| **Applications open** | Jan 1, 2027 (calibration tier) |
+| **Top targets** | Feb 1, 2027 |
+| **Offer target** | Mar – Apr 2027 |
+| **Join target** | May – Jun 2027 |
+| Total experience at join | ~4 years |
 | Current CTC | Under 6 LPA |
-| **Target CTC** | **Floor 22 LPA · Target 28–35 LPA total** |
-| Target level | **SDE-1 and SDE-2 — both. Optimize for band, not title.** |
-| Notice period | 45 days (negotiate to 30) |
-| Tenure at exit | ~26 months — clean, no hopper flag |
-| LeetCode today | ~158 solved, no contest rating, **rusty** (3 months idle) |
+| **Target CTC** | **Floor 20 LPA · Target 26–32 LPA total** |
+| Target level | **SDE-1 and SDE-2 — optimize for band, not title** |
+| Starting point | ~158 LC, no rating, rusty after 3 idle months |
 
-**Time budget:**
+### Time budget — compressed
 
-| | |
+| | v2 | **v3** |
+|---|---|---|
+| Mon – Thu | 2.5 × 4 = 10 hrs | 2.5 × 4 = **10 hrs** |
+| Fri | OFF | **FLEX BUFFER** (0 hrs default) |
+| Sat + Sun | 6 × 2 = 12 hrs | **8 × 2 = 16 hrs** |
+| **Weekly** | 22 hrs | **26 hrs** |
+| Over 21 weeks | — | **546 hrs** |
+
+**The Friday flex rule:** Friday is off by default. If you missed a weekday block or a checkpoint is slipping, Friday is where you make it up — up to 2.5 hrs. **Never bank it in advance.** It exists so that one bad week doesn't cascade into a missed phase deadline. If you find yourself using Friday three weeks running, you're behind — read the fall-behind protocol.
+
+---
+
+## Scope: what was cut to fit 21 weeks
+
+Full scope needs ~610 hrs. You have 546. These cuts close the gap — **decided now, deliberately, rather than discovered in December.**
+
+| Cut | Why it's safe |
 |---|---|
-| Mon – Thu | 2.5 hrs × 4 = **10 hrs** |
-| Fri | **OFF — non-negotiable** |
-| Sat + Sun | 6 hrs × 2 = **12 hrs** |
-| **Weekly total** | **22 hrs** |
-| Over the runway | ~950 usable hours |
+| Segment tree, lazy propagation, Z-algorithm, Rabin-Karp | Not in `PATTERNS.md` — v1 extras. Rare below Tier A. |
+| Bitmask DP (pattern 53) | Hardest DP pattern, lowest interview frequency. Optional stretch only. |
+| 4 self-authored HLD designs | The 6 in `HLD.md` are kept. Authoring was a depth luxury. |
+| LLD: Snake & Ladder, Library Mgmt | 4 designs cover the interview surface; 6 was insurance. |
+| DDIA | Absorb the vocabulary from `HLD.md` instead. |
+| SQL Top 50 → **Top 20** | Diminishing returns past the core patterns. |
+
+### NOT cut — non-negotiable even under compression
+
+1. **Phase 1 rebuild.** Learning DP on a rusty base means learning it twice. Compressed 6.5 → 4.5 weeks, not removed.
+2. **Spaced re-implementation** (`PATTERNS.md` Day +1 / +7 / +30). Skip this and you arrive in January having solved 430 problems and remembering 150.
+3. **The HLD block.** It's already down to 4.5 weeks. Below that you aren't SDE-2-credible at all, and your level sets your salary.
 
 ---
 
-## What changed from v1, and why
+## Contest Rating — trajectory and how to actually get there
 
-| v1 said | v2 says | Why |
-|---|---|---|
-| 31 hrs/week (3 hr weekdays, 8 hr weekends) | 22 hrs/week (2.5 hr weekdays, 6 hr weekends) | The real number. v1's budget was ~30% inflated; every downstream target inherited that lie. |
-| Rating 1900 by Feb 2027 | **1700–1800 by May 2027** | 158-solved-and-rusty → 1900 in 9 months while working full-time is a top-decile outcome, not a plan. 1700 clears every company on the target list. Chasing 1900 costs the HLD hours that actually decide an SDE-2 loop. |
-| HLD = 1 month (Month 7) | **HLD = a weekend block for all of Phase 2 (3 months)** | v1 was SDE-1 prep. At ~4 YoE you'll face a standalone, separately-scored system design round. It is the single most common reason experienced candidates get down-levelled. |
-| DP before Graphs | **Graphs before DP** | Graphs is more self-contained and gives faster wins after a 3-month layoff. DP needs a working brain, not a rebuilding one. |
-| Referral outreach starts Month 9, same month as applications | **Referral warm-up starts Phase 3, ~8 weeks before applying** | Cold-DMing a stranger for a referral the week you apply doesn't work. It needs lead time. |
-| Weekly LinkedIn content calendar (48 posts) | **~1 post/month, technical only** | 48 posts is a second job. It was the most time-expensive and least load-bearing part of v1. Referrals come from DMs and engagement, not from your posting streak. |
-| No strategy for compensation | **A whole section on it** | See below. This is the biggest gap in v1. |
-| Curriculum written into the plan itself | **Plan schedules; `PATTERNS.md` / `LLD.md` / `HLD.md` teach** | Those 7 docs already exist and are good. Duplicating them here creates two sources of truth that drift. |
+**Target: 1800–1850 by Jan 31, 2027.** That is the top of the realistic band, not the middle. Plan for the band; aim at the top.
 
----
+LeetCode seeds new contestants at **1500**, so you are not starting from zero — you're starting from average and climbing.
 
-## STRATEGIC REALITY — read this before any topic list
+| Checkpoint | Expected | Stretch | What it means |
+|---|---|---|---|
+| ~Sept 20, 2026 | 1450–1520 | — | First 2 contests. Settling, likely a dip below 1500. Normal. |
+| Oct 18, 2026 | 1520–1580 | 1600 | Graphs closed. Solving 2/4 reliably. |
+| Nov 29, 2026 | 1600–1680 | 1720 | All 55 patterns closed. 2/4 fast, 3rd sometimes. |
+| Dec 31, 2026 | 1680–1780 | 1820 | Contest training compounding. 3/4 becoming normal. |
+| **Jan 31, 2027** | **1720–1800** | **1850** | 3/4 consistently, 4th on easier sets. |
 
-### Your bottleneck is not DSA. It's the CTC anchor.
+**1800 means solving 3 of 4 in a weekly contest consistently** — a medium-hard in ~35 min, cold, under time pressure. That is a *different skill* from knowing the pattern, and it's the skill this track builds.
 
-You have ~3 years of experience earning under 6 LPA. Getting to 28 LPA is a ~5x jump. No amount of LeetCode fixes a recruiter who computes your offer as "current + 40%".
+### The contest-training track — start Nov 1
 
-**The single highest-leverage decision in this entire plan is which companies you apply to.**
+Pattern knowledge alone plateaus around 1600. These six things are what move a rating past it:
 
-**Band-payers** — pay by internal level band, largely indifferent to your current CTC:
-Amazon · Microsoft · Google · Adobe · Atlassian · Salesforce · Walmart Global Tech · Uber · Intuit · Expedia · Booking · Agoda · Nutanix · Qualcomm · Cisco · Arcesium · DE Shaw · Rubrik · Databricks · Confluent · ThoughtSpot · Goldman Sachs · Morgan Stanley · JPMC · Wells Fargo · Visa · PayPal · Mastercard
+1. **Every contest. No exceptions.** Weekly + biweekly = ~28 by Jan 31. Skipping one costs more than the 90 minutes.
+2. **Upsolve within 24 hrs** — every unsolved problem, no exceptions. The upsolve is worth more than the contest.
+3. **Virtual contests: 1/week from Nov 1**, timed, past contests. **This is the single biggest lever.** Rating is a speed-under-pressure measurement, and this is the only way to train it directly.
+4. **Build a template library** — pre-written, tested snippets for Dijkstra, DSU, sieve, binary search on answer, trie, monotonic stack. Saves 5–10 min per contest. That alone is worth ~50 rating.
+5. **Contest strategy:** read all 4 problems in the first 3 minutes, then solve in *difficulty* order, not sequence order. Most people lose rating by grinding Q3 while an easier Q4 sits untouched.
+6. **Q3 drills:** from December, 3 contest-Q3-difficulty problems/week on a 35-min timer. Q3 is exactly where the 1600→1800 gap lives.
 
-**Anchor-prone** — will ask for payslips early and price off them:
-Most mid-tier Indian product companies, service→product transitions, staffing-mediated roles, and any process where a recruiter asks your current CTC in the first call.
+### ⚠️ What this costs — read before committing
 
-**Rule: 80% of applications go to band-payers.** A well-paid SDE-1 seat at Amazon or Adobe beats an SDE-2 *title* at a company that prices you off a 6 LPA payslip. **Title is vanity. Band is money.**
+The contest track is **~2.5 hrs/week from Nov 1** (1.5 hr virtual contest + 1 hr upsolve). Under an 8-month compression there is no free space, so it comes from **Friday buffer**.
 
-### Level strategy: apply to both, prep to the higher bar
+**That means: if you're already using Friday to recover slipped weekdays, you cannot also chase 1850. Pick one.** Recovering the schedule always wins — a 1650 rating with the plan on track beats 1850 with the design sprint gutted.
 
-SDE-2 prep fully contains SDE-1 prep, so there is zero wasted work in aiming high.
-
-| Level | ~4 YoE, India, 2027 | Loop |
-|---|---|---|
-| SDE-1 at a band-payer | 18–28 LPA total | 2–3 DSA + 1 LLD + behavioral |
-| SDE-2 at Tier B | 26–40 LPA total | 2 DSA + 1 LLD + **1 HLD** + behavioral/bar-raiser |
-| SDE-2 at Tier A | 45–65 LPA total | Same, higher bar |
-
-Apply SDE-2 where your years qualify; take SDE-1 at a band-payer without ego. Both clear your 18 LPA goal — and your stated 18 is **below** what your experience should command. Anchor yourself at 28.
-
-### The CTC conversation — script it now, not in the moment
-
-1. **Never volunteer current CTC.** If an application form makes it optional, leave it blank. If mandatory, enter your **expected** figure.
-2. **If asked in a screening call:**
-   > "I'd rather we establish role fit first. I'm targeting the band for this level, which I understand is roughly ₹X–Y — is that in range for the role?"
-3. **Never justify with a percentage hike.** "40% over current" hands them the anchor. Justify with the market band for your years and level.
-4. **Get to two offers before you negotiate seriously.** One offer is a request. Two offers is a market price. This is why Phase 4 runs applications in parallel batches rather than one at a time.
-5. **Referrals bypass CTC screening filters.** A referred profile reaches a hiring manager; a portal profile reaches a filter that may auto-reject on current CTC.
-6. **Compare total comp, not fixed:** fixed + variable + joining bonus + RSU/ESOP (with vesting schedule and whether the ESOP is liquid).
+**And keep this in proportion:** most Tier B companies never look at contest rating. It is not a screening field. It's an excellent self-measurement tool and a poor target. **1700 with 6 HLD designs beats 1850 with 3.** If those ever compete for the same hour, HLD wins.
 
 ---
 
-## Weekly Rhythm — the engine of the whole plan
+## PHASE DEADLINES — the spine of this plan
 
-Your constraint drives the structure: **weekends get contiguous hours, so weekends learn new hard things. Weekdays are fragmented, so weekdays consolidate.**
+| Phase | Deadline | Weeks | Focus |
+|---|---|---|---|
+| **1 — Rebuild** | **Sun Sept 6, 2026** | 4.5 | Patterns 1–25 back to fluent |
+| **2 — Graphs + Core** | **Sun Oct 18, 2026** | 6 | Graphs (10), Heap (3), Greedy (2) |
+| **3 — DP + Tries** | **Sun Nov 29, 2026** | 6 | DP (7), Tries (2), Backtracking (2), Bits (1) |
+| **4 — Design Sprint** | **Thu Dec 31, 2026** | 4.5 | 6 HLD, 4 LLD, OOP, mocks |
+| **5 — Calibration** | **Sun Jan 31, 2027** | 4.5 | Apply tier-3, interview reps |
+| **6 — Peak** | **Wed Mar 31, 2027** | 8.5 | Top targets, offers, negotiate |
 
-### Weekend (6 hrs/day × 2)
+**A phase deadline is a commitment. A 15-day checkpoint is a warning light.** Miss a checkpoint and you have two weeks to recover inside the phase. Miss a phase deadline and the January date is at risk — go to the fall-behind protocol immediately, don't absorb it silently.
 
-| Block | Sat | Sun |
-|---|---|---|
-| 3 hrs | **New pattern** — read the `PATTERNS.md` entry, then solve 3–4 problems on it | **Contest** (LC weekly/biweekly, timed, no exceptions) |
-| 1.5 hrs | 2 more problems on the new pattern | **Upsolve the contest** — every unsolved problem, same day |
-| 1.5 hrs | Design block (LLD Phase 1 · HLD Phase 2) | Design block continued + write the week's notebook entries |
+---
+
+# PHASE 1 — REBUILD
+## ▸ DEADLINE: Sunday, Sept 6, 2026 · 4.5 weeks · ~117 hrs
+
+**Goal: fluent again on what you already knew. Zero new hard topics.**
+
+Every instinct says skip this and go straight to Graphs, because Graphs is the visible gap. Don't. Phase 2 and 3 are built directly on these patterns — if arrays and trees are shaky, Graphs takes 8 weeks instead of 6 and the whole plan collapses in November.
+
+### 15-day checkpoints
+
+| By | Target |
+|---|---|
+| **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). ~195 LC. `OS.md` Parts 1–3. |
+| **Sun Sept 6** | Patterns **14–25** — Stack/Queue (3), Linked List (2), Trees (7). ~225 LC. `OS.md` complete. |
+
+### Weekend (8 hrs × 2)
+- 5 hrs — new pattern from `PATTERNS.md`, then 4–5 problems on it
+- 2 hrs — re-solve the 3 hardest from the previous weekend, cold
+- 1 hr — notebook entries (the *pattern*, one line each)
 
 ### Weekday (2.5 hrs × Mon–Thu)
-
-| Block | Content |
-|---|---|
-| 1.5 hrs | **DSA:** spaced re-implementation per `PATTERNS.md` (Day +1 / +7 / +30) + 1–2 new problems on the current weekend pattern |
-| 1 hr | **Fundamentals:** one `strategy/` doc on rotation (OS → DBMS → CN → OOP), active recall — close the doc and write the answer, don't reread |
-
-### Friday — OFF
-
-No DSA. No fundamentals. This is what makes 13 months survivable rather than a 3-month sprint followed by collapse. **Protect it.**
-
-### The notebook rule (carried from v1 — it's the best rule in the doc)
-
-Every problem solved gets one line: **the pattern, not the solution.** Reread monthly. This is what `PATTERNS.md`'s Day +30 step operates on.
-
----
-
-## Metrics that actually matter
-
-Replace v1's rating obsession with these. Check monthly.
-
-| Metric | Why it matters more than rating |
-|---|---|
-| **Cold-solve rate on Day +7** | Can you re-solve a problem a week later with no hints? Below 60% means you're pattern-matching solutions, not learning. |
-| **Medium-in-25-minutes** | The actual interview bar. Rating measures speed under contest pressure; this measures readiness. |
-| **Verbalization** | Can you narrate the approach out loud before coding? Untested until mocks, which is why mocks start in Phase 3 and not Phase 4. |
-| **Patterns closed** | Out of 56 in `PATTERNS.md`. Concrete, honest, and the actual unit of progress. |
-| Contest rating | A lagging indicator. Useful signal, terrible target. |
-
----
-
-# PHASE 0 — REBUILD
-### Aug 5 – Sept 20, 2026 · 6.5 weeks · ~140 hrs
-
-**Goal: get fluent again on what you already knew. Zero new hard topics.**
-
-The instinct after a layoff is to jump to the pending topics because they feel like the gap. Resist it. Learning Graphs on a rusty foundation means re-learning both later. Six weeks feels slow. It buys back three months.
-
-### Coverage — `PATTERNS.md` patterns 1–25
-
-| Weeks | Patterns | Focus |
-|---|---|---|
-| 1–2 (Aug 5–16) | 1–10 — Array & String | Two pointers, sliding window (fixed + variable), prefix sum, Kadane, cyclic sort, hashing |
-| 3 (Aug 17–23) | 11–13 — Binary Search | Especially **binary search on answer** — the highest-yield pattern in the doc |
-| 4 (Aug 24–30) | 14–18 — Stack, Queue, Linked List | Monotonic stack, monotonic deque, LL reversal |
-| 5–6 (Aug 31–Sept 13) | 19–25 — Trees | DFS/BFS, LCA, BST, construction, tree DP |
-| 6.5 (Sept 14–20) | Consolidation | Re-solve the 15 hardest from the phase, cold. **No new problems.** |
-
-### Weekday fundamentals track
-`OS.md` cover to cover — 1 hr/day, active recall. Process/thread, scheduling, synchronization, deadlock, memory, paging. It's ~600 lines; six weeks is comfortable for real retention.
+- 1.5 hrs — spaced re-implementation (Day +1 / +7) + 1 problem on the current pattern
+- 1 hr — `OS.md`, active recall: close the doc, write the answer from memory
 
 ### Also this phase
-- **Week 1:** Full resume rewrite. Quantify every bullet. This is a Phase 0 task specifically because it's the one deliverable that's useful even if everything else slips.
-- **Week 2:** Post the resume to r/EngineeringResumes for review. Act on the feedback.
-- **Week 3:** LinkedIn overhaul — headline, About, Featured, Experience.
-- **Mid-Sept:** **First rated contest.** Expect 1300–1450. It will feel bad. It's a baseline measurement, not a verdict.
-- **Sept 1:** 1-year mark at current job. Tenure is now clean for a move.
+- **Week 1 (by Aug 12):** full resume rewrite, every bullet quantified
+- **Week 2 (by Aug 19):** post to r/EngineeringResumes, act on feedback
+- **Week 3 (by Aug 26):** LinkedIn overhaul — headline, About, Experience
+- **~Sept 1:** first rated contest. LeetCode seeds new contestants at **1500** — expect to settle **1450–1520** after your first two. Baseline, not verdict.
+- **Sept 1:** 1-year mark at current job — tenure is clean for a move
 
-### Exit gate — Sept 20, 2026
-- [ ] ~240 LC solved
-- [ ] Patterns 1–25 closed, each with a notebook entry
-- [ ] Medium on a known pattern in **under 25 min**
-- [ ] `OS.md` — can answer any section from memory
-- [ ] 2 rated contests done
-- [ ] Resume reviewed and rewritten
+### ✅ Phase 1 exit gate — Sept 6
+- [ ] ~225 LC solved
+- [ ] Patterns 1–25 closed, notebook entry for each
+- [ ] Medium on a known pattern in **under 30 min**
+- [ ] `OS.md` — any section answerable from memory
+- [ ] 1–2 rated contests done
+- [ ] Resume rewritten and reviewed
 
-**If not hit by Sept 20: extend Phase 0 by 2 weeks. Do not proceed on a weak base.** Every later phase compounds off this one.
+**Miss this and you extend by 1 week — taken from Phase 4's design sprint, not from Phase 3.** DP is the one block with no slack in it.
 
 ---
 
-# PHASE 1 — FILL THE HOLES
-### Sept 21 – Dec 31, 2026 · 14.5 weeks · ~320 hrs
+# PHASE 2 — GRAPHS + CORE GAPS
+## ▸ DEADLINE: Sunday, Oct 18, 2026 · 6 weeks · ~156 hrs
 
-**Goal: close Graphs, DP, and Tries — the three genuinely missing areas — while holding Phase 0 gains with spaced repetition.**
+**Goal: close Graphs — your biggest single gap — plus the two cheapest remaining pattern families.**
 
-This is the phase you asked for explicitly: **new hard topics on weekends, revision + new questions on weekdays.**
+Graphs before DP, deliberately: it's more self-contained, gives faster wins after a layoff, and DP needs a brain that's already rebuilt rather than one still rebuilding.
 
-### Weekend track — the 20 missing patterns
+### 15-day checkpoints
 
-| Weeks | Dates | Patterns | Notes |
-|---|---|---|---|
-| 1–5 | Sept 21 – Oct 25 | **28–37 — Graphs** (10) | DFS/BFS, multi-source BFS, cycle detection, topo sort, Dijkstra, Bellman-Ford/Floyd-Warshall, MST, DSU, bipartite. ~2 patterns/weekend. |
-| 6–12 | Oct 26 – Dec 13 | **46–53 — DP** (8) | 1D, knapsack, LIS, LCS/strings, grids, stocks, partition/MCM, bitmask. **Slowest block in the plan — 7 weeks is correct, don't compress it.** |
-| 13–14 | Dec 14 – Dec 27 | **26–27 — Tries** (2) | Insert/search/prefix, Trie + backtracking/XOR. Small block; a good confidence close to the year. |
-| 14.5 | Dec 28 – Dec 31 | Consolidation | Cold re-solve across all three areas. |
+| By | Target |
+|---|---|
+| **Sun Sept 20** | Patterns **28–32** — DFS components, BFS shortest path, multi-source BFS, cycle detection, topological sort. ~255 LC. |
+| **Sun Oct 4** | Patterns **33–37** — Dijkstra, Bellman-Ford/Floyd-Warshall, MST (Kruskal/Prim), DSU, bipartite. **Graphs closed.** ~285 LC. |
+| **Sun Oct 18** | Patterns **38–42** — Heap/PQ (Top K, K-way merge, two heaps), Greedy (sorting, intervals). ~310 LC. `DBMS.md` complete. |
 
-### Weekday track — the 11 semi-known patterns + revision
+### Weekend (8 hrs × 2)
+- 5 hrs — ~2 new patterns per weekend + 5–6 problems
+- 2 hrs — Day +7 re-solves from prior weekends
+- 1 hr — notebook + weekly contest upsolve
 
-1.5 hrs/day, split: spaced re-implementation of Phase 0 patterns (Day +7 / +30) **plus** new problems on these, ~1 pattern per week:
-
-- 38–40 — Heap / Priority Queue (Top K, K-way merge, two heaps)
-- 41–42 — Greedy (sorting, interval scheduling)
-- 43–44 — Backtracking (subsets/permutations, constraint satisfaction)
-- 45 — Bit manipulation (XOR & masking)
-- 54–55 — Intervals & Matrix (merge/sweep line, matrix manipulation)
-- 56 — Design data structures
-
-### Weekday fundamentals track (1 hr/day)
-`DBMS.md` (Oct–Nov) → `CN.md` (Dec). Plus **LC Top 50 SQL**, 3 sessions/week through November — window functions, joins, CTEs. SQL shows up in more Tier B loops than people expect, and it's cheap to prepare.
-
-### Design track — LLD begins (1.5 hrs/weekend from November)
-
-Implement in Java from scratch, then diff against `LLD.md`. Reading a design teaches you nothing; the compile errors do.
-
-- **Nov:** Design 1 — Parking Lot · Design 2 — LRU Cache
-- **Dec:** Design 3 — Splitwise
-
-Push each to a public GitHub repo with a README covering entities, patterns used, and trade-offs. These become LinkedIn Featured items and referral conversation-starters.
+### Weekday (2.5 hrs × Mon–Thu)
+- 1.5 hrs — spaced re-implementation + 1–2 problems on the current pattern
+- 1 hr — `DBMS.md` (Sept–Oct) + **SQL Top 20**, 2 sessions/week from October
 
 ### Contests
-Weekly from Oct 1, no skipping. Upsolve within 24 hrs.
+**Weekly from Sept 20, no skipping.** Upsolve within 24 hrs — that upsolve is worth more than the contest itself.
 
-### Exit gate — Dec 31, 2026
-- [ ] ~390 LC solved
-- [ ] Rating **1500–1550**
-- [ ] Graphs, DP, Tries closed — all 20 patterns, notebook entries written
-- [ ] `OS.md`, `DBMS.md`, `CN.md` done
-- [ ] LC Top 50 SQL complete
-- [ ] 3 LLD designs implemented and pushed
-- [ ] ~13 contests done
+### ✅ Phase 2 exit gate — Oct 18
+- [ ] ~310 LC solved
+- [ ] Rating **1520–1580**
+- [ ] Graphs closed — all 10 patterns, notebook entries written
+- [ ] Heap + Greedy closed (5 patterns)
+- [ ] `DBMS.md` done, SQL Top 20 done
+- [ ] 4+ contests done
 
-**Behind by more than 30%? Extend by 3 weeks and compress Phase 2's advanced-DSA block — not the HLD block.** HLD is the differentiator; segment trees are not.
-
----
-
-# PHASE 2 — SDE-2 DEPTH
-### Jan 1 – Mar 31, 2027 · 13 weeks · ~285 hrs
-
-**Goal: system design becomes a first-class workstream. This is the phase that decides your level and therefore your salary.**
-
-Everything before this makes you a competent SDE-1. This phase is what gets you the SDE-2 offer — and it's exactly what v1 under-resourced.
-
-### Weekend split — 3 hrs DSA / 3 hrs design
-
-**DSA (3 hrs/weekend):** advanced topics + hard-problem volume.
-- Segment tree (build, query, update; lazy propagation only if time allows)
-- String algorithms: KMP, Rabin-Karp, Z-algorithm
-- Advanced DSU applications
-- LC Top 100 Liked
-- Increasing share of **Hard** problems — by March, 1 in 3
-
-**Design (3 hrs/weekend):** the HLD block.
-
-| Weeks | Dates | Work |
-|---|---|---|
-| 1–2 | Jan 1–17 | `HLD.md` Parts 1–4: the 7-step framework, core building blocks, back-of-envelope numbers. **Memorize the 7-step until it's automatic** — under pressure, structure is what saves you. |
-| 3–8 | Jan 18 – Feb 28 | The 6 existing designs, one per week, **whiteboard-first**: URL Shortener → Twitter Feed → WhatsApp → Rate Limiter at Scale → Notification System → Analytics TinyURL. Do the full 7 steps from a blank page, *then* read the doc and diff. |
-| 9–12 | Mar 1–28 | **Write 4 new designs into `HLD.md` yourself.** Suggested: Payment System (idempotency, exactly-once) · File Storage / Drive (chunking, dedup) · Search Autocomplete (trie at scale — ties to Phase 1) · Ride Hailing (geospatial indexing). Writing the doc *is* the learning. |
-| 13 | Mar 29–31 | Consolidation — verbalize all 10 designs out loud, 15 min each, no notes. |
-
-**Alongside, 30 min/weekend:** DDIA chapters 1–6 (reliability/scalability, data models, storage engines, encoding, replication, partitioning). Selective — you need vocabulary and judgment, not completeness.
-
-### Weekday track
-- **1.5 hrs DSA:** spaced re-implementation across all 56 patterns + hard-problem practice
-- **1 hr:** `OOP.md` (Jan) — 4 pillars, SOLID, design patterns → then **LLD implementation** (Feb–Mar)
-
-### Design track — LLD completion
-- **Jan:** Design 4 — Rate Limiter (concurrency)
-- **Feb:** Design 5 — Snake & Ladder
-- **Mar:** Design 6 — Library Management
-- **Stretch:** add a 7th of your own — Elevator System or Notification Service
-
-All 6 in Java, on GitHub, with READMEs. **Target: any of the 6 coded from scratch in 40 minutes while narrating.** That's the LLD round.
-
-### Contests
-Weekly. Add 1 timed virtual past contest per week from March.
-
-### Exit gate — Mar 31, 2027
-- [ ] ~500 LC solved (Hard ≥ 60)
-- [ ] Rating **1650–1750**
-- [ ] All 56 patterns closed
-- [ ] `OOP.md` done — all 4 fundamentals docs complete
-- [ ] **6 LLD designs** implemented, any one reproducible in 40 min
-- [ ] **10 HLD designs** — 6 studied, 4 authored — each verbalizable in 15 min from blank page
-- [ ] DDIA ch. 1–6
-- [ ] The 7-step HLD framework is automatic
-
-**This is the hard checkpoint. If HLD is incomplete, delay applications rather than skipping it.** Applying without system design at ~4 YoE means being down-levelled to SDE-1 at best, or rejected with a 6–12 month cooldown at your best companies.
+**Behind on Graphs at Oct 4? Take the extra week from Heap/Greedy** — those are weekday-recoverable. Graphs is not.
 
 ---
 
-# PHASE 3 — INTERVIEW MODE
-### Apr 1 – May 31, 2027 · 8.5 weeks · ~190 hrs
+# PHASE 3 — DP + TRIES
+## ▸ DEADLINE: Sunday, Nov 29, 2026 · 6 weeks · ~156 hrs
 
-**Goal: convert knowledge into interview performance, and build the referral pipeline before you need it.**
+**Goal: DP. This is the hardest phase in the plan and the one most likely to slip.**
 
-Knowing an answer and delivering it in 45 minutes to a stranger who is judging you are different skills. This phase trains the second one.
+DP is where average learners lose three weeks without noticing. The failure mode is solving 40 DP problems by pattern-matching editorials and retaining none of it. **The test isn't how many you solve — it's whether you can re-derive the recurrence on Day +7 from a blank page.**
 
-### Mocks — the core activity
+⚠️ **Diwali falls ~Nov 8, 2026 — inside this phase.** Plan for a lost weekend. Build it into the Nov 15 checkpoint now rather than discovering it in the moment.
 
-| Weeks | Cadence |
+### 15-day checkpoints
+
+| By | Target |
 |---|---|
-| 1–4 | 2/week — Pramp, interviewing.io, or a peer |
-| 5–8.5 | 3/week — rotate DSA / LLD / HLD / behavioral |
+| **Sun Nov 1** | Patterns **46–49** — 1D DP, 0/1 + unbounded knapsack, LIS, LCS/strings. ~345 LC. |
+| **Sun Nov 15** | Patterns **50–52** — DP on grids, stocks (state machine), partition/MCM. **DP closed** (53 bitmask optional). ~375 LC. |
+| **Sun Nov 29** | Patterns **26–27** Tries, **43–44** Backtracking, **45** Bits, **54–56** Intervals/Matrix/Design. **All 55 core patterns closed.** ~400 LC. `CN.md` complete. |
 
-**Record every one. Watch it back.** You will hate it, and it is the fastest improvement available to you. Watch for: silence while thinking (narrate instead), jumping to code before stating the approach, and not asking clarifying questions.
+### Weekend (8 hrs × 2)
+- 5 hrs — new DP pattern + 5–6 problems. **Derive the recurrence on paper before writing code, every time.**
+- 2 hrs — Day +7 DP re-solves. Non-negotiable in this phase specifically.
+- 1 hr — notebook + contest upsolve
 
-**Target: 20+ mocks before your first real interview.** Your first five interviews are bad no matter how prepared you are. Spend them on mocks, not on Amazon.
+### Weekday (2.5 hrs × Mon–Thu)
+- 1.5 hrs — spaced re-implementation + the lighter pattern families (Tries, backtracking, bits, intervals, matrix, design) — these are cheap enough for weekday blocks
+- 1 hr — `CN.md` (Nov)
 
-### DSA maintenance
-- Company-tagged sets, last 6 months: Amazon, Microsoft, Adobe, Atlassian, Walmart, Visa, PayPal, JPMC, Goldman, Salesforce — 10–12 problems each
-- 2 timed virtual contests/week
-- Weekly rated contests continue
-- ~60 new problems → **560 total**
+### Referral pipeline — starts Nov 1, not January
+Needs 8 weeks of lead time to be warm by January. **This is why it lives here and not in Phase 5.**
+- **By Nov 15:** target list of 30 people across 12 companies — alumni, ex-colleagues, people whose work you can actually speak to
+- **By Nov 29:** engaged with 20 of them (substantive comments on their posts). **No ask yet.**
 
-### Behavioral prep — 12 STAR stories
+### ✅ Phase 3 exit gate — Nov 29
+- [ ] ~400 LC solved
+- [ ] Rating **1600–1680**
+- [ ] **All 55 core patterns closed** — every one with a notebook entry
+- [ ] `OS.md`, `DBMS.md`, `CN.md` complete
+- [ ] 30-person referral list built, 20 engaged
+- [ ] 9+ contests done
 
-Write them out. Rehearse aloud. At SDE-2 the behavioral round carries real weight — ownership, scope, and influence are what separate the levels.
-
-Leading a project · Conflict with a colleague · A failure and what changed after · Above and beyond · Tight deadline trade-off · Simplifying complex code · Disagreeing with a manager · Mentoring someone · Handling ambiguous requirements · A production incident · A decision you'd make differently · Why you're leaving
-
-Draw from real work — the Flutter/React Native app, the startup context, shipping under constraints. **Specific and true beats impressive and vague**, every time.
-
-### Referral pipeline — start Week 1, not Week 8
-
-This needs 8 weeks of lead time, which is exactly why it lives here.
-
-| Weeks | Action |
-|---|---|
-| 1–2 | Build a target list: 40 people across 15 companies. Prioritize alumni, ex-colleagues, and people whose work you can speak to. |
-| 3–6 | **Engage before asking.** Comment substantively on their posts. Share their work. No ask yet. |
-| 7–8.5 | Warm DMs: short, specific, shared context, easy to say no to. Target **20 people willing to refer** by May 31. |
-
-### Final asset polish
-- Resume: add the LLD/HLD repos, the contest rating if it's ≥1700, quantified work impact
-- LinkedIn: Featured section pinned with the 6 LLD repos; `#OpenToWork` set to **recruiters-only** (invisible to your current employer)
-- LeetCode profile linked only if rating ≥1700
-
-### Exit gate — May 31, 2027
-- [ ] ~560 LC solved
-- [ ] Rating **1700–1800** (floor for applying: **1650**)
-- [ ] 20+ mocks recorded and reviewed
-- [ ] 12 STAR stories written and rehearsed
-- [ ] 20 warm referral contacts
-- [ ] Resume + LinkedIn final
-- [ ] Can deliver a 45-min HLD round end to end without freezing
+**This is the hard gate for the January date.** If DSA isn't closed by Nov 29, the design sprint gets eaten and you'll be applying without system design. Slip here → push applications to February and tell yourself the truth about it.
 
 ---
 
-# PHASE 4 — APPLY & CLOSE
-### Jun 1 – Sept 30, 2027
+# PHASE 4 — DESIGN SPRINT
+## ▸ DEADLINE: Thursday, Dec 31, 2026 · 4.5 weeks · ~117 hrs
 
-**Goal: parallel pipelines, multiple offers, real negotiating leverage.**
+**Goal: the phase that makes January applications real rather than aspirational.**
 
-Timed deliberately: **Jul–Sept is the strongest hiring window in India.** Applications open in June so that onsites land inside it.
+DSA gets you past the OA. **Design and delivery get you the offer and the level.** This phase is short, so it has zero tolerance for slippage from Phase 3.
 
-### June — calibration (job month 22)
+### 15-day checkpoints
 
-- **5–8 applications/week**, deliberately to **non-priority companies**
-- Purpose: real interview reps under real pressure. Nothing rehearses like the real thing.
-- **Do not apply to your top 5 yet.** Failing there in June costs you a 6–12 month cooldown; failing at a company you don't want costs nothing.
-- After every interview: write down what was asked and what you fumbled. **Fix it within 48 hours.**
+| By | Target |
+|---|---|
+| **Sun Dec 13** | `HLD.md` Parts 1–4 (7-step framework, building blocks, back-of-envelope) + **Designs 1–3** (URL Shortener, Twitter Feed, WhatsApp). **LLD 1–2 built** (Parking Lot, LRU Cache). `OOP.md` complete. 4 mocks done. |
+| **Thu Dec 31** | **HLD Designs 4–6** (Rate Limiter at Scale, Notification System, Analytics TinyURL). **LLD 3–4 built** (Splitwise, Rate Limiter). 9+ mocks done. Resume + LinkedIn final. |
 
-### July–August — peak window
+### Weekend (8 hrs × 2) — HLD
+- 5 hrs — one design per weekend, **whiteboard-first**: full 7 steps from a blank page, *then* read `HLD.md` and diff against it
+- 2 hrs — **verbalize it out loud, 15 min, no notes.** Record yourself. This is the actual interview skill.
+- 1 hr — DSA maintenance: contest + upsolve
 
-- **15–20 applications/week**, full target list, both levels
-- **70% via referral, 30% direct** — referrals bypass the CTC filter
-- Apply SDE-2 where your years qualify; SDE-1 at band-payers without hesitation
-- **Batch your onsites into the same 2-week window.** Multiple offers landing together is the entire negotiation strategy.
-- Take every OA seriously, including from companies you don't want
+**Memorize the 7-step framework until it's automatic.** Under pressure, structure is what stops you freezing.
 
-**Tracking spreadsheet:** Company · Level · Band-payer? · Date · Referrer · Stage · Outcome · What was asked · What to fix
+### Weekday (2.5 hrs × Mon–Thu)
+- 1.5 hrs — LLD implementation in Java from scratch, then diff against `LLD.md`. Reading a design teaches nothing; the compile errors do.
+- 1 hr — `OOP.md` (Dec 1–13), then mocks and DSA maintenance
 
-### September — close
+### Mocks — start Dec 1
+2/week through December → **9+ before your first real interview.** Pramp, interviewing.io, or a peer.
 
-- Target: **2+ offers in hand** before negotiating seriously
-- Evaluate on: total comp (fixed + variable + joining + equity & vesting) · tech stack and team · manager quality (research them — most underrated factor) · brand value for the *next* jump · WLB
-- **Never accept the first number.** Counter every time. The worst outcome is they hold firm.
+**Record every one and watch it back.** You'll hate it; it's the fastest improvement available. Watch for: going silent while thinking (narrate instead), coding before stating the approach, not asking clarifying questions.
+
+### Behavioral — 8 STAR stories (trimmed from 12)
+Leading a project · Conflict · A failure and what changed · Above and beyond · Tight deadline trade-off · Ambiguous requirements · A production incident · Why you're leaving.
+
+Draw from real work — the React Native/Flutter app, the startup context, shipping under constraints. **Specific and true beats impressive and vague.**
+
+### Final assets
+- Resume: LLD/HLD repos added, work impact quantified
+- LinkedIn: Featured pinned with the 4 LLD repos; `#OpenToWork` set to **recruiters-only** (invisible to your employer)
+- 4 LLD repos public with READMEs — entities, patterns, trade-offs
+
+### ✅ Phase 4 exit gate — Dec 31
+- [ ] ~430 LC solved
+- [ ] Rating **1680–1780**
+- [ ] **6 HLD designs** — each verbalizable in 15 min from a blank page
+- [ ] **4 LLD designs** — any one codeable in 40 min while narrating
+- [ ] `OOP.md` complete — all 4 fundamentals docs done
+- [ ] 9+ mocks recorded and reviewed
+- [ ] 8 STAR stories written and rehearsed aloud
+- [ ] Resume + LinkedIn final, 20 warm referral contacts
+
+---
+
+# PHASE 5 — CALIBRATION
+## ▸ DEADLINE: Sunday, Jan 31, 2027 · 4.5 weeks
+
+**Goal: real interview reps, on companies where failing is free.**
+
+Your first five interviews are bad no matter how prepared you are. **Spend them where it doesn't cost you anything.**
+
+### Application strategy
+- **8–10 applications/week** — calibration tier only
+- **Calibration tier:** companies you'd genuinely accept, but not your top 5. Mid-tier product companies, smaller band-payers, startups with real engineering.
+- **Do NOT apply to your top 5 this month.** Failing there in January costs a 6–12 month cooldown at exactly the companies you want most.
+- 60% referral / 40% direct
+
+### After every single interview
+Write down: what was asked · what you fumbled · what you didn't know existed. **Fix it within 48 hours.** This log is the highest-value document you'll produce all year.
+
+### Continued prep (this doesn't stop)
+- Mocks **3/week** — rotate DSA / LLD / HLD / behavioral
+- Company-tagged problem sets for your top 5, 10–12 each
+- Weekly contests continue
+- HLD: re-verbalize all 6 designs, 15 min each
+- ~40 new problems → **470 total**
+
+### 15-day checkpoints
+
+| By | Target |
+|---|---|
+| **Fri Jan 15** | 15+ applications out, 3+ interviews done, failure log started |
+| **Sun Jan 31** | 35+ applications, 6+ interviews, **failure pattern identified and patched**, rating **1720–1800** |
+
+### ✅ Phase 5 exit gate — Jan 31
+- [ ] 6+ real interviews survived
+- [ ] Failure log written and acted on
+- [ ] The recurring weakness identified and fixed
+- [ ] ~470 LC, rating **1720–1800** (stretch: 1850)
+- [ ] 20+ total mocks + real interviews combined
+- [ ] Ready to face the top 5
+
+---
+
+# PHASE 6 — PEAK
+## ▸ DEADLINE: Wednesday, Mar 31, 2027 · 8.5 weeks
+
+**Goal: top targets, multiple offers in parallel, real negotiating leverage.**
+
+### February — the push
+- **15–20 applications/week**, full target list, **both SDE-1 and SDE-2**
+- **70% referral / 30% direct** — referrals bypass CTC screening filters
+- **Batch onsites into the same 2-week window.** Multiple offers landing together *is* the negotiation strategy.
+- Take every OA seriously, including from companies you don't love
+
+### March — close
+- Target: **2+ offers before negotiating seriously.** One offer is a request; two is a market price.
+- **Never accept the first number.** Counter every time. Worst case, they hold firm.
 - Resign with 45-day notice, negotiate to 30
-- Don't burn bridges — thank the founder genuinely, offer transition support, get a recommendation letter
+- Don't burn bridges — thank the founder, offer transition support, get a recommendation letter
+
+### 15-day checkpoints
+
+| By | Target |
+|---|---|
+| **Sun Feb 14** | 30+ applications to top targets, 5+ in active pipeline |
+| **Sun Feb 28** | 3+ onsites scheduled inside a 2-week window |
+| **Mon Mar 15** | First offer in hand |
+| **Wed Mar 31** | 2+ offers, negotiation underway |
 
 ### Timeline to join
-Offer signed ~early Sept 2027 → resign mid-Sept → notice ends Oct 15 (30-day) or Oct 31 (45-day) → **join late Oct / early Nov 2027.**
-
-Experience at join: **~4 years.** Tenure at current job: ~26 months.
+Offer signed late Mar / early Apr 2027 → resign → notice ends mid-May → **join May–Jun 2027.**
+Experience at join: ~4 years. Tenure at current job: ~21 months — clean.
 
 ---
 
-## Master Calendar
+## Compensation Strategy
 
-| Phase | Dates | Weeks | Weekend focus | Weekday focus | LC | Rating |
-|---|---|---|---|---|---|---|
-| **0 — Rebuild** | Aug 5 – Sept 20, 2026 | 6.5 | Patterns 1–25 re-solve | Re-implementation + `OS.md` | 240 | first contest ~1350 |
-| **1 — Fill holes** | Sept 21 – Dec 31, 2026 | 14.5 | Graphs → DP → Tries (20 patterns) | Revision + 11 semi-known patterns + `DBMS.md`/`CN.md`/SQL | 390 | 1500–1550 |
-| **2 — SDE-2 depth** | Jan 1 – Mar 31, 2027 | 13 | Advanced DSA + **HLD block** | Revision + `OOP.md` → LLD builds | 500 | 1650–1750 |
-| **3 — Interview mode** | Apr 1 – May 31, 2027 | 8.5 | Company-tagged, timed contests | Mocks, STAR, referral warm-up | 560 | 1700–1800 |
-| **4 — Apply & close** | Jun 1 – Sept 30, 2027 | 17 | Interviews | Recovery + targeted patching | 600 | maintain |
+**Your bottleneck is not DSA. It's a sub-6 LPA payslip against ~3 years of experience.** No amount of LeetCode fixes a recruiter computing "current + 40%".
 
-### Design deliverables
+**Band-payers** — pay by internal level band, largely indifferent to current CTC:
+Amazon · Microsoft · Adobe · Salesforce · Walmart Global Tech · Intuit · Expedia · Booking · Agoda · Nutanix · Qualcomm · Cisco · Arcesium · DE Shaw · ThoughtSpot · Goldman Sachs · Morgan Stanley · JPMC · Wells Fargo · Visa · PayPal · Mastercard
 
-| | Phase 1 | Phase 2 | Total |
-|---|---|---|---|
-| **LLD** (Java + GitHub) | Parking Lot, LRU, Splitwise | Rate Limiter, Snake & Ladder, Library | **6** |
-| **HLD** (whiteboard + written) | — | 6 studied + 4 authored | **10** |
+**Anchor-prone** — ask for payslips early and price off them:
+Most mid-tier Indian product companies, service→product transitions, staffing-mediated roles, and any process where a recruiter asks current CTC on the first call.
+
+**Rule: 80% of applications go to band-payers.** A well-paid SDE-1 seat at Amazon beats an SDE-2 *title* at a company pricing you off a 6 LPA payslip. **Title is vanity. Band is money.**
+
+### The CTC conversation — script it now
+1. **Never volunteer current CTC.** Optional field → leave blank. Mandatory → enter your **expected** figure.
+2. **If asked on a screening call:**
+   > "I'd rather we establish role fit first. I'm targeting the band for this level, which I understand is roughly ₹X–Y — is that in range?"
+3. **Never justify with a percentage hike.** "40% over current" hands them the anchor. Justify with the market band for your years and level.
+4. **Two offers before negotiating seriously.** This is why Phase 6 batches onsites.
+5. **Compare total comp:** fixed + variable + joining bonus + equity (vesting schedule, and whether it's liquid).
+
+| Level | ~4 YoE, India, 2027 |
+|---|---|
+| SDE-1 at a band-payer | 18–26 LPA total |
+| SDE-2 at Tier B | 24–36 LPA total |
+
+Your stated 18 LPA is **below** what your experience should command. Anchor at 26.
 
 ---
 
 ## NON-NEGOTIABLE RULES
 
-1. **Friday is off.** No DSA, no fundamentals. This is a load-bearing rule, not a reward.
-2. **Sleep 7 hrs minimum.** Below this, retention drops sharply and you are working for nothing.
-3. **No AI, no editorial, for the first 45 minutes** on any problem. The struggle is the mechanism.
-4. **Spaced re-implementation is mandatory.** Follow `PATTERNS.md`'s Day +1 / +7 / +30 schedule. Without it, ~70% of what you solve evaporates in a month.
-5. **One sheet only.** `PATTERNS.md` is the curriculum. Don't switch, don't add a second sheet, don't start Neetcode-in-parallel.
-6. **Notebook entry for every problem** — the *pattern*, one line, not the solution. Reread monthly.
-7. **No contest skipping from Oct 2026.** Upsolve within 24 hrs.
-8. **No applications to priority companies before June 2027.** Premature failure = 6–12 month cooldown at exactly the companies you want.
-9. **Never volunteer current CTC.** See the strategy section. This rule is worth more than 200 LeetCode problems.
-10. **No comparison-scrolling.** LinkedIn is for referral outreach and ~1 technical post/month. Nothing else.
+1. **Spaced re-implementation is mandatory** — `PATTERNS.md` Day +1 / +7 / +30. Under compression this is the first thing you'll want to skip and the one that destroys the plan. Without it, ~70% of what you solve evaporates in 30 days.
+2. **Sleep 7 hrs minimum.** 26 hrs/week on 5 hrs of sleep produces less than 20 hrs on 7.
+3. **Friday is buffer, not a study day.** Use it to recover a slipped week. Never bank it in advance.
+4. **No AI, no editorial, for the first 45 minutes** on any problem. The struggle is the mechanism.
+5. **Notebook entry for every problem** — the *pattern*, one line, not the solution.
+6. **One sheet only.** `PATTERNS.md` is the curriculum. Don't add a second sheet.
+7. **No contest skipping from Sept 20.** Upsolve within 24 hrs.
+8. **No top-5 applications before Feb 1, 2027.** Premature failure = 6–12 month cooldown at exactly the companies you want.
+9. **Never volunteer current CTC.** Worth more than 200 LeetCode problems.
+10. **Derive DP recurrences on paper before coding.** Pattern-matching editorials in Phase 3 produces a November collapse.
 
 ---
 
-## REVIEW CHECKPOINTS
+## FALL-BEHIND PROTOCOL
 
-| Date | Check | If behind |
+The 8-month plan has almost no slack. **What you do when you slip matters more than whether you slip.**
+
+| Situation | Action |
+|---|---|
+| **Missed a 15-day checkpoint** | Use Friday buffer for the next 2 weeks. Recover inside the phase. |
+| **Missed a phase deadline by <1 week** | Absorb it in the next phase's weekends. Don't touch the following deadline. |
+| **Missed a phase deadline by >1 week** | Push **all** subsequent deadlines by that amount. **Do not compress a later phase to catch up.** |
+| **Phase 3 (DP) not done by Nov 29** | Push applications to **Feb 1**. Do not sacrifice the design sprint — applying without HLD costs more than a month's delay. |
+| **Phase 4 not done by Dec 31** | Applications to Feb 1, top targets to Mar 1. Offers land Apr–May. Still a 9-month plan. |
+| **2 bad months** | Rebuild from actual state. Target the Jul–Sept 2027 window. **A 3-month delay costs nothing. Applying unprepared costs 6–12 months of cooldown.** |
+
+**Compression is how plans die.** Cutting spaced repetition to hit a date means arriving in January having solved 430 problems and remembering 150. **The date is not the goal. The offer is.**
+
+---
+
+## Honest Expectations
+
+**What 546 hours realistically produces from a rusty 158-solved base, as an average learner:**
+~430 problems by January · rating **1720–1800** · all 4 fundamentals areas solid · 4 LLD implemented · 6 HLD verbalizable · 9+ mocks. **That profile is competitive for SDE-1 at every band-payer on the list, and credible for SDE-2 by February.**
+
+**On the 1850 target — the honest breakdown:**
+
+| Jan 31 outcome | Likelihood | Requires |
 |---|---|---|
-| **Sept 20, 2026** | 240 LC, patterns 1–25 closed, `OS.md` done, resume rewritten | Extend Phase 0 by 2 weeks. Never build on a weak base. |
-| **Oct 25, 2026** | Graphs closed (10 patterns) | Add 1 week; take it from the Tries block, not DP |
-| **Dec 31, 2026** | 390 LC, 1500+, Graphs/DP/Tries closed, 3 LLD, 3 fundamentals docs | 30%+ behind → extend 3 weeks, compress advanced DSA in Phase 2. **Never compress HLD.** |
-| **Feb 28, 2027** | 6 HLD designs studied, 5 LLD implemented | Cut segment tree and Z-algorithm. They're rare; HLD isn't. |
-| **Mar 31, 2027** | **HARD GATE** — 500 LC, 1650+, 6 LLD, 10 HLD | HLD incomplete → push applications to July. Better late than down-levelled. |
-| **May 31, 2027** | 560 LC, 1700+, 20 mocks, 20 referral contacts | Rating under 1650 → delay 1 month. Mocks under 15 → delay 3 weeks; mocks matter more than rating here. |
-| **Jul 31, 2027** | 5+ companies in active pipeline | Fewer than 3 → the problem is the resume or the referrals, not your prep. Audit the funnel, don't add LeetCode. |
+| 1650–1750 | **Likely** | Plan executed and contests attended, but the contest track skipped or partial |
+| 1750–1800 | **Plausible** | Above, plus the full contest-training track held from Nov 1 |
+| **1800–1850** | **~20–25%** | Above, plus no missed phase deadline and genuine speed under pressure |
+
+1850 is a real ceiling to aim at, not a forecast to plan around. **Build the plan on 1750 and treat anything above it as upside.** The failure mode isn't missing 1850 — it's trading design hours to chase it and arriving in January with a great rating and a weak HLD round.
+
+**What this compression costs you — know it going in:**
+- **Tier A is closed this cycle** (Google, Atlassian, Uber) regardless of rating — those need the design depth that 4.5 weeks can't produce.
+- **SDE-1-strong and SDE-2-borderline in January.** HLD gets 4.5 weeks instead of 13. By March you're SDE-2-credible — which is exactly why top targets go in February, not January.
+- **Zero buffer.** One bad month and January becomes February. That's survivable; pretending otherwise isn't.
+
+**The three most likely failure modes, in order:**
+1. **Skipping spaced re-implementation** to hit checkpoint numbers. You'll reach January with the problem count and none of the recall.
+2. **Letting Phase 3 eat Phase 4.** DP always runs long. Take those weeks from the design sprint and you'll apply in January as an SDE-1 candidate with 3 years of experience — and get priced accordingly.
+3. **Chasing the rating past the point it pays.** Contest rating is not a screening field at most Tier B companies. Past ~1700 it buys you confidence, not interviews. HLD buys you interviews.
+
+**The single highest-ROI hour in this plan** is not a LeetCode hour. It's the hour spent choosing band-paying companies and scripting the CTC conversation. You can solve 430 problems and still take a 9 LPA offer if you let someone price you off a 6 LPA payslip.
 
 ---
 
-## WHEN YOU FALL BEHIND
-
-- **1 bad week** — ignore it. Continue.
-- **2 bad weeks** — audit the root cause. Sleep? Work crunch? Illness? Fix the cause, not the schedule.
-- **1 bad month** — extend the timeline by 2 weeks. **Do not compress the remaining phases.** Compression is how plans die: you skip the spaced repetition, retention collapses, and you arrive at June 2027 with 600 problems solved and 200 remembered.
-- **2 bad months** — rebuild the plan from your actual state. Shift applications to Sept–Oct 2027 and target the Jan–Mar 2028 window. **A 3-month delay costs nothing. Applying unprepared costs 6–12 months of cooldown at your best companies.**
-
-**Falling behind is not failure. Quitting because you fell behind is.**
-
----
-
-## Honest expectations
-
-**What's realistic on 22 hrs/week from a rusty base:**
-600 problems · 1700–1800 rating · 4 fundamentals areas solid · 6 LLD implemented · 10 HLD verbalizable · 20+ mocks. That profile clears the SDE-1/SDE-2 bar at every band-payer on the target list.
-
-**What's not realistic, and don't chase it:**
-1900+ rating · Tier S (Google/Meta) SDE-2 in this cycle · applying meaningfully earlier than June 2027.
-
-**The two things most likely to break this plan, in order:**
-1. **Skipping the Phase 0 rebuild** because pending topics feel more urgent. Learning DP on a rusty foundation means learning it twice.
-2. **Under-investing in HLD** because DSA gives faster, more visible feedback. At ~4 YoE, system design is what sets your level — and your level is what sets your salary.
-
-**The single highest-ROI hour in this plan** is not a LeetCode hour. It's the hour spent choosing band-paying companies and scripting the CTC conversation. You can solve 600 problems and still get a 9 LPA offer if you let someone price you off a 6 LPA payslip.
-
----
-
-*v2 written Aug 5, 2026. Reread monthly. Adjust 5%, not 50%.*
+*v3 written Aug 5, 2026. Reread at every phase deadline. Adjust 5%, not 50%.*
 *Curriculum lives in `PATTERNS.md`, `LLD.md`, `HLD.md`, `OS.md`, `DBMS.md`, `CN.md`, `OOP.md`. This document only schedules it.*
