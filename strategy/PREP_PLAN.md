@@ -121,26 +121,68 @@ The contest track is **~2.5 hrs/week from Nov 1** (1.5 hr virtual contest + 1 hr
 
 ---
 
-## 🔢 HOW MANY PROBLEMS — the first-5 rule
+## 🔢 HOW MANY PROBLEMS — the 5-per-pattern rule
 
 `PATTERNS.md` lists **394 problems** across its 56 patterns. **Doing all 394 in 21 weeks is not possible** — it needs ~330 hrs of DSA against ~319 available, which is break-even before anything goes wrong. Break-even plans break.
 
 ### The rule
 
-> **Solve the first 5 problems listed under each pattern.**
-> **If a pattern has 5 or fewer, do all of them.**
+> **Per pattern: problem #1 (the canonical statement) + 4 Medium/Hard from anywhere in the list.**
+> **If a pattern has fewer than 4 Medium/Hard, take what exists and move on — never pad with Easies.**
 
-`PATTERNS.md` orders problems within each pattern from canonical to peripheral. The first few *are* the idea; the tail is reinforcement.
+`PATTERNS.md` orders problems **canonical-first, not easy-first.** A positional rule ("just take the first 5") leaves the best problems behind — Trapping Rain Water (42) sits at position 6 under Two Pointers, Minimum Window Substring (76) at position 10 under Sliding Window, Binary Tree Maximum Path Sum (124) at position 5 under Tree Paths. **Select by difficulty, not position.**
+
+| Pattern 21 — Tree Height/Diameter/Path | Picks |
+|---|---|
+| ❌ Positional (first 5) | 104 E, 111 E, 110 E, 543 E, 124 H → **four Easies** |
+| ✅ Difficulty-weighted | 104 E + **124 H, 113 M, 129 M, 1457 M** |
+
+Some patterns legitimately yield fewer than 5. Fast & Slow Pointers has only two Mediums in the entire list (142, 287) — take 3 total and move on. **Padding a foundational pattern with Easy problems is wasted time; those hours belong to monotonic stack and DSU.**
 
 | Phase | Full list | **Curated** |
 |---|---|---|
-| Phase 1 — patterns 1–25 | 172 | **123** |
-| Phase 2 — patterns 28–42 | 97 | **71** |
-| Phase 3 — tries, backtracking, bits, intervals/matrix/design | 62 | **40** |
+| Phase 1 — patterns 1–25 | 172 | **~115** |
+| Phase 2 — patterns 28–42 | 97 | **~68** |
+| Phase 3 — tries, backtracking, bits, intervals/matrix/design | 62 | **~38** |
 | Phase 3 — DP | 63 | **38** (Striver-curated, listed in Phase 3) |
-| **Total** | **394** | **272** |
+| **Total** | **394** | **~255** |
 
-**~262 hrs needed against ~319 available — ~57 hrs of real slack.**
+**~250 hrs needed against ~319 available — ~69 hrs of real slack.**
+
+### Where the difficulty actually sits
+
+Sampled across the doc, the Easy-heaviness is concentrated in the foundational patterns and nowhere else:
+
+| Pattern | Mix | |
+|---|---|---|
+| 1 — Fast & Slow | 4E / 2M | Easy-heavy — inherent to the technique, no hard problems exist |
+| 9 — Hashing | 5E / 5M | Easy-heavy |
+| 21 — Tree Height/Path | 6E / 3M / 1H | Easy-heavy |
+| 3 — Sliding Window (variable) | 0E / 8M / 2H | Excellent |
+| 15 — Monotonic Stack | 1E / 7M / 2H | Excellent |
+| 36 — DSU | 0E / 8M / 2H | Excellent |
+| 49 — DP on Strings | 0E / mostly M-H | Excellent |
+
+**Everything that decides interviews is already Medium/Hard dominant.** The Easy problems cluster in the building blocks, which is where they belong.
+
+### Which sheet to revise from
+
+**`PATTERNS.md` for practice and revision. Striver for video explanations. Neither is a "sheet to finish."**
+
+| | `PATTERNS.md` | Striver A2Z |
+|---|---|---|
+| Signal / Picture / Invariant / Verbalization | ✅ | ❌ |
+| LC-numbered throughout | ✅ maps to company tags + contests | ❌ mixes GfG / Coding Ninjas |
+| Spaced re-implementation schedule | ✅ built in | ❌ |
+| Video explanations | ❌ | ✅ best free ones |
+
+Revision means **retrieval**, and Signal → Picture → Invariant is a retrieval scaffold. Striver's sheet is an ordered problem list — you can re-solve from it, you cannot revise from it. Its non-LC problems also can't be company-filtered, don't appear in contests, and can't be looked up for frequency.
+
+**Use Striver's videos for DP and Graphs** (best free explanations, and you're already 22/53 on his graph sheet). **Practice and revise from `PATTERNS.md`.**
+
+**Frequency filter — a ranking, not a third sheet:** when choosing your 4 Medium/Hard, prioritize any problem that also appears in **NeetCode 150** (free, curated by interview frequency, maps ~1:1 onto these patterns). With LC Premium, the company-tag filter for the last 6 months is strictly better.
+
+> ⚠️ **This does not create a new sheet to complete.** Rule 6 still holds — one sheet only. NeetCode is a *ranking applied to* `PATTERNS.md`'s existing lists, never a separate list to finish.
 
 ### The tail is a reserve, not a deletion
 
@@ -152,7 +194,7 @@ This puts extra practice exactly where your recall broke, instead of spreading i
 
 ### On the LeetCode counter
 
-Roughly 120 of the 272 are problems you've already solved, so the counter moves less than the work does. **Expect ~385 by Dec 31, not 430.** Ignore the number — it's a vanity metric. **Patterns closed and Day +7 recall are the real measures.**
+Roughly 110 of the ~255 are problems you've already solved, so the counter moves less than the work does. **Expect ~385 by Dec 31, not 430.** Ignore the number — it's a vanity metric. **Patterns closed and Day +7 recall are the real measures.**
 
 ---
 
@@ -187,11 +229,11 @@ Every instinct says skip this and go straight to Graphs, because Graphs is the v
 
 | By | Target |
 |---|---|
-| **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). **63 problems** (first-5 rule). `OS.md` Parts 1–3. |
+| **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). **~58 problems** (5-per-pattern rule). `OS.md` Parts 1–3. |
 | **Sun Aug 30** | Patterns **14–18** — Stack/Queue (3), Linked List (2). **25 problems**, mostly re-solve, should move fast. |
 | **Sun Sept 6** | Patterns **19–25** — Trees (7). **35 problems + all 16 Striver BST as fresh work.** ~210 LC. `OS.md` complete. |
 
-**Phase 1 total: ~123 curated problems + 16 BST.** At the full 172 this phase needs ~140 hrs against the 99 hrs of DSA time it has. Curated, it needs ~86. **That gap is the whole reason for the first-5 rule.**
+**Phase 1 total: ~115 curated problems + 16 BST.** At the full 172 this phase needs ~140 hrs against the 99 hrs of DSA time it has. Curated, it needs ~82. **That gap is the whole reason for the 5-per-pattern rule.**
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — new pattern from `PATTERNS.md`, then 4–5 problems on it
@@ -210,7 +252,7 @@ Every instinct says skip this and go straight to Graphs, because Graphs is the v
 - **Sept 1:** 1-year mark at current job — tenure is clean for a move
 
 ### ✅ Phase 1 exit gate — Sept 6
-- [ ] ~210 LC solved · **123 curated problems + 16 BST covered**
+- [ ] ~210 LC solved · **~115 curated problems + 16 BST covered**
 - [ ] Patterns 1–25 closed, notebook entry for each
 - [ ] Medium on a known pattern in **under 30 min**
 - [ ] `OS.md` — any section answerable from memory
@@ -236,7 +278,7 @@ Graphs before DP, deliberately: it's more self-contained, gives faster wins afte
 | **Sun Oct 4** | Patterns **33–37** — Dijkstra, Bellman-Ford/Floyd-Warshall, MST (Kruskal/Prim), DSU, bipartite. **22 problems. Graphs closed.** ~250 LC. |
 | **Sun Oct 18** | Patterns **38–42** — Heap/PQ (Top K, K-way merge, two heaps), Greedy (sorting, intervals). **24 problems.** ~275 LC. `DBMS.md` complete. |
 
-**Phase 2 total: ~71 curated problems** (97 at full list). You're already 22/53 on Striver graphs, so the foundational DFS/BFS work is largely behind you — what's left is the algorithm-heavy half.
+**Phase 2 total: ~68 curated problems** (97 at full list). You're already 22/53 on Striver graphs, so the foundational DFS/BFS work is largely behind you — what's left is the algorithm-heavy half.
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — ~2 new patterns per weekend + 5–6 problems
@@ -251,7 +293,7 @@ Graphs before DP, deliberately: it's more self-contained, gives faster wins afte
 **Weekly from Sept 20, no skipping.** Upsolve within 24 hrs — that upsolve is worth more than the contest itself.
 
 ### ✅ Phase 2 exit gate — Oct 18
-- [ ] ~275 LC solved · **71 curated problems covered**
+- [ ] ~275 LC solved · **~68 curated problems covered**
 - [ ] Rating **1520–1580**
 - [ ] Graphs closed — all 10 patterns, notebook entries written
 - [ ] Heap + Greedy closed (5 patterns)
@@ -278,7 +320,7 @@ DP is where average learners lose three weeks without noticing. The failure mode
 | **Sun Nov 1** | DP blocks **1–3** — 1D (3), Grids (5), Subsequences (7) = **15 problems**. ~310 LC. |
 | **Sun Nov 15** | DP blocks **4–6** — Strings (7), Stocks (4), LIS (4) = **15 problems**. ~330 LC. |
 | **Sun Nov 22** | DP blocks **7–8** — MCM/Partition (6), Squares (2) = **8 problems. DP closed at 38.** |
-| **Sun Nov 29** | Tries (7 Striver), Backtracking, Bits, Intervals/Matrix/Design = **40 curated problems**. **All `PATTERNS.md` patterns closed.** ~360 LC. `CN.md` complete. |
+| **Sun Nov 29** | Tries (7 Striver), Backtracking, Bits, Intervals/Matrix/Design = **~38 curated problems**. **All `PATTERNS.md` patterns closed.** ~360 LC. `CN.md` complete. |
 
 **Phase 3 total: 38 DP + 40 others = ~78 curated problems** (125 at full list).
 
@@ -582,7 +624,7 @@ Your stated 18 LPA is **below** what your experience should command. Anchor at 2
 3. **Friday is buffer, not a study day.** Use it to recover a slipped week. Never bank it in advance.
 4. **No AI, no editorial, for the first 45 minutes** on any problem. The struggle is the mechanism.
 5. **Notebook entry for every problem** — the *pattern*, one line, not the solution.
-6. **One sheet only.** `PATTERNS.md` is the curriculum. Don't add a second sheet.
+6. **One sheet only.** `PATTERNS.md` is the curriculum — for practice *and* revision. Striver is a video resource for DP/Graphs, not a parallel checklist. NeetCode 150 is a *ranking filter*, not a list to finish. **Don't switch sheets; it costs weeks and buys nothing.**
 7. **No contest skipping from Sept 20.** Upsolve within 24 hrs.
 8. **No top-5 applications before Feb 1, 2027.** Premature failure = 6–12 month cooldown at exactly the companies you want.
 9. **Never volunteer current CTC.** Worth more than 200 LeetCode problems.
@@ -610,9 +652,11 @@ The 8-month plan has almost no slack. **What you do when you slip matters more t
 ## Honest Expectations
 
 **What 546 hours realistically produces from a rusty 158-solved base, as an average learner:**
-~425 LC by January · **272 curated `PATTERNS.md` problems, all 56 patterns closed** · rating **1720–1800** · all 4 fundamentals areas solid · 4 LLD implemented · 6 HLD verbalizable · 9+ mocks. **That profile is competitive for SDE-1 at every band-payer on the list, and credible for SDE-2 by February.**
+~425 LC by January · **~255 curated `PATTERNS.md` problems, all 56 patterns closed** · rating **1720–1800** · all 4 fundamentals areas solid · 4 LLD implemented · 6 HLD verbalizable · 9+ mocks. **That profile is competitive for SDE-1 at every band-payer on the list, and credible for SDE-2 by February.**
 
-**Pattern coverage is the deliverable, not problem count.** 272 problems across all 56 patterns beats 394 across 40 of them, and beats 500 you can't re-derive on Day +7.
+**Pattern coverage is the deliverable, not problem count.** 255 problems across all 56 patterns beats 394 across 40 of them, and beats 500 you can't re-derive on Day +7.
+
+**On "Google-level" preparation:** it is a different plan, not a harder version of this one. Google's loop is 4–5 rounds of pure algorithms on unseen problems, with no LLD round and little credit for pattern recognition. Reaching it means ~1900+ rating, 500–600 problems, ~40% Hard — roughly **+350–400 hrs, or 15 extra weeks.** That is the 13-month v2 runway, not this one. Worse, those hours come out of LLD and HLD, which the band-payers you're actually targeting weight heavily and Google barely tests. **Chasing Google-level makes you weaker at the goal you chose.** Apply there anyway in February if you like — it's a free option, and the only cost of failing is a cooldown at Google specifically.
 
 **On the 1850 target — the honest breakdown:**
 
