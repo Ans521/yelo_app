@@ -121,6 +121,41 @@ The contest track is **~2.5 hrs/week from Nov 1** (1.5 hr virtual contest + 1 hr
 
 ---
 
+## 🔢 HOW MANY PROBLEMS — the first-5 rule
+
+`PATTERNS.md` lists **394 problems** across its 56 patterns. **Doing all 394 in 21 weeks is not possible** — it needs ~330 hrs of DSA against ~319 available, which is break-even before anything goes wrong. Break-even plans break.
+
+### The rule
+
+> **Solve the first 5 problems listed under each pattern.**
+> **If a pattern has 5 or fewer, do all of them.**
+
+`PATTERNS.md` orders problems within each pattern from canonical to peripheral. The first few *are* the idea; the tail is reinforcement.
+
+| Phase | Full list | **Curated** |
+|---|---|---|
+| Phase 1 — patterns 1–25 | 172 | **123** |
+| Phase 2 — patterns 28–42 | 97 | **71** |
+| Phase 3 — tries, backtracking, bits, intervals/matrix/design | 62 | **40** |
+| Phase 3 — DP | 63 | **38** (Striver-curated, listed in Phase 3) |
+| **Total** | **394** | **272** |
+
+**~262 hrs needed against ~319 available — ~57 hrs of real slack.**
+
+### The tail is a reserve, not a deletion
+
+Problems 6–10 under each pattern aren't cut. They're held back for where you actually need them:
+
+> **When a Day +7 re-solve fails on a pattern, pull the next problems from *that* pattern.**
+
+This puts extra practice exactly where your recall broke, instead of spreading it evenly across patterns you already own. A pattern you nail on Day +7 needs nothing more; a pattern you blank on needs three more problems. The full list is how you find out which is which.
+
+### On the LeetCode counter
+
+Roughly 120 of the 272 are problems you've already solved, so the counter moves less than the work does. **Expect ~385 by Dec 31, not 430.** Ignore the number — it's a vanity metric. **Patterns closed and Day +7 recall are the real measures.**
+
+---
+
 ## PHASE DEADLINES — the spine of this plan
 
 | Phase | Deadline | Weeks | Focus |
@@ -152,9 +187,11 @@ Every instinct says skip this and go straight to Graphs, because Graphs is the v
 
 | By | Target |
 |---|---|
-| **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). ~195 LC. `OS.md` Parts 1–3. |
-| **Sun Aug 30** | Patterns **14–18** — Stack/Queue (3), Linked List (2). Mostly re-solve, should move fast. ~210 LC. |
-| **Sun Sept 6** | Patterns **19–25** — Trees (7), **including all 16 Striver BST problems as fresh work**. ~225 LC. `OS.md` complete. |
+| **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). **63 problems** (first-5 rule). `OS.md` Parts 1–3. |
+| **Sun Aug 30** | Patterns **14–18** — Stack/Queue (3), Linked List (2). **25 problems**, mostly re-solve, should move fast. |
+| **Sun Sept 6** | Patterns **19–25** — Trees (7). **35 problems + all 16 Striver BST as fresh work.** ~210 LC. `OS.md` complete. |
+
+**Phase 1 total: ~123 curated problems + 16 BST.** At the full 172 this phase needs ~140 hrs against the 99 hrs of DSA time it has. Curated, it needs ~86. **That gap is the whole reason for the first-5 rule.**
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — new pattern from `PATTERNS.md`, then 4–5 problems on it
@@ -173,7 +210,7 @@ Every instinct says skip this and go straight to Graphs, because Graphs is the v
 - **Sept 1:** 1-year mark at current job — tenure is clean for a move
 
 ### ✅ Phase 1 exit gate — Sept 6
-- [ ] ~225 LC solved
+- [ ] ~210 LC solved · **123 curated problems + 16 BST covered**
 - [ ] Patterns 1–25 closed, notebook entry for each
 - [ ] Medium on a known pattern in **under 30 min**
 - [ ] `OS.md` — any section answerable from memory
@@ -195,9 +232,11 @@ Graphs before DP, deliberately: it's more self-contained, gives faster wins afte
 
 | By | Target |
 |---|---|
-| **Sun Sept 20** | Patterns **28–32** — DFS components, BFS shortest path, multi-source BFS, cycle detection, topological sort. ~255 LC. |
-| **Sun Oct 4** | Patterns **33–37** — Dijkstra, Bellman-Ford/Floyd-Warshall, MST (Kruskal/Prim), DSU, bipartite. **Graphs closed.** ~285 LC. |
-| **Sun Oct 18** | Patterns **38–42** — Heap/PQ (Top K, K-way merge, two heaps), Greedy (sorting, intervals). ~310 LC. `DBMS.md` complete. |
+| **Sun Sept 20** | Patterns **28–32** — DFS components, BFS shortest path, multi-source BFS, cycle detection, topological sort. **25 problems.** |
+| **Sun Oct 4** | Patterns **33–37** — Dijkstra, Bellman-Ford/Floyd-Warshall, MST (Kruskal/Prim), DSU, bipartite. **22 problems. Graphs closed.** ~250 LC. |
+| **Sun Oct 18** | Patterns **38–42** — Heap/PQ (Top K, K-way merge, two heaps), Greedy (sorting, intervals). **24 problems.** ~275 LC. `DBMS.md` complete. |
+
+**Phase 2 total: ~71 curated problems** (97 at full list). You're already 22/53 on Striver graphs, so the foundational DFS/BFS work is largely behind you — what's left is the algorithm-heavy half.
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — ~2 new patterns per weekend + 5–6 problems
@@ -212,7 +251,7 @@ Graphs before DP, deliberately: it's more self-contained, gives faster wins afte
 **Weekly from Sept 20, no skipping.** Upsolve within 24 hrs — that upsolve is worth more than the contest itself.
 
 ### ✅ Phase 2 exit gate — Oct 18
-- [ ] ~310 LC solved
+- [ ] ~275 LC solved · **71 curated problems covered**
 - [ ] Rating **1520–1580**
 - [ ] Graphs closed — all 10 patterns, notebook entries written
 - [ ] Heap + Greedy closed (5 patterns)
@@ -236,10 +275,12 @@ DP is where average learners lose three weeks without noticing. The failure mode
 
 | By | Target |
 |---|---|
-| **Sun Nov 1** | DP blocks **1–3** — 1D (3), Grids (5), Subsequences (7) = **15 problems**. ~345 LC. |
-| **Sun Nov 15** | DP blocks **4–6** — Strings (7), Stocks (4), LIS (4) = **15 problems**. ~375 LC. |
+| **Sun Nov 1** | DP blocks **1–3** — 1D (3), Grids (5), Subsequences (7) = **15 problems**. ~310 LC. |
+| **Sun Nov 15** | DP blocks **4–6** — Strings (7), Stocks (4), LIS (4) = **15 problems**. ~330 LC. |
 | **Sun Nov 22** | DP blocks **7–8** — MCM/Partition (6), Squares (2) = **8 problems. DP closed at 38.** |
-| **Sun Nov 29** | Tries (7 Striver problems), Backtracking, Bits, Intervals/Matrix/Design. **All 55 `PATTERNS.md` patterns closed.** ~400 LC. `CN.md` complete. |
+| **Sun Nov 29** | Tries (7 Striver), Backtracking, Bits, Intervals/Matrix/Design = **40 curated problems**. **All `PATTERNS.md` patterns closed.** ~360 LC. `CN.md` complete. |
+
+**Phase 3 total: 38 DP + 40 others = ~78 curated problems** (125 at full list).
 
 ---
 
@@ -368,7 +409,7 @@ Needs 8 weeks of lead time to be warm by January. **This is why it lives here an
 - **By Nov 29:** engaged with 20 of them (substantive comments on their posts). **No ask yet.**
 
 ### ✅ Phase 3 exit gate — Nov 29
-- [ ] ~400 LC solved
+- [ ] ~360 LC solved
 - [ ] Rating **1600–1680**
 - [ ] **All 55 `PATTERNS.md` patterns closed** — every one with a notebook entry
 - [ ] **38 curated DP problems done** — the recurrence re-derivable on Day +7, from blank paper
@@ -422,7 +463,7 @@ Draw from real work — the React Native/Flutter app, the startup context, shipp
 - 4 LLD repos public with READMEs — entities, patterns, trade-offs
 
 ### ✅ Phase 4 exit gate — Dec 31
-- [ ] ~430 LC solved
+- [ ] ~385 LC solved
 - [ ] Rating **1680–1780**
 - [ ] **6 HLD designs** — each verbalizable in 15 min from a blank page
 - [ ] **4 LLD designs** — any one codeable in 40 min while narrating
@@ -467,7 +508,7 @@ Write down: what was asked · what you fumbled · what you didn't know existed. 
 - [ ] 6+ real interviews survived
 - [ ] Failure log written and acted on
 - [ ] The recurring weakness identified and fixed
-- [ ] ~470 LC, rating **1720–1800** (stretch: 1850)
+- [ ] ~425 LC, rating **1720–1800** (stretch: 1850)
 - [ ] 20+ total mocks + real interviews combined
 - [ ] Ready to face the top 5
 
@@ -569,7 +610,9 @@ The 8-month plan has almost no slack. **What you do when you slip matters more t
 ## Honest Expectations
 
 **What 546 hours realistically produces from a rusty 158-solved base, as an average learner:**
-~430 problems by January · rating **1720–1800** · all 4 fundamentals areas solid · 4 LLD implemented · 6 HLD verbalizable · 9+ mocks. **That profile is competitive for SDE-1 at every band-payer on the list, and credible for SDE-2 by February.**
+~425 LC by January · **272 curated `PATTERNS.md` problems, all 56 patterns closed** · rating **1720–1800** · all 4 fundamentals areas solid · 4 LLD implemented · 6 HLD verbalizable · 9+ mocks. **That profile is competitive for SDE-1 at every band-payer on the list, and credible for SDE-2 by February.**
+
+**Pattern coverage is the deliverable, not problem count.** 272 problems across all 56 patterns beats 394 across 40 of them, and beats 500 you can't re-derive on Day +7.
 
 **On the 1850 target — the honest breakdown:**
 
