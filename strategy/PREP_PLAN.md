@@ -38,6 +38,16 @@ You get the January start. Your best companies still meet the better version of 
 | Target level | **SDE-1 and SDE-2 — optimize for band, not title** |
 | Starting point | ~158 LC, no rating, rusty after 3 idle months |
 
+### Striver A2Z — actual state, Aug 2026
+
+| Section | Done | Remaining | Where it's scheduled |
+|---|---|---|---|
+| Graphs | 22 / 53 | **31** | Phase 2 |
+| BST | 0 / 16 | **16** | Phase 1 — **new learning, not revision** |
+| DP | 0 / 55 | **55 → do 38** | Phase 3 (curated list inside) |
+| Tries | 0 / 7 | **7** | Phase 3 |
+| | | **~92 problems** | |
+
 ### Time budget — compressed
 
 | | v2 | **v3** |
@@ -64,6 +74,7 @@ Full scope needs ~610 hrs. You have 546. These cuts close the gap — **decided 
 | LLD: Snake & Ladder, Library Mgmt | 4 designs cover the interview surface; 6 was insurance. |
 | DDIA | Absorb the vocabulary from `HLD.md` instead. |
 | SQL Top 50 → **Top 20** | Diminishing returns past the core patterns. |
+| **Striver DP: 55 → 38 problems** | The sheet repeats recurrences across problems. The curated 38 (listed in Phase 3) cover every distinct one. Saves ~15 hrs. |
 
 ### NOT cut — non-negotiable even under compression
 
@@ -83,7 +94,7 @@ LeetCode seeds new contestants at **1500**, so you are not starting from zero �
 |---|---|---|---|
 | ~Sept 20, 2026 | 1450–1520 | — | First 2 contests. Settling, likely a dip below 1500. Normal. |
 | Oct 18, 2026 | 1520–1580 | 1600 | Graphs closed. Solving 2/4 reliably. |
-| Nov 29, 2026 | 1600–1680 | 1720 | All 55 patterns closed. 2/4 fast, 3rd sometimes. |
+| Nov 29, 2026 | 1600–1680 | 1720 | All `PATTERNS.md` patterns closed. 2/4 fast, 3rd sometimes. |
 | Dec 31, 2026 | 1680–1780 | 1820 | Contest training compounding. 3/4 becoming normal. |
 | **Jan 31, 2027** | **1720–1800** | **1850** | 3/4 consistently, 4th on easier sets. |
 
@@ -128,16 +139,22 @@ The contest track is **~2.5 hrs/week from Nov 1** (1.5 hr virtual contest + 1 hr
 # PHASE 1 — REBUILD
 ## ▸ DEADLINE: Sunday, Sept 6, 2026 · 4.5 weeks · ~117 hrs
 
-**Goal: fluent again on what you already knew. Zero new hard topics.**
+**Goal: fluent again on what you already knew — plus BST, which turns out to be new.**
 
 Every instinct says skip this and go straight to Graphs, because Graphs is the visible gap. Don't. Phase 2 and 3 are built directly on these patterns — if arrays and trees are shaky, Graphs takes 8 weeks instead of 6 and the whole plan collapses in November.
+
+> ⚠️ **BST is 0/16 on Striver — this is new learning inside a revision phase.**
+> Budget **~14 hrs** for it, not the ~4 a re-solve would take. BST underpins tree
+> problems in contests and shows up directly in LLD (`TreeMap`, ceiling/floor, ordered
+> maps). It is the one part of Phase 1 you cannot skim.
 
 ### 15-day checkpoints
 
 | By | Target |
 |---|---|
 | **Wed Aug 19** | Patterns **1–13** — Array & String (10) + Binary Search (3). ~195 LC. `OS.md` Parts 1–3. |
-| **Sun Sept 6** | Patterns **14–25** — Stack/Queue (3), Linked List (2), Trees (7). ~225 LC. `OS.md` complete. |
+| **Sun Aug 30** | Patterns **14–18** — Stack/Queue (3), Linked List (2). Mostly re-solve, should move fast. ~210 LC. |
+| **Sun Sept 6** | Patterns **19–25** — Trees (7), **including all 16 Striver BST problems as fresh work**. ~225 LC. `OS.md` complete. |
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — new pattern from `PATTERNS.md`, then 4–5 problems on it
@@ -219,9 +236,122 @@ DP is where average learners lose three weeks without noticing. The failure mode
 
 | By | Target |
 |---|---|
-| **Sun Nov 1** | Patterns **46–49** — 1D DP, 0/1 + unbounded knapsack, LIS, LCS/strings. ~345 LC. |
-| **Sun Nov 15** | Patterns **50–52** — DP on grids, stocks (state machine), partition/MCM. **DP closed** (53 bitmask optional). ~375 LC. |
-| **Sun Nov 29** | Patterns **26–27** Tries, **43–44** Backtracking, **45** Bits, **54–56** Intervals/Matrix/Design. **All 55 core patterns closed.** ~400 LC. `CN.md` complete. |
+| **Sun Nov 1** | DP blocks **1–3** — 1D (3), Grids (5), Subsequences (7) = **15 problems**. ~345 LC. |
+| **Sun Nov 15** | DP blocks **4–6** — Strings (7), Stocks (4), LIS (4) = **15 problems**. ~375 LC. |
+| **Sun Nov 22** | DP blocks **7–8** — MCM/Partition (6), Squares (2) = **8 problems. DP closed at 38.** |
+| **Sun Nov 29** | Tries (7 Striver problems), Backtracking, Bits, Intervals/Matrix/Design. **All 55 `PATTERNS.md` patterns closed.** ~400 LC. `CN.md` complete. |
+
+---
+
+## 📋 THE CURATED DP LIST — 38 of Striver's 55
+
+**Why not all 55:** the sheet has real redundancy. The subsequence block alone has four problems that are one recurrence in different costumes. **These 38 cover every distinct recurrence in the section.** The 17 skipped are reinforcement, not new ideas — do them in January as maintenance if you want the completed badge.
+
+**Rule for every skipped problem:** read the statement, say the recurrence out loud, confirm it's one you've already written. That takes 3 minutes and is the entire value of the problem. If you *can't* state the recurrence, it isn't redundant for you — solve it.
+
+### Block 1 — 1D DP · do 3 of 5
+| ✓ | Problem |
+|---|---|
+| ☐ | Climbing Stairs |
+| ☐ | Frog Jump |
+| ☐ | House Robber (max sum of non-adjacent) |
+
+*Skip:* Frog Jump with k distances (same recurrence, one extra loop) · House Robber II (circular = run the linear version twice — read the trick)
+
+### Block 2 — DP on Grids · do 5 of 7
+| ✓ | Problem |
+|---|---|
+| ☐ | Ninja's Training |
+| ☐ | Grid Unique Paths |
+| ☐ | Grid Unique Paths II (obstacles) |
+| ☐ | Minimum Path Sum in a Grid |
+| ☐ | Ninja and His Friends (Cherry Pickup II) — **the only 3-state one, don't skip** |
+
+*Skip:* Min path sum in triangular grid · Min/max falling path sum (both are min-path-sum with a variable-width row)
+
+### Block 3 — DP on Subsequences · do 7 of 11
+| ✓ | Problem |
+|---|---|
+| ☐ | Subset Sum equal to target |
+| ☐ | Partition Equal Subset Sum |
+| ☐ | Partition Set into 2 Subsets, min absolute diff |
+| ☐ | 0/1 Knapsack |
+| ☐ | Minimum Coins (Coin Change) |
+| ☐ | Coin Change 2 (count ways) |
+| ☐ | Rod Cutting — **this IS unbounded knapsack** |
+
+*Skip:* Count Subsets with Sum K (subset sum, counting instead of boolean) · Count Partitions with Given Difference (derives from it) · Target Sum (identical to the above) · Unbounded Knapsack (= Rod Cutting)
+
+### Block 4 — DP on Strings · do 7 of 10
+| ✓ | Problem |
+|---|---|
+| ☐ | Longest Common Subsequence — **the parent of this whole block** |
+| ☐ | Longest Common Substring |
+| ☐ | Minimum Insertions to Make String Palindrome |
+| ☐ | Shortest Common Supersequence |
+| ☐ | Distinct Subsequences |
+| ☐ | Edit Distance |
+| ☐ | Wildcard Matching |
+
+*Skip:* Print LCS (backtracking the table — read it once) · Longest Palindromic Subsequence (= LCS of s and reverse(s)) · Min insertions/deletions A→B (= n + m − 2·LCS, one line)
+
+### Block 5 — DP on Stocks · do 4 of 6
+| ✓ | Problem |
+|---|---|
+| ☐ | Best Time to Buy and Sell Stock |
+| ☐ | Buy and Sell Stock II |
+| ☐ | Buy and Sell Stock III |
+| ☐ | Buy and Sell Stock with Cooldown |
+
+*Skip:* Stock IV (= Stock III generalized to k — read the generalization) · Stock with Transaction Fee (= Stock II minus a constant)
+
+**Do these four as one state machine**, not four problems. Draw the states once; every variant is an edge change.
+
+### Block 6 — DP on LIS · do 4 of 7
+| ✓ | Problem |
+|---|---|
+| ☐ | Longest Increasing Subsequence (DP) |
+| ☐ | Longest Increasing Subsequence (binary search / patience) — **contest-critical** |
+| ☐ | Longest String Chain |
+| ☐ | Longest Bitonic Subsequence (LIS from both ends) |
+
+*Skip:* Printing LIS (backtrack the table) · Largest Divisible Subset (LIS with a divisibility check) · Number of LIS (worth reading — LIS plus a count array)
+
+### Block 7 — MCM / Partition DP · do 6 of 7
+**Cut almost nothing here.** Hardest block, least redundant, and the one that separates 1600 from 1800.
+
+| ✓ | Problem |
+|---|---|
+| ☐ | Matrix Chain Multiplication |
+| ☐ | Minimum Cost to Cut the Stick |
+| ☐ | Burst Balloons |
+| ☐ | Evaluate Boolean Expression to True |
+| ☐ | Palindrome Partitioning II |
+| ☐ | Partition Array for Maximum Sum |
+
+*Skip:* MCM bottom-up as a separate problem — instead **convert your own memoized MCM to tabulation yourself.** That conversion is the actual skill.
+
+### Block 8 — DP on Squares · do 2 of 2
+| ✓ | Problem |
+|---|---|
+| ☐ | Count Square Submatrices with All Ones |
+| ☐ | Maximum Rectangle Area with all 1's — links back to monotonic stack (pattern 15) |
+
+### Totals
+
+| Block | Sheet | Curated |
+|---|---|---|
+| 1D | 5 | 3 |
+| Grids | 7 | 5 |
+| Subsequences | 11 | 7 |
+| Strings | 10 | 7 |
+| Stocks | 6 | 4 |
+| LIS | 7 | 4 |
+| MCM / Partition | 7 | 6 |
+| Squares | 2 | 2 |
+| **Total** | **55** | **38** |
+
+**~40 hrs instead of ~55.** That recovered slack is what keeps Phase 3 from eating the design sprint.
 
 ### Weekend (8 hrs × 2)
 - 5 hrs — new DP pattern + 5–6 problems. **Derive the recurrence on paper before writing code, every time.**
@@ -240,7 +370,9 @@ Needs 8 weeks of lead time to be warm by January. **This is why it lives here an
 ### ✅ Phase 3 exit gate — Nov 29
 - [ ] ~400 LC solved
 - [ ] Rating **1600–1680**
-- [ ] **All 55 core patterns closed** — every one with a notebook entry
+- [ ] **All 55 `PATTERNS.md` patterns closed** — every one with a notebook entry
+- [ ] **38 curated DP problems done** — the recurrence re-derivable on Day +7, from blank paper
+- [ ] Tries: all 7 Striver problems done
 - [ ] `OS.md`, `DBMS.md`, `CN.md` complete
 - [ ] 30-person referral list built, 20 engaged
 - [ ] 9+ contests done
