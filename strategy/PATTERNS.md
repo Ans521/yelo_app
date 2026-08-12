@@ -129,6 +129,8 @@ When you complete a pattern (typically over 3–4 days), re-implement on this sc
 
 **📐 Contiguous vs Subsequence vs Consecutive — the vocabulary that picks the pattern**
 
+> ### Contiguous subarray = elements whose **indices** are next to each other.
+
 Mixing these up is the single most common cause of choosing the wrong technique.
 
 On `[100, 4, 1, 3, 2]`:
