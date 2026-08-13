@@ -114,42 +114,42 @@ When you complete a pattern (typically over 3–4 days), re-implement on this sc
 **Picture:** A window of K cells slides right by 1 — one in, one out, like a conveyor belt.
 **Invariant:** Window holds exactly K elements.
 
-**Failure — when fixed-size is the WRONG choice:**
+### The whole idea
 
-| Signal in the problem | Why fixed-size breaks | Use instead |
-|---|---|---|
-| "at most K", "at least K", "longest/shortest such that…" | K isn't given — the window must grow *and* shrink | **Variable Sliding Window** (Pattern 3) |
-| "subsequence", "not necessarily adjacent", "you may delete elements" | A window is one solid block; a subsequence skips elements | **DP** (Patterns 46–52) |
-| Many arbitrary range queries `sum(l, r)` | A window walks left→right once; queries jump around | **Prefix Sum** (Pattern 5) |
-| Need max/min *inside* every window in O(1) | Rescanning each window is O(N·K) | **Monotonic Deque** (Pattern 16) — this is why **239** is listed below but solved there |
-| Sorted array, pairing inward from both ends | Not a window at all | **Two Pointers** (Pattern 4) |
-| "consecutive **values**" (1,2,3,4…), order irrelevant | About the numbers, not their positions | **Hashing** (Pattern 9) — e.g. **128** |
+Two neighbouring windows share **K−1** elements. Only two ever change: one falls off the left, one joins on the right. So don't recompute the window — update it.
 
-**⚠️ Negatives are NOT a failure mode here.** A fixed window adds one element and drops one, assuming no monotonicity — so negative numbers are harmless. **643** below has negatives in its constraints and works fine. The "negatives break it" rule belongs to **variable**-size windows (Pattern 3), where shrinking from the left must reliably reduce the sum.
+```
+newSum = oldSum − elementLeaving + elementEntering
+```
 
-**📐 Contiguous vs Subsequence vs Consecutive — the vocabulary that picks the pattern**
+That single line *is* the pattern. Brute force re-adds K elements for each of N windows → O(N·K). Reusing the overlap makes every step O(1) → **O(N)**.
 
-> ### Contiguous subarray = elements whose **indices** are next to each other.
+Remember only *"consecutive windows overlap"* and you can re-derive the rest at the whiteboard.
 
-Mixing these up is the single most common cause of choosing the wrong technique.
+### Is it this pattern?
 
-On `[100, 4, 1, 3, 2]`:
+**One question: does the problem fix the window size?**
+- "subarray of size **exactly K**" → yes → this pattern
+- "at most / at least / longest / shortest …" → the size has to change → **Pattern 3**
 
-| Term | Refers to | Meaning | Example |
-|---|---|---|---|
-| **Contiguous** (subarray / substring) | **indices** | Adjacent slots, nothing skipped — `arr[i..j]` | `[4,1,3]` ✅ (idx 1-2-3) · `[100,1]` ❌ |
-| **Subsequence** | **indices** | Order preserved, gaps allowed | `[100,3]` ✅ · `[3,4]` ❌ (order broken) |
-| **Consecutive values** | **the values** | Numbers differing by 1 — position irrelevant | `{1,2,3,4}` — scattered across idx 2,4,3,1 |
+**Then check you're looking at a solid block:**
+- **contiguous subarray = elements whose indices are next to each other** → a window works
+- **subsequence** (gaps allowed) → not a window → usually DP
 
-**"Contiguous" is always about index adjacency, never about the values sitting at those indices.**
+**Negatives are fine here.** You add one and subtract one; nothing assumes the sum grows. That worry belongs to Pattern 3.
 
-The trap — *"consecutive"* is used both ways in problem titles:
-- **1004** "Max Consecutive Ones III" → consecutive **by index** → ✅ sliding window
-- **128** "Longest Consecutive Sequence" → consecutive **by value** → ❌ not a window; HashSet
+**One special case:** if you need the max/min *inside* every window, the sum trick doesn't apply — you can't "subtract" a maximum. Use a monotonic deque (**Pattern 16**). That's why **239** is listed below but solved there.
 
-**Decision test:** *if I shuffle the array, does the answer change?*
-**Yes** → positions matter → subarray / window territory.
-**No** → it's about the values → hashing, sorting, or counting.
+### "Contiguous" means indices, not values
+
+Contiguous is about **positions**, never about the numbers sitting in them.
+
+The word *"consecutive"* gets used both ways, which is the actual trap:
+- **1004** Max Consecutive Ones III → consecutive **positions** → ✅ window
+- **128** Longest Consecutive Sequence → consecutive **numbers** (1,2,3,4) → ❌ HashSet
+
+**Test: shuffle the array. If the answer changes, positions matter → window territory.**
+Shuffling breaks 1004. It does nothing to 128.
 
 **Problems (5):**
 1. Maximum Average Subarray I — **643**
@@ -167,19 +167,16 @@ The trap — *"consecutive"* is used both ways in problem titles:
 **Invariant:** [left, right] always satisfies the condition (or is being repaired).
 **Approach:** Expand right. While invalid, shrink left. Update result when valid.
 
-**Failure — negatives break this pattern (and here's why):**
+**Failure — negatives break this.**
 
-Variable windows rely on **monotonicity**: extending `right` must only ever *increase* the quantity, and shrinking `left` must only ever *decrease* it. That's what makes "shrink while invalid" a safe greedy move.
+The whole trick is one-directional: growing right makes the window *worse*, shrinking left makes it *better*. That's the only reason "shrink while invalid" is safe — you know which way to push.
 
-With negative numbers that guarantee dies — extending right can *lower* the sum, so a window that's currently invalid might become valid by growing, not shrinking. The set of valid windows is no longer a contiguous range of sizes, and the greedy shrink is simply wrong.
+Negatives kill it. Growing right can now *lower* the sum, so a window that looks invalid might become valid by **growing** — and shrinking never tries that.
 
-| Situation | Pattern |
-|---|---|
-| All values **positive** (or all counts/frequencies) | ✅ Variable sliding window |
-| Any **negative** values + exact-sum target | ❌ → **Prefix Sum + HashMap** (Pattern 5) — e.g. **560**, **974** |
-| Product with zeros or negatives | ❌ → handle separately; **713** works only because values ≥ 1 |
+**Check: can adding an element ever make my window better?**
+If yes, it isn't a sliding window problem → **Prefix Sum + HashMap** (Pattern 5), e.g. **560**.
 
-Quick check before you commit: **"can adding an element ever make my window *better*?"** If yes, it isn't a sliding window problem.
+Positive values only — or counts and frequencies, which are always positive — and you're safe. That's exactly why **713** works: its values are ≥ 1.
 
 **Problems (10):**
 1. Longest Substring Without Repeating Characters — **3**
