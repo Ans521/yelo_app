@@ -167,6 +167,61 @@ Shuffling breaks 1004. It does nothing to 128.
 **Invariant:** [left, right] always satisfies the condition (or is being repaired).
 **Approach:** Expand right. While invalid, shrink left. Update result when valid.
 
+### The three questions
+
+Don't remember a trick for each problem. Ask these three questions every time.
+
+**1. What makes my window invalid?**
+
+This is the only part that changes. Think here.
+
+**2. What do I do when it is invalid?**
+
+Move left. Keep moving left until the window is valid again.
+
+```java
+while (window is invalid) {
+    remove(arr[l]);
+    l++;
+}
+```
+
+**3. When do I update my answer?**
+
+When the window is valid.
+
+```java
+answer = Math.max(answer, r - l + 1);
+```
+
+### The skeleton
+
+```java
+int l = 0;
+for (int r = 0; r < n; r++) {
+    add(arr[r]);                             // grow right
+
+    while (isInvalid()) {                    // move left until valid
+        remove(arr[l]);
+        l++;
+    }
+
+    answer = Math.max(answer, r - l + 1);    // window is valid here
+}
+```
+
+Only `isInvalid()` changes. The rest is the same every time.
+
+### Longest vs shortest
+
+Two types. Same skeleton. Only the answer update moves.
+
+- **Longest** — shrink while the window is **invalid**. Update **after** the loop.
+- **Shortest** — shrink while the window is **valid**. Update **inside** the loop.
+
+Ask: am I shrinking to fix a broken window, or to make a good window smaller?
+Fix it → longest. Make it smaller → shortest.
+
 **Failure — negatives break this.**
 
 The whole trick is one-directional: growing right makes the window *worse*, shrinking left makes it *better*. That's the only reason "shrink while invalid" is safe — you know which way to push.
@@ -195,9 +250,56 @@ Positive values only — or counts and frequencies, which are always positive �
 ## 4. Two Pointers (Opposite Ends + Same Direction)
 
 **Signal:** Sorted array pair/triplet sums; in-place modification; partition.
-**Picture (opposite):** Two hands closing in from both ends of a number line.
-**Picture (same direction):** Two runners — slow writes "kept" elements, fast scans ahead.
-**Invariant (sorted):** Moving the right pointer left or left pointer right prunes a half safely.
+
+Two different ideas share this one name. Learn them separately — they have nothing
+in common except using two variables.
+
+### A — Opposite ends (needs sorted input)
+
+`left` sits on the smallest value, `right` on the largest. Their sum tells you which
+one to move.
+
+```
+sum too small  → you need a bigger sum  → left++
+sum too big    → you need a smaller sum → right--
+```
+
+**Why throwing a pointer away is safe.** Say the sum is too small. `right` is
+already the largest value left in the array, so pairing `nums[left]` with anything
+else still available gives an even smaller sum. No pair using `left` can ever work
+— so drop it. The other direction is the same argument mirrored.
+
+That's the whole pattern. Brute force checks every pair, N². Each move here deletes
+a whole row of pairs at once, and there are only N moves → **O(N)**.
+
+**It must be sorted.** Without order, "too small, move left" means nothing — a
+bigger number could be sitting anywhere.
+
+### B — Same direction (read and write)
+
+Nothing to do with A. Both pointers walk the same way:
+
+- `fast` reads every element and decides **keep or skip**
+- `slow` marks where the next kept element goes
+
+```java
+int slow = 0;
+for (int fast = 0; fast < n; fast++) {
+    if (keep(nums[fast])) {
+        nums[slow] = nums[fast];
+        slow++;
+    }
+}
+```
+
+**The invariant: everything before `slow` is final.** `slow` only moves when
+something is kept, so it can never overtake `fast` — which is exactly why
+overwriting the array as you go is safe.
+
+### Which one am I in?
+
+- "find a pair / triplet summing to X", input sorted → **A**
+- "remove / move / partition, in place" → **B**
 
 **Problems (10):**
 1. Two Sum II — Input Array Is Sorted — **167**
