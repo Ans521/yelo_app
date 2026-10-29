@@ -296,10 +296,64 @@ for (int fast = 0; fast < n; fast++) {
 something is kept, so it can never overtake `fast` — which is exactly why
 overwriting the array as you go is safe.
 
+#### Overwrite, or swap?
+
+`nums[slow] = nums[fast]` deletes whatever was sitting at `slow`. That's only
+allowed when the problem lets you ignore the tail — **26** returns a length and
+nobody looks past it.
+
+If every value has to survive, swap instead:
+
+```java
+swap(nums, slow, fast);
+slow++;
+```
+
+Same pointers, same invariant. The only difference: the skipped value gets parked
+at `fast` instead of being thrown away. **283 Move Zeroes** is exactly this — the
+zeros have to end up at the back, so you can't drop them.
+
+#### Two buckets or three? — this is what 75 needs
+
+One write pointer splits the array in two: before `slow` is kept, after it is
+skipped. That's the limit of the loop above.
+
+**Sort Colors has three buckets** (0s, 1s, 2s), so one write pointer can't do it.
+You need one growing from each end:
+
+- `low` — where the next 0 goes
+- `high` — where the next 2 goes
+- `mid` — the scanner
+
+1s get no pointer. They just pile up in the gap left behind.
+
+```java
+int low = 0, mid = 0, high = n - 1;
+while (mid <= high) {
+    if (nums[mid] == 0)      swap(nums, low++, mid++);
+    else if (nums[mid] == 2) swap(nums, mid, high--);   // mid does NOT move
+    else                     mid++;
+}
+```
+
+**The one thing everyone gets wrong: why `mid` moves after a 0-swap but not after
+a 2-swap.** Don't memorise it — just look at what got swapped *in*.
+
+- Swapped with `low`: the region between `low` and `mid` is all 1s, so the value
+  coming back is a 1. Already seen it. Move on.
+- Swapped with `high`: that value came from the right side, which you have never
+  scanned. So stay on `mid` and check it.
+
+**Invariant:** `[0, low)` = 0s · `[low, mid)` = 1s · `(high, n-1]` = 2s ·
+`[mid, high]` = unknown. The loop runs until unknown is empty, which is why the
+condition is `mid <= high` and not `mid < n`.
+
 ### Which one am I in?
 
 - "find a pair / triplet summing to X", input sorted → **A**
 - "remove / move / partition, in place" → **B**
+  - tail can be garbage → overwrite · every value must survive → swap
+  - two buckets → one write pointer · three → one from each end (**75**)
 
 **Problems (10):**
 1. Two Sum II — Input Array Is Sorted — **167**
