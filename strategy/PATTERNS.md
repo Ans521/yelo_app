@@ -371,11 +371,94 @@ condition is `mid <= high` and not `mid < n`.
 
 ## 5. Prefix Sum (1D + HashMap)
 
-**Signal:** Range sum queries; "subarray sum equals K" with negatives possible.
-**Picture:** Running odometer. Distance between two points = subtraction. With HashMap: "have I seen `prefix − K` before?"
-**Invariant:** `prefix[j] − prefix[i] = sum of (i, j]`.
+**Signal:** Range sums; "count / find subarrays with sum K" when negatives are possible.
 
-**Failure:** Sliding Window assumes monotonicity; negatives break it. Use Prefix Sum + HashMap.
+**Prefix sum is just the running total.** `prefix[i]` = the sum of everything from
+index 0 up to and including `i`. That's all it is.
+
+```
+nums   = [2,  4,  1,  3]
+prefix = [2,  6,  7, 10]
+```
+
+Why that helps: once you have the running totals, the sum of any stretch of the
+array is **one subtraction**.
+
+```
+sum of nums[i..j] = prefix[j] − prefix[i-1]
+```
+
+Sum of `nums[1..3]` is `10 − 2` = 8. No loop. That's the whole idea.
+
+There are two levels to this pattern. Most people jump straight to the HashMap —
+**half of these problems don't need it at all.**
+
+### A — Just the running total (no HashMap)
+
+The question asks for a sum, not for a subarray. You walk the array keeping a
+running total, and that's it.
+
+- **1480** — output the running total. Literally just `prefix`.
+- **724** — at each index, check `leftSum == total − leftSum − nums[i]`. One pass
+  with a running total.
+- **238** — same shape with products: running product from the left, running
+  product from the right, multiply them.
+
+No map anywhere. If you reached for one here, you over-built it.
+
+### B — Running total + HashMap
+
+Now the question is **"does a stretch with property X exist / how many are there"**.
+You can't test every stretch — that's N². So rearrange the formula instead.
+
+You're standing at `j` with running total `sum`. You want a subarray **ending here**
+with sum `K`:
+
+```
+sum − prefixBefore = K      →      prefixBefore = sum − K
+```
+
+Left side is what you already have. Right side is just **a number**. So the
+question stops being "which subarray?" and becomes **"have I ever seen the running
+total `sum − K` before?"** — one HashMap lookup, O(1).
+
+```java
+map.put(0, 1);                             // see below
+int sum = 0, ans = 0;
+for (int x : nums) {
+    sum += x;
+    ans += map.getOrDefault(sum - K, 0);   // ask first
+    map.merge(sum, 1, Integer::sum);       // then record yourself
+}
+```
+
+**Why `map.put(0, 1)` before the loop.** A subarray that starts at index 0 has
+nothing before it, so its "previous total" is 0. If that 0 isn't already in the
+map you miss every subarray starting at the front.
+
+**Ask before you record.** Record `sum` first and it can match itself when `K` is 0.
+
+**What you store as the value depends on the question:**
+- counting subarrays → store **how many times** each total has appeared
+- longest subarray → store the **first index** each total appeared at, and never
+  overwrite it (earliest index → longest stretch)
+
+**When the property isn't a plain sum, change the key, not the trick.**
+- divisible by K (**974**, **523**) → key is `sum % K`. Two positions with the same
+  remainder means the stretch between them is divisible. In Java fix negatives
+  first: `((sum % K) + K) % K`.
+- equal 0s and 1s (**525**) → count 0 as −1. "Equal counts" becomes "sum 0", and
+  you're back to the plain case.
+
+### Which one am I in?
+
+- "what is the sum / the value at each index" → **A**, no map
+- "how many subarrays..." / "longest subarray with..." → **B**
+
+**Why not sliding window?** A window only works if growing it pushes the sum in one
+direction. Negatives break that — the sum can go up and down, so shrinking tells
+you nothing. Prefix sum never relies on direction, which is why it survives
+negatives.
 
 **Problems (8):**
 1. Running Sum of 1d Array — **1480**
