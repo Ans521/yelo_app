@@ -408,47 +408,55 @@ No map anywhere. If you reached for one here, you over-built it.
 
 ### B — Running total + HashMap
 
-Now the question is **"does a stretch with property X exist / how many are there"**.
-You can't test every stretch — that's N². So rearrange the formula instead.
+Now the question is **"how many subarrays add up to K"**.
 
-You're standing at `j` with running total `sum`. You want a subarray **ending here**
-with sum `K`:
+- `K` = the target sum the question gives you. Just a number, say 3.
+- `sum` = your running total so far.
+
+Take `nums = [1, 2, 3]` and `K = 3`. Walk it, keeping the running total:
 
 ```
-sum − prefixBefore = K      →      prefixBefore = sum − K
+index 0 → sum = 1
+index 1 → sum = 3
+index 2 → sum = 6
 ```
 
-Left side is what you already have. Right side is just **a number**. So the
-question stops being "which subarray?" and becomes **"have I ever seen the running
-total `sum − K` before?"** — one HashMap lookup, O(1).
+Stand at index 2. `sum` is 6, `K` is 3. If some earlier point had a total of **3**,
+then everything after that point adds up to `6 − 3 = 3` — which is `K`. And a total
+of 3 did happen, at index 1. Found one.
+
+That's the whole rule:
+
+```
+at every step, look up (sum − K) in the map
+```
+
+Each time you find it, that's one more subarray ending right here.
 
 ```java
-map.put(0, 1);                             // see below
+map.put(0, 1);
 int sum = 0, ans = 0;
 for (int x : nums) {
     sum += x;
-    ans += map.getOrDefault(sum - K, 0);   // ask first
-    map.merge(sum, 1, Integer::sum);       // then record yourself
+    ans += map.getOrDefault(sum - K, 0);   // look up first
+    map.merge(sum, 1, Integer::sum);       // then add yourself
 }
 ```
 
-**Why `map.put(0, 1)` before the loop.** A subarray that starts at index 0 has
-nothing before it, so its "previous total" is 0. If that 0 isn't already in the
-map you miss every subarray starting at the front.
+Three things to remember:
 
-**Ask before you record.** Record `sum` first and it can match itself when `K` is 0.
+1. **`map.put(0, 1)` before the loop.** A subarray starting at index 0 has nothing
+   before it, so its earlier total is 0. If 0 isn't in the map you miss all of those.
+2. **Look up before you add `sum`.** Otherwise `sum` can match itself when `K` is 0.
+3. **The map's value:** a **count** when the question says "how many", the **first
+   index** when it says "longest" (and never overwrite it).
 
-**What you store as the value depends on the question:**
-- counting subarrays → store **how many times** each total has appeared
-- longest subarray → store the **first index** each total appeared at, and never
-  overwrite it (earliest index → longest stretch)
+Same trick for the cousins — only the **key** changes:
 
-**When the property isn't a plain sum, change the key, not the trick.**
-- divisible by K (**974**, **523**) → key is `sum % K`. Two positions with the same
-  remainder means the stretch between them is divisible. In Java fix negatives
-  first: `((sum % K) + K) % K`.
-- equal 0s and 1s (**525**) → count 0 as −1. "Equal counts" becomes "sum 0", and
-  you're back to the plain case.
+- divisible by K (**974**, **523**) → key is `sum % K`. Two spots with the same
+  remainder → the stretch between them divides evenly. In Java fix negatives:
+  `((sum % K) + K) % K`.
+- equal 0s and 1s (**525**) → count every 0 as −1. "Equal counts" becomes "sum 0".
 
 ### Which one am I in?
 
