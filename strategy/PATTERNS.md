@@ -488,8 +488,21 @@ count 1 instead of 2. **The count is the number of subarrays.**
 **Look up before you record.** Add `sum` to the map first and it can match itself
 when `K` is 0.
 
-**If the question says "longest" instead of "how many",** store the **first index**
-each total appeared at and never overwrite it — earliest start means longest stretch.
+#### Longest vs counting — the whole decision
+
+| Question asks | What the map stores | Problems |
+|---|---|---|
+| **longest** subarray | the **first index** each total appeared at, **never overwritten** | longest with sum K (positives · with negatives), longest with sum 0 |
+| **how many** subarrays | the **frequency** — how many times each total appeared | count subarrays with sum K, count with sum 0 |
+
+> **Longest → first occurrence. Counting → frequency.**
+
+Earliest start means longest stretch — that's the whole reason you never overwrite a
+first index.
+
+One caveat: **longest with sum K on an all-positive array** is a sliding window
+problem, and the window does it in O(1) space. Reach for prefix sum + map the moment
+negatives are possible, because that's when the window breaks.
 
 Same trick for the cousins — only the **key** changes:
 
