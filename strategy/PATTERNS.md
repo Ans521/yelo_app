@@ -408,30 +408,50 @@ No map anywhere. If you reached for one here, you over-built it.
 
 ### B — Running total + HashMap
 
-Now the question is **"how many subarrays add up to K"**.
+The question is now **"how many subarrays add up to K"**.
 
-- `K` = the target sum the question gives you. Just a number, say 3.
-- `sum` = your running total so far.
+- `K` = the target the question gives you. Just a number, say 4.
+- `sum` = your running total, from the start of the array to where you stand.
 
-Take `nums = [1, 2, 3]` and `K = 3`. Walk it, keeping the running total:
+**K is never in the map.** The map holds running totals. `K` is the **gap** between
+two of them.
 
-```
-index 0 → sum = 1
-index 1 → sum = 3
-index 2 → sum = 6
-```
-
-Stand at index 2. `sum` is 6, `K` is 3. If some earlier point had a total of **3**,
-then everything after that point adds up to `6 − 3 = 3` — which is `K`. And a total
-of 3 did happen, at index 1. Found one.
-
-That's the whole rule:
+Think of `sum` as a car odometer. It reads 10. You want a stretch of road exactly
+**4** long that ends right here. So you ask: *was the odometer ever at 6?*
 
 ```
-at every step, look up (sum − K) in the map
+odometer:   6 ──────────────── 10
+                gap = 4 = K
 ```
 
-Each time you find it, that's one more subarray ending right here.
+If it was, the road from that moment to now is exactly 4 long — because
+`10 − 6 = 4`. The number 4 never appears **on** the odometer. It's a difference
+between two readings. That's why you search for 6 and not for 4.
+
+So `sum − K` is **the earlier total you're hunting for. If it happened, everything
+after it adds up to K.**
+
+```
+at every step, look up (sum − K)
+each time you find it → one more subarray ending right here
+```
+
+You look up **exactly one number** per step. Everything else in the map is ignored
+that step — it's a phone book, not a list you scan.
+
+Walk `nums = [2, 4, 2, 2]` with `K = 4`. Map starts as `{0: 1}`:
+
+| x | sum | look for `sum−4` | found? | subarray | ans |
+|---|-----|------------------|--------|----------|-----|
+| 2 | 2 | −2 | no | — | 0 |
+| 4 | 6 | **2** | yes | `[4]` | 1 |
+| 2 | 8 | 4 | no | — | 1 |
+| 2 | 10 | **6** | yes | `[2,2]` | 2 |
+
+Row 3 is worth a look: `sum − K` is 4, and 4 isn't in the map — correctly, because
+no subarray ending at index 2 adds to 4 (`[2]`=2, `[4,2]`=6, `[2,4,2]`=8). **If no
+such subarray exists anywhere, `sum − K` is simply never found and the answer stays
+0.** Nothing special needed.
 
 ```java
 map.put(0, 1);
@@ -443,13 +463,33 @@ for (int x : nums) {
 }
 ```
 
-Three things to remember:
+**Why `map.put(0, 1)` before the loop.** A subarray that starts at index 0 has
+nothing before it, so the total before it is 0. If 0 isn't in the map you miss every
+subarray starting at the front.
 
-1. **`map.put(0, 1)` before the loop.** A subarray starting at index 0 has nothing
-   before it, so its earlier total is 0. If 0 isn't in the map you miss all of those.
-2. **Look up before you add `sum`.** Otherwise `sum` can match itself when `K` is 0.
-3. **The map's value:** a **count** when the question says "how many", the **first
-   index** when it says "longest" (and never overwrite it).
+**Why you store every total.** You don't know which one a later position will ask
+for. At index 2 the total 8 looks useless — but some later step's `sum − K` might
+be exactly 8.
+
+**Why you store a count, not just yes/no.** The same total can happen more than
+once, and **each repeat is a separate starting point.** Take `nums = [1, -1, 1]`,
+`K = 1`:
+
+| x | sum | sum−1 | map says | ans |
+|---|-----|------|----------|-----|
+| 1 | 1 | 0 | seen 0 **once** | 1 |
+| −1 | 0 | −1 | never | 1 |
+| 1 | 1 | 0 | seen 0 **twice** | 1 + 2 = **3** |
+
+Total 0 happened twice — before index 0, and again after index 1 — so two different
+subarrays end at index 2 and both add to 1: `[1,-1,1]` and `[1]`. A yes/no map would
+count 1 instead of 2. **The count is the number of subarrays.**
+
+**Look up before you record.** Add `sum` to the map first and it can match itself
+when `K` is 0.
+
+**If the question says "longest" instead of "how many",** store the **first index**
+each total appeared at and never overwrite it — earliest start means longest stretch.
 
 Same trick for the cousins — only the **key** changes:
 
