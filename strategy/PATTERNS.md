@@ -1364,22 +1364,55 @@ negatives.
 
 ---
 
-# 12-MONTH STUDY MAP
+# STUDY MAP — 14-DAY BLOCKS (from 22 Nov 2026)
 
-| Month | Patterns | Problems target |
-|-------|----------|------------------|
-| 1 (Jun 2026) | 28–37 (Graphs) | 45 |
-| 2 (Jul 2026) | 46–47 + 48 (DP basics, Knapsack, LIS) | 50 |
-| 3 (Aug 2026) | 49–52 (LCS, Palindromic, Grids, Stocks, Partition) | 50 |
-| 4 (Sept 2026) | 14–18 (Stack/Queue/LL) + 41–42 (Greedy) | 50 |
-| 5 (Oct 2026) | 1–13 (Array/String/Hashing/BS) | 50 |
-| 6 (Nov 2026) | 19–25 (Trees) + 26–27 (Trie) + 53 (Bitmask DP) | 55 |
-| 7 (Dec 2026) | 38–40 (Heap) + 43–44 (Backtracking) + 45 (Bit) + 54–55 (Intervals/Matrix) | 55 |
-| 8 (Jan 2027) | 56 (Design) + Mock contests + revisit weak | 50 |
-| 9 (Feb 2027) | Company-tagged + composite review | 35 |
-| 10–12 (Mar–May 2027) | Maintenance + interview-mode | 30/month |
+**Pace rule.** 40 problems/month on normal topics (~20 per block). On hard or
+long topics, drop to 25–30/month (~13–15 per block) — better to finish 13 DP
+problems you can re-implement than 20 you only read.
 
-**Cumulative target: ~470 problems by Month 9, ~560 by Month 12.**
+Blocks are 14 days each. If you slip, **push the block, don't skip patterns** —
+the order below is dependency-ordered.
+
+| # | Dates | Patterns | Topic | Target | Cumulative |
+|---|-------|----------|-------|--------|------------|
+| **1** | 22 Nov – 5 Dec 2026 | 1-3 | Fast & Slow, Sliding Window (fixed + variable) | 21 | 21 |
+| **2** | 6 Dec – 19 Dec 2026 | 4-5 | Two Pointers, Prefix Sum | 18 | 39 |
+| **3** | 20 Dec 2026 – 2 Jan 2027 | 6-8,10 | 2D Prefix / Difference, Cyclic Sort, Kadane, Boyer-Moore | 18 | 57 |
+| **4** | 3 Jan – 16 Jan 2027 | 9,11 | Hashing, Binary Search on sorted array | 16 | 73 |
+| **5** | 17 Jan – 30 Jan 2027 | 12-13 | Binary Search on Answer, Rotated / Modified arrays | 15 | 88 |
+| **6** | 31 Jan – 13 Feb 2027 | 14-15 | Stack matching, Monotonic Stack | 18 | 106 |
+| **7** | 14 Feb – 27 Feb 2027 | 16-18 | Monotonic Deque, LL Reversal, Merge / Reorder | 18 | 124 |
+| **8** | 28 Feb – 13 Mar 2027 | 19-20,24 | Tree DFS, BFS / Level order, Construction | 19 | 143 |
+| **9** | 14 Mar – 27 Mar 2027 | 21-22 | Height / Diameter / Path Sum, LCA | 15 | 158 |
+| **10** | 28 Mar – 10 Apr 2027 | 23,25 | BST, Tree DP / Re-rooting | 14 | 172 |
+| **11** | 11 Apr – 24 Apr 2027 | 26-27 | Trie insert / search, Trie + Backtracking / XOR | 11 | 183 |
+| **12** | 25 Apr – 8 May 2027 | 28,30 | Graph DFS components, Multi-source BFS | 13 | 196 |
+| **13** | 9 May – 22 May 2027 | 29,31 | BFS shortest path, Cycle detection | 13 | 209 |
+| **14** | 23 May – 5 Jun 2027 | 32,37 | Topological Sort, Bipartite | 12 | 221 |
+| **15** | 6 Jun – 19 Jun 2027 | 33-34 | Dijkstra, Bellman-Ford / Floyd-Warshall | 11 | 232 |
+| **16** | 20 Jun – 3 Jul 2027 | 35-36 | MST (Kruskal / Prim), Union-Find | 14 | 246 |
+| **17** | 4 Jul – 17 Jul 2027 | 46 | 1D DP — linear decision | 10 | 256 |
+| **18** | 18 Jul – 31 Jul 2027 | 47 | 0/1 + Unbounded Knapsack | 10 | 266 |
+| **19** | 1 Aug – 14 Aug 2027 | 48,51 | LIS, DP on Stocks | 13 | 279 |
+| **20** | 15 Aug – 28 Aug 2027 | 49 | LCS / DP on Strings | 10 | 289 |
+| **21** | 29 Aug – 11 Sep 2027 | 50,52 | DP on Grids, Partition DP / MCM | 15 | 304 |
+| **22** | 12 Sep – 25 Sep 2027 | 53-54 | Bitmask DP, Intervals / Sweep Line | 13 | 317 |
+| **23** | 26 Sep – 9 Oct 2027 | 38-40 | Top K, K-Way Merge, Two Heaps | 18 | 335 |
+| **24** | 10 Oct – 23 Oct 2027 | 41-42 | Greedy with Sorting, Interval Scheduling | 16 | 351 |
+| **25** | 24 Oct – 6 Nov 2027 | 43-44 | Subsets / Combinations / Permutations, Constraint Satisfaction | 17 | 368 |
+| **26** | 7 Nov – 20 Nov 2027 | 45,55 | Bitwise XOR & Masking, Matrix Manipulation | 16 | 384 |
+| **27** | 21 Nov – 4 Dec 2027 | 56 | Design Data Structures + mocks + weak-area revisit | 10 | 394 |
+
+**394 problems across 27 blocks — ends 4 Dec 2027.**
+
+**One thing to decide now.** Heavy DP lands Jul–Sep 2027 and backtracking lands
+Oct–Nov 2027. If you want to be interview-ready by **mid-2027**, that's too late —
+DP and graphs are the topics that actually decide onsites. Two options:
+
+- Swap blocks 17–22 (DP) with blocks 6–11 (Stack/LL/Trees). You start DP in Jan
+  2027 and carry trees into the second half, where they're cheap to pick up.
+- Keep the order and raise the pace on the Part I blocks (1–4) to ~28/block — they
+  are the easiest problems in the doc and you've already covered part of 2–5.
 
 ---
 
